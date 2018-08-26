@@ -14,9 +14,10 @@
                 <div class="col-3 form-group">
                     <label for="product_name"><h6><b>Product</b></h6></label>
                         <select id='A' name="product_name" class="form-control">
-                            <option value="Uldir">Uldir
-                            <option value="Mythic Plus">Mythic Plus
-                            <option value="Island Expedition">Island Expedition
+                            <option value="">Select...</option>
+                            @foreach($eventDiff as $key => $value)
+                                <option value="{{$key}}">{{$key}}</option>
+                            @endforeach
                         </select>
                 </div>
                 <div class="col-2 form-group">

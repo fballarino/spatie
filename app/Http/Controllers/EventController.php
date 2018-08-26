@@ -12,7 +12,8 @@ class EventController extends Controller
 
     protected $eventDifficulty =
         ['Uldir'                   => ['Normal', 'Heroic', 'Mythic'],
-         'Mythic Plus'             => [],
+         'Mythic Dungeon'          => [0],
+         'Mythic Plus Dungeon'     => [],
          'Island Expedition'       => ['Normal', 'Heroic', 'Mythic'],
         ];
 
@@ -41,7 +42,6 @@ class EventController extends Controller
     public function create()
     {
         $this->mplusLevels(env('MPLUSMAX'));
-        $products = Product::all();
         $eventDiff = $this->eventDifficulty;
         return view('events.create', compact('products', 'eventDiff'));
     }
@@ -65,8 +65,18 @@ class EventController extends Controller
             'note'         => 'max:100',
         ]);
         //dd(request()->input());
-        echo $this->parseDate(request()->input('run_at'));
-        echo $this->parseDate(request()->input('visible_at'));
+        //echo $this->parseDate(request()->input('run_at'));
+        //echo $this->parseDate(request()->input('visible_at'));
+        $eventData = [
+            'product_name' => 'required|string',
+            'difficulty'   => 'required|string',
+            'buyers'       => 'required|integer',
+            'boosters'     => 'required|integer',
+            'overbooking'  => 'required|integer',
+            'run_at'       => 'required|date',
+            'visible_at'   => 'required|date',
+            'note'         => 'max:100'
+        ];
 
     }
 
@@ -126,8 +136,7 @@ class EventController extends Controller
 
     protected function mplusLevels($maxlevel){
         for($i = 0; $i<= $maxlevel; $i++) {
-            $temp[$i] = $i;
+            $this->eventDifficulty['Mythic Plus Dungeon'][] = $i;
         }
-        $this->eventDifficulty['Mythic Plus'] =$temp;
     }
 }
