@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    protected $eventDifficulty = ['Normal', 'Heroic', 'Mythic', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '10', '11', '12', '13', '14', '15',  '16', '17', '18', '19', '20', '21', '22', '23', '24', '25',
-            '26',  '27',  '28',  '29',  '30',
+
+
+    protected $eventDifficulty =
+        ['Uldir'                   => ['Normal', 'Heroic', 'Mythic'],
+         'Mythic Plus'             => [],
+         'Island Expedition'       => ['Normal', 'Heroic', 'Mythic'],
         ];
 
 
@@ -37,6 +40,7 @@ class EventController extends Controller
      */
     public function create()
     {
+        $this->mplusLevels(env('MPLUSMAX'));
         $products = Product::all();
         $eventDiff = $this->eventDifficulty;
         return view('events.create', compact('products', 'eventDiff'));
@@ -118,5 +122,12 @@ class EventController extends Controller
         $run_at_date = substr($run_at, 6, 10);
         $run_at_date_array = explode("/", $run_at_date );
         return ($run_at_date_array[2]."-".$run_at_date_array[0]."-".$run_at_date_array[1] . " " . $run_at_time . ":00");
+    }
+
+    protected function mplusLevels($maxlevel){
+        for($i = 0; $i<= $maxlevel; $i++) {
+            $temp[$i] = $i;
+        }
+        $this->eventDifficulty['Mythic Plus'] =$temp;
     }
 }

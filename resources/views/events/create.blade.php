@@ -70,17 +70,21 @@
     <script>
         $('#input').datetimepicker({ footer: true, modal: true });
         $('#input2').datetimepicker({ footer: true, modal: true });
-
+        var jArray = <?php echo json_encode($eventDiff); ?>;
+        console.log(jArray);
     (function() {
     //setup an object fully of arrays
     //alternatively it could be something like
     //{"yes":[{value:sweet, text:Sweet}.....]}
     //so you could set the label of the option tag something different than the name
-        var bOptions = {
-            "Uldir": ["Normal", "Heroic", "Mythic"],
-            "Mythic Plus": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",],
-            "Island Expedition": ["Normal", "Heroic", "Mythic"],
-        };
+
+
+        var bOptions = <?php echo json_encode($eventDiff); ?>;
+        //{
+            //"Uldir": ["Normal", "Heroic", "Mythic"],
+            //"Mythic Plus": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",],
+            //"Island Expedition": ["Normal", "Heroic", "Mythic"],
+        //};
 
         var A = document.getElementById('A');
         var B = document.getElementById('B');
