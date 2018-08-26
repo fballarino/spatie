@@ -47,8 +47,8 @@
                     <label for="overbooking"><h6><b>Overbooking Allowed</b></h6></label>
                     <select name="overbooking" class="form-control">
                         <option value="" selected>Select...</option>
-                        <option value="0">Yes</option>
-                        <option value="1">No</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </div>
             </div>
@@ -69,10 +69,13 @@
 @section('javascript')
     @parent
     <script>
-        $('#input').datetimepicker({ footer: true, modal: true });
+        $('#input').datetimepicker({
+            footer: true,
+            modal: true,
+        });
         $('#input2').datetimepicker({ footer: true, modal: true });
         var jArray = <?php echo json_encode($eventDiff); ?>;
-        console.log(jArray);
+
     (function() {
     //setup an object fully of arrays
     //alternatively it could be something like

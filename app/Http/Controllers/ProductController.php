@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function index()
     {
         //Shows 10 items per page in descending order
-        $items = Product::orderby('id', 'desc')->paginate(10);
+        $items = Product::orderby('id', 'desc')->paginate(3);
 
         return view('products.index', compact('items'));
     }

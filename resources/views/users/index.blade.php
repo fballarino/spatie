@@ -15,7 +15,7 @@
         <hr>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="usersDataTable">
+            <table class="display nowrap" id="usersDataTable">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -34,24 +34,33 @@
                         {{-- Retrieve array of roles associated to a user and convert to string --}}
                         <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>
                         <td>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
-                            {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+
+                            {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['users.destroy', $user->id]]) !!}
+                                <div class="form-group">
+                                    <a href="{{ route('users.edit', $user->id) }}" ><i class="fas fa-user-edit fa-lg"></i></a>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-bar-item">
+                                        <button class="btn btn-light"><i class="fas fa-trash fa-lg"></i></button>
+                                    </div>
+                                </div>
                             {!! Form::close() !!}
                         </td>
                     </tr>
                 @endforeach
-                </tbody>
-            </table>
-        </div>
-        <a href="{{ route('users.create') }}" class="btn btn-success">Add User</a>
+            </tbody>
+        </table>
     </div>
+        <a href="{{ route('users.create') }}" class="btn btn-success">Add User</a>
+</div>
 @endsection
 @section('javascript')
-    @parent
+@parent
 <script>
-    $(document).ready( function () {
-        $('#usersDataTable').DataTable();
-    } );
+$(document).ready( function () {
+$('#usersDataTable').DataTable({
+    "scrollX": false,
+});
+} );
 </script>
 @stop
