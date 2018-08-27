@@ -33,7 +33,7 @@
                     <td>{{ $event->product_name }}</td>
                     <td>{{ $event->difficulty }}</td>
                     <?php $dateTemp = DateTime::createFromFormat('Y-m-d H:i:s', $event->run_at);
-                    $dateTemp = $dateTemp->format('d-m-Y H:i');
+                    $dateTemp = $dateTemp->format('d M Y H:i');
                     ?>
                     <td>{{ ($event->run_at)? $dateTemp : "" }}</td>
                     <td>
@@ -42,9 +42,13 @@
                         @endforeach
                     </td>
                     <td>
-                        <a href="{{ route('bookings.create')}}?id={{$event->id}}&ref={{$event->reference}}" ><i class="fas fa-book"></i></a>
-                        {{ ($event->buyers_booked)? ($event->buyers_booked) : 0 }} /{{ $event->buyers }}
-                        <a href="{{ route('bookings.show', $event->id)}}"><i class="fas fa-list-ol fa-1x"></i></a>
+                        <a href="{{ route('bookings.create')}}?id={{$event->id}}&ref={{$event->reference}}" ><i class="fas fa-book fa-lg"></i></a>
+                        @if($event->buyers_booked > $event->buyers)
+                            <font color="red">{{$event->buyers_booked}}</font> / {{ $event->buyers }}
+                        @else
+                            {{ ($event->buyers_booked)? ($event->buyers_booked) : 0 }} / {{ $event->buyers }}
+                        @endif
+                        <a href="{{ route('bookings.show', $event->id)}}"><i class="fas fa-list-ol fa-lg"></i></a>
                     </td>
                     <td>0 / {{ $event->boosters }}</td>
                     <td>{{ ($event->overbooking)? "Yes" : "No" }}</td>

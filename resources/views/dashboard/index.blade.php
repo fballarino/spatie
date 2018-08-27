@@ -13,7 +13,7 @@
                 <li class="list-group-item-">
                     <a href="{{ route('permissions.index') }}" class="btn-link"><i class="fas fa-drum-steelpan fa-2x"></i>  Permissions</a></li>
                 <li class="list-group-item-">
-                    <a href="{{ route('products.index') }}" class="btn-link"><i class="fab fa-product-hunt fa-2x"></i>  Products</a></li>
+                    <a href="{{ route('characters.index') }}" class="btn-link"><i class="fab fa-product-hunt fa-2x"></i>  Characters</a></li>
                 <li class="list-group-item-">
                     <a href="{{ route('events.index') }}" class="btn-link"><i class="fab fa-elementor fa-2x"></i>   Events</a></li>
             </ul>

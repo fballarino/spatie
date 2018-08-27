@@ -12,18 +12,18 @@ class BookingController extends Controller
 {
 
     protected $classSpec = [
-        'Death Knight' => ['Select..','Blood','Frost','Unholy'],
-        'Demon Hunter' => ['Select..','Havoc','Vengeance'],
-        'Druid' => ['Select..','Balance','Feral','Guardian', 'Restoration'],
-        'Hunter' => ['Select..','Beast Mastery','Marskmanship','Survival'],
-        'Mage' => ['Select..','Arcane','Fire','Frost'],
-        'Monk' => ['Select..','Brewmaster','Mistweaver','Windwalker'],
-        'Paladin' => ['Select..','Holy','Protection','Retribution'],
-        'Priest' => ['Select..','Discipline','Holy','Shadow'],
-        'Rogue' => ['Select..','Assassination','Outlaw','Subtlety'],
-        'Shaman' => ['Select..','Elemental','Enhancement','Restoration'],
-        'Warlock' => ['','Affliction','Demonology','Destruction'],
-        'Warrior' => ['Select..','Arms','Fury','Protection'],
+        'Death Knight' => ['Any','Blood','Frost','Unholy'],
+        'Demon Hunter' => ['Any','Havoc','Vengeance'],
+        'Druid' => ['Any','Balance','Feral','Guardian', 'Restoration'],
+        'Hunter' => ['Any','Beast Mastery','Marskmanship','Survival'],
+        'Mage' => ['Any','Arcane','Fire','Frost'],
+        'Monk' => ['Any','Brewmaster','Mistweaver','Windwalker'],
+        'Paladin' => ['Any','Holy','Protection','Retribution'],
+        'Priest' => ['Any','Discipline','Holy','Shadow'],
+        'Rogue' => ['Any','Assassination','Outlaw','Subtlety'],
+        'Shaman' => ['Any','Elemental','Enhancement','Restoration'],
+        'Warlock' => ['Any','Affliction','Demonology','Destruction'],
+        'Warrior' => ['Any','Arms','Fury','Protection'],
     ];
 
     public function __construct()
@@ -47,6 +47,7 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         //Validating title and body field
+        //dd($request->input());
         if ($request->input('buyer_btag') != ""){
             $validateRequest['buyer_btag'] = 'required|string|max:30';
         }
@@ -57,6 +58,7 @@ class BookingController extends Controller
             'buyer_name'  => 'required|string|max:20',
             'buyer_realm' => 'required|string|max:30',
             'price'       => 'required|integer',
+            'fpaid'       => 'required|integer',
             ];
         $this->validate($request, $validateRequest);
 
@@ -72,6 +74,10 @@ class BookingController extends Controller
         $newBooking->user_id = Auth::user()->id;
         $newBooking->price = $request->input('price');
         $newBooking->fee = $request->input('fee');
+        $newBooking->fpaid = (int)$request->input('fpaid');
+        if((int)$request->input('fpaid')){
+            $newBooking->collector_id =  Auth::user()->id;
+        }
         $newBooking->note = $request->input('note');
         $newBooking->event_id = $request->input('event_id');
         $newBooking->save();
@@ -80,25 +86,73 @@ class BookingController extends Controller
         $currentEvent->pot += $request->input('price');
         $currentEvent->buyers_booked += 1;
         $currentEvent->save();
-        return redirect()->back();
+        return redirect()->to('events');
     }
 
     public function show($id)
     {
         $eventName = Event::findOrfail($id)->reference;
-        $advertiser = "temp";
         $bookingsEventId = Booking::where('event_id', $id)->orderBy('created_at', 'ASC')->get();
-        return view('bookings.show', compact('bookingsEventId', 'advertiser', 'eventName'));
+        //dd($bookingsEventId);
+        foreach($bookingsEventId as $bookingEvent){
+            $bookingEvent['advertiser'] = User::findOrfail($bookingEvent['user_id'])->name;
+            if($bookingEvent['collector_id']){
+            $bookingEvent['collector'] = User::findOrfail($bookingEvent['collector_id'])->name;
+            }
+        }
+
+        return view('bookings.show', compact('bookingsEventId', 'eventName'));
     }
 
     public function edit($id)
     {
-        //
+        $classSpec = $this->classSpec;
+        $booking = Booking::findOrFail($id);
+        return view('bookings.edit', compact('booking','classSpec'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+        //dd($request->input());
+        if ($request->input('buyer_btag') != ""){
+            $validateRequest['buyer_btag'] = 'required|string|max:30';
+        }
+        if ($request->input('fee') != ""){
+            $validateRequest['fee'] = 'integer';
+        }
+        $validateRequest = [
+            'buyer_name'  => 'required|string|max:20',
+            'buyer_realm' => 'required|string|max:30',
+            'price'       => 'required|integer',
+            'fpaid'       => 'required|integer',
+        ];
+        $this->validate($request, $validateRequest);
+
+        $booking = Booking::findOrFail($id);
+        //dd($booking);
+        $oldPrice = $booking->price;
+        $booking->buyer_name  = $request->input('buyer_name');
+        $booking->buyer_realm = $request->input('buyer_realm');
+        $booking->buyer_btag = $request->input('buyer_btag');
+        $booking->class = $request->input('class');
+        if (($request->input('buyer_spec')!= null)){
+            $booking->buyer_spec = $request->input('buyer_spec');
+        }
+        $booking->buyer_boosters = $request->input('buyer_boosters');
+        $booking->price = $request->input('price');
+        $booking->fee = $request->input('fee');
+        $booking->fpaid = (int)$request->input('fpaid');
+        $booking->note = $request->input('note');
+        ($booking->fpaid)? $booking->collector_id = Auth::user()->id : $booking->collector_id = null;
+        $booking->save();
+
+
+        $currentEvent = Event::find($booking->event_id);
+        $currentEvent->pot = $currentEvent->pot - $oldPrice + $request->input('price');
+        $currentEvent->save();
+
+        return redirect()->to(route('bookings.show', $booking->event_id));
+
     }
 
     public function destroy($id)
@@ -113,5 +167,15 @@ class BookingController extends Controller
         return redirect()->back()->with('flash_message', 'Booking of:
                                         '.$currentBooking->buyer_name.'-'.$currentBooking->buyer_realm.
                                         ' successfully deleted');
+    }
+
+    public function changeStatus($booking)
+    {
+        $bookingStatus = Booking::findOrFail($booking);
+        if($bookingStatus){
+            $bookingStatus->status = request()->input('status');
+            $bookingStatus->save();
+        }
+        return redirect(route('bookings.show', $booking));
     }
 }

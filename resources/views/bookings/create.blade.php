@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '| Create New Event')
+@section('title', '| Create New Booking')
 
 @section('content')
 <div class="container">
@@ -49,8 +49,8 @@
             </div>
             <div class="col-2 form-group">
                 <label for="buyer_boosters"><h6><b># Boosters</b></h6></label>
-                <select name="buyer_boosters" value="{{old('buyer_boosters')}}" class="form-control">
-                    <option value="" selected>Select...</option>
+                <select name="buyer_boosters" class="form-control">
+                    <option value="" selected>Select if requested</option>
                     @for($counter = 0; $counter < 11; $counter++)
                         <option value="{{$counter}}">{{$counter}}</option>
                     @endfor
@@ -72,6 +72,13 @@
             <div class="col-3">
                 <label for="note"><h6><b>Notes</b></h6></label>
                 <textarea name="note" id="" class="form-control"></textarea>
+            </div>
+            <div class="col-2">
+                <label for="fpaid"><h6><b>Fully Paid</b></h6></label>
+                <select name="fpaid" id="fpaid" class="form-control">
+                    <option value="0" selected>No</option>
+                    <option value="1">Yes</option>
+                </select>
             </div>
             <div class="col-1 form-inline">
                 <input type="hidden" name="event_id" value="{{$requestArray['id']}}">

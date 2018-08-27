@@ -17,8 +17,10 @@
                     <th>Booked on</th>
                     <th>Advertiser</th>
                     <th>Amount Due</th>
+                    <th>Paid</th>
+                    <th>Collector</th>
                     <th>Spec/Class</th>
-                    <th># Boosters</th>
+                    <th># Boosters (Raid)</th>
                     <th>BNet Tag</th>
                     <th>Actions</th>
                 </tr>
@@ -27,14 +29,31 @@
                 @foreach ($bookingsEventId as $booking)
                     <tr>
                         <td>{{ $booking->id }}</td>
-                        <td>Status</td>
+                        <td>
+                            {!! Form::open(['method' => 'POST', 'class' =>'form-inline', 'route' => ['bookings.status', $booking->id] ]) !!}
+                            {{ Form::select('status', ['Booked' => 'Booked', 'Backup' => 'Backup',
+                                                       'Noshow' => 'Noshow', 'Grouped' => 'Grouped',
+                                                       'Rebooked' => 'Rebooked'], $booking->status , array('class' => 'form-control-sm')) }}
+                            <div class="input-bar-item">
+                                <button class="btn btn-light"><i class="fab fa-accusoft"></i></i></button>
+                            </div>
+                            {!! Form::close() !!}
+                        </td>
                         <td>{{ $booking->buyer_name }}-{{ $booking->buyer_realm }}</td>
                         <?php $dateTemp = DateTime::createFromFormat('Y-m-d H:i:s', $booking->created_at);
                         $dateTemp = $dateTemp->format('d M Y H:i');
                         ?>
                         <td>{{ $dateTemp }}</td>
-                        <td>{{ $advertiser }}</td>
+                        <td>{{$booking->advertiser}}</td>
                         <td>{{ ($booking->price - $booking->fee) }}k</td>
+                        <td>
+                            @if($booking->fpaid)
+                                <i class="fas fa-check fa-lg"></i>
+                            @else
+                                <i class="fas fa-times-circle fa-lg"></i>
+                            @endif
+                        </td>
+                        <td>{{ ($booking->collector)? $booking->collector : "" }}</td>
                         <td>{{ $booking->buyer_spec }} {{$booking->class}}</td>
                         <td>{{ ($booking->buyer_boosters)? $booking->buyer_boosters : 0 }}</td>
                         <td>{{ $booking->buyer_btag }}</td>
@@ -42,11 +61,11 @@
                             {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['bookings.destroy', $booking->id] ]) !!}
                             <input type="hidden" name="event_id" value={{$booking->event_id}}>
                             <div class="form-group">
-                                <a href="{{ route('bookings.edit', $booking->id) }}" ><i class="fas fa-edit fa-lg"></i></a>
+                                <a href="{{ route('bookings.edit', $booking->id) }}" ><i class="fas fa-edit fa-lg fa-lg"></i></a>
                             </div>
                             <div class="form-group">
                                 <div class="input-bar-item">
-                                    <button class="btn btn-light"><i class="fas fa-trash fa-lg"></i></button>
+                                    <button class="btn btn-light"><i class="fas fa-trash fa-lg fa-lg"></i></button>
                                 </div>
                             </div>
                             {!! Form::close() !!}

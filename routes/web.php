@@ -22,4 +22,10 @@ Route::resource('products', 'ProductController');
 
 Route::resource('events', 'EventController');
 
+Route::post('bookings/status/{booking}', 'BookingController@changeStatus')->name('bookings.status');
+
 Route::resource('bookings', 'BookingController');
+
+Route::resource('characters', 'CharacterController');
+
+Route::post('characters/status/{character}', 'CharacterController@changeStatus')->name('characters.status');
