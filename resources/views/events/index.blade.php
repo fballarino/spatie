@@ -4,9 +4,7 @@
         <div class="row">
             <h3>
                 <i class="fas fa-calendar-alt"></i>
-                <a href="{{ route('dashboard.index') }}">Dashboard </a>/ Events
-                <a href="{{ route('roles.index') }}" class="btn btn-default pull-right">Roles</a>
-                <a href="{{ route('permissions.index') }}" class="btn btn-default pull-right">Permissions</a></h3>
+                <a href="{{ route('dashboard.index') }}">Dashboard </a>/ Events</h3>
             <hr>
         </div>
         <div class="table-responsive">
@@ -18,11 +16,11 @@
                 <th>Difficulty</th>
                 <th>Scheduled</th>
                 <th>Planner</th>
-                <th>Buyers Slots</th>
-                <th>Spots</th>
+                <th>Bookings / Total</th>
+                <th>Signups / Total</th>
                 <th>Overbooking</th>
-                <th>Buyers Booked</th>
-                <th>Backup</th>
+                <th>temp</th>
+                <th>temp</th>
                 <th>Pot</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -38,14 +36,22 @@
                     $dateTemp = $dateTemp->format('d-m-Y H:i');
                     ?>
                     <td>{{ ($event->run_at)? $dateTemp : "" }}</td>
-                    <td>Someone</td>
-                    <td>{{ $event->buyers }}</td>
-                    <td>{{ $event->boosters }}</td>
+                    <td>
+                        @foreach($allUsers as $user)
+                        {{ ($user->id == $event->user_id)? $user->name : "" }}
+                        @endforeach
+                    </td>
+                    <td>
+                        <a href="{{ route('bookings.create')}}?id={{$event->id}}&ref={{$event->reference}}" ><i class="fas fa-book"></i></a>
+                        {{ ($event->buyers_booked)? ($event->buyers_booked) : 0 }} /{{ $event->buyers }}
+                        <a href="{{ route('bookings.show', $event->id)}}"><i class="fas fa-list-ol fa-1x"></i></a>
+                    </td>
+                    <td>0 / {{ $event->boosters }}</td>
                     <td>{{ ($event->overbooking)? "Yes" : "No" }}</td>
-                    <td>12</td>
-                    <td>3</td>
-                    <td>1.200.000</td>
-                    <td>Closed</td>
+                    <td>temp</td>
+                    <td>temp</td>
+                    <td>{{ $event->pot }}</td>
+                    <td>{{ $event->status }}</td>
                     <td>
                         {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['events.destroy', $event->id] ]) !!}
                         <div class="form-group">
@@ -69,10 +75,18 @@
 @section('javascript')
     @parent
     <script>
-        $(document).ready( function () {
+        $(document).ready(function() {
+            $.fn.dataTable.moment('DD-MM-YYYY HH:mm');
+
             $('#eventsTableData').DataTable({
                 order: [ 3, 'desc' ],
-            });
+                });
         } );
+
+        window.setTimeout(function() {
+            $("#alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 5000);
     </script>
 @stop

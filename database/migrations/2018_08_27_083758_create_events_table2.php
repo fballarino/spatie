@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
+class CreateEventsTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -20,13 +20,22 @@ class CreateEventsTable extends Migration
             $table->string('reference', 30);
             $table->tinyInteger('buyers')->unsigned()->nullable(false);
             $table->tinyInteger('boosters')->unsigned()->nullable(false);
+            $table->tinyInteger('buyers_booked')->unsigned()->nullable();
+            $table->tinyInteger('boosters_booked')->unsigned()->nullable();
             $table->boolean('overbooking')->nullable(false);
             $table->integer('pot')->unsigned();
             $table->dateTime('run_at')->nullable();
             $table->dateTime('visible_at')->nullable();
             $table->text('note')->nullable();
+            $table->string('status',10);
+            $table->integer('user_id')->unsigned()->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade');
         });
     }
 
@@ -40,3 +49,4 @@ class CreateEventsTable extends Migration
         Schema::dropIfExists('events');
     }
 }
+

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Product;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class EventController extends Controller
 {
@@ -25,6 +27,15 @@ class EventController extends Controller
         'MY' => 'Mythic',
     ];
 
+    protected $arrayStatuses = [
+        0 => "Open",
+        1 => "Full",
+        2 => "Overbooked",
+        3 => "In Progress",
+        4 => "Completed",
+        5 => "Pending Att.",
+        6 => "Archived",
+    ];
 
     protected $eventDifficulty =
         ['Uldir'                   => ['Normal', 'Heroic', 'Mythic'],
@@ -33,28 +44,18 @@ class EventController extends Controller
          'Island Expedition'       => ['Normal', 'Heroic', 'Mythic'],
         ];
 
-
     public function __construct()
     {
         $this->middleware(['auth', 'event'])->except('index');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $allEvents = Event::all();
-        return view('events.index', compact('allEvents'));
+        $allUsers = User::all('id', 'name');
+        return view('events.index', compact('allEvents', 'allUsers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $this->mplusLevels(env('MPLUSMAX'));
@@ -62,12 +63,6 @@ class EventController extends Controller
         return view('events.create', compact('products', 'eventDiff'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -76,13 +71,11 @@ class EventController extends Controller
             'buyers'       => 'required|integer',
             'boosters'     => 'required|integer',
             'overbooking'  => 'required|integer',
-            'run_at'       => 'required',
-            'visible_at'   => 'required',
+            'run_at'       => 'required|date',
+            'visible_at'   => 'required|date',
             'note'         => 'max:100',
         ]);
-        //dd($this->parseDate(request()->input('run_at')));
-        //echo $this->parseDate(request()->input('run_at'));
-        //echo $this->parseDate(request()->input('visible_at'));
+
         $newEvent = new Event;
         $newEvent->product_name = request()->input('product_name');
         $newEvent->difficulty = request()->input('difficulty');
@@ -94,10 +87,10 @@ class EventController extends Controller
         $newEvent->note = request()->input('note');
         $newEvent->reference = $this->setEventReference(request()->input('product_name'),
             request()->input('difficulty'), request()->input('run_at'));
-        $newEvent->pot = 100;
+        $newEvent->pot = 0;
+        $newEvent->status = $this->arrayStatuses[0];
+        $newEvent->user_id = Auth::user()->id;
         $newEvent->save();
-
-        //dd($eventData);
 
         return redirect()->route('events.index')
             ->with('flash_message', 'Event:
@@ -105,58 +98,33 @@ class EventController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
     }
 
-    protected function parseDate($dateFormat)
+    protected function parseDate($dateToProcess)
     {
-        $run_at = trim($dateFormat);
-        $run_at_time = substr($run_at,0,5);
-        $run_at_date = substr($run_at, 6, 10);
-        $run_at_date_array = explode("/", $run_at_date );
-        return ($run_at_date_array[2]."-".$run_at_date_array[0]."-".$run_at_date_array[1] . " " . $run_at_time . ":00");
+        // $dateToProcess input format: 19:00 08/29/2018
+        $dateTemp = DateTime::createFromFormat('H:i m/d/Y', $dateToProcess);
+        $dateTemp = $dateTemp->format('Y-m-d H:i:s');
+
+        return $dateTemp;
     }
 
     protected function mplusLevels($maxlevel){

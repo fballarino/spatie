@@ -75,9 +75,10 @@
         </div>
     </div>
 </nav>
+
 @if(Session::has('flash_message'))
     <div class="container">
-        <div class="alert alert-success" id="alert"><em> {!! session('flash_message') !!}</em>
+        <div class="alert alert-success" role="alert" id="alert"><em> {!! session('flash_message') !!}</em>
         </div>
     </div>
 @endif
@@ -102,6 +103,8 @@
 <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
 @show
 </body>
 </html>

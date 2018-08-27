@@ -21,3 +21,5 @@ Route::resource('posts', 'PostController');
 Route::resource('products', 'ProductController');
 
 Route::resource('events', 'EventController');
+
+Route::resource('bookings', 'BookingController');

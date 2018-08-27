@@ -26,11 +26,11 @@
                     </select>
                 </div>
                 <div class="col-2 form-group">
-                    <label for="buyers"><h6><b>Buyers Allowed</b></h6></label>
+                    <label for="buyers"><h6><b>Buyers Slots</b></h6></label>
                     <input name="buyers" id="buyers" class="form-control" />
                 </div>
                 <div class="col-2 form-group">
-                    <label for="boosters"><h6><b>Boosters Allowed</b></h6></label>
+                    <label for="boosters"><h6><b>Boosters Slots</b></h6></label>
                     <input name="boosters" id="boosters" class="form-control" />
                 </div>
             </div>
