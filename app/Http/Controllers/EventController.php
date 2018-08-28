@@ -14,39 +14,19 @@ class EventController extends Controller
     protected $fillable=['product_name', 'difficulty', 'buyers', 'boosters', 'overbooking',
         'run_at', 'visible_at', 'note', 'reference'];
 
-    protected $arrayProducts = [
-        'ULDR' => 'Uldir',
-        'MODG' => 'Mythic Dungeon',
-        'MPDG' => 'Mythic Plus Dungeon',
-        'ISXP' => 'Island Expedition',
-    ];
+    protected $arrayProducts = [];
 
-    protected $arrayDifficulties = [
-        'NM' => 'Normal',
-        'HC' => 'Heroic',
-        'MY' => 'Mythic',
-    ];
+    protected $arrayDifficulties = [];
 
-    protected $arrayStatuses = [
-        0 => "Open",
-        1 => "Full",
-        2 => "Overbooked",
-        3 => "In Progress",
-        4 => "Completed",
-        5 => "Pending Att.",
-        6 => "Archived",
-    ];
+    protected $arrayStatuses = [];
 
-    protected $eventDifficulty =
-        ['Uldir'                   => ['Normal', 'Heroic', 'Mythic'],
-         'Mythic Dungeon'          => [0],
-         'Mythic Plus Dungeon'     => [],
-         'Island Expedition'       => ['Normal', 'Heroic', 'Mythic'],
-        ];
+    protected $eventDifficulty = [];
+
 
     public function __construct()
     {
         $this->middleware(['auth', 'event'])->except('index');
+        $this->initializeArrays();
     }
 
     public function index()
@@ -58,7 +38,6 @@ class EventController extends Controller
 
     public function create()
     {
-        $this->mplusLevels(env('MPLUSMAX'));
         $eventDiff = $this->eventDifficulty;
         return view('events.create', compact('products', 'eventDiff'));
     }
@@ -105,12 +84,39 @@ class EventController extends Controller
 
     public function edit($id)
     {
-        //
+        $arrayProducts = $this->arrayProducts;
+        $eventDifficulty = $this->eventDifficulty;
+        $event = Event::findOrFail($id);
+        return view('events.edit', compact('event','arrayProducts', 'eventDifficulty'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'product_name' => 'required|string',
+            'difficulty'   => 'required|string',
+            'buyers'       => 'required|integer',
+            'boosters'     => 'required|integer',
+            'overbooking'  => 'required|integer',
+            'run_at'       => 'required|date',
+            'visible_at'   => 'required|date',
+            'note'         => 'max:100',
+        ]);
+
+        $event = Event::findOrFail($id);
+        $event->product_name = $request->input('product_name');
+        $event->difficulty = $request->input('difficulty');
+        $event->buyers = $request->input('buyers');
+        $event->boosters = $request->input('boosters');
+        $event->overbooking = $request->input('overbooking');
+        $event->run_at = $this->parseDate(request()->input('run_at'));
+        $event->visible_at= $this->parseDate(request()->input('visible_at'));
+        $event->note = $request->input('note');
+        $event->reference = $this->setEventReference(request()->input('product_name'),
+        request()->input('difficulty'), request()->input('run_at'));
+        $event->save();
+
+        return $this->index();
     }
 
     public function destroy($id)
@@ -127,15 +133,7 @@ class EventController extends Controller
         return $dateTemp;
     }
 
-    protected function mplusLevels($maxlevel){
-        for($i = 0; $i<= $maxlevel; $i++) {
-            $this->eventDifficulty['Mythic Plus Dungeon'][] = $i;
-            $this->arrayDifficulties[$i] = $i;
-        }
-    }
-
     protected function setEventReference($productName, $eventDifficulty, $eventDate){
-        $this->mplusLevels(30);
         $firstPart = array_search($productName, $this->arrayProducts);
         $secondPart = array_search($eventDifficulty, $this->arrayDifficulties);
         if (is_numeric($secondPart) && $secondPart<10)
@@ -148,5 +146,13 @@ class EventController extends Controller
         $seed = random_int(1000,1999);
 
         return ($firstPart."-".$secondPart."/".$fourthPart.$thirdPart."-".$fifthPart."-".$seed);
+    }
+
+    protected function initializeArrays(){
+        $this->arrayStatuses = config('globals.arrayStatuses');
+        $this->arrayProducts = config('globals.arrayProducts');
+        $this->arrayDifficulties = config('globals.arrayDifficulties');
+        $this->eventDifficulty = config('globals.eventDifficulty');
+        //dd($this->arrayDifficulties);
     }
 }

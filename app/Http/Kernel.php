@@ -63,5 +63,7 @@ class Kernel extends HttpKernel
         'clearance' => \App\Http\Middleware\ClearanceMiddleware::class,
         'product' => \App\Http\Middleware\ProductMiddleware::class,
         'event' => \App\Http\Middleware\EventMiddleware::class,
+        'character' => \App\Http\Middleware\CharacterMiddleware::class,
+        'bank' => \App\Http\Middleware\BankMiddleware::class,
     ];
 }

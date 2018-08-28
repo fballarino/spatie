@@ -2,10 +2,11 @@
 @section('title', '| Create New Event')
 @section('content')
     <div class="container">
-        <div class="row border">
-            <div class="col-6">
-                <h4>Create a New Event</h4>
-            </div>
+        <div class="row">
+            <h3><i class="fas fa-calendar-alt"></i>
+                <a href="{{ route('dashboard.index') }}">Dashboard </a>/
+                <a href="{{ route('events.index') }}"> Events</a> / Creating Event</h3>
+            <hr>
         </div>
         <hr>
         <form action="{{ route('events.store') }}" class="form-group" method="post">
@@ -39,8 +40,8 @@
                     <label for="run_at"><h6><b>Event Date</b></h6></label>
                     <input name="run_at" id="input" class="form-control" />
                 </div>
-                <div class="col-2">
-                    <label for="visible_at"><h6><b>Show Event Date</b></h6></label>
+                <div class="col-2 form-group">
+                    <label for="visible_at"><h6><b>Show Event on</b></h6></label>
                     <input name="visible_at" id="input2" class="form-control" />
                 </div>
                 <div class="col-2 form-group">

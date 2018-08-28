@@ -26,6 +26,11 @@ Route::post('bookings/status/{booking}', 'BookingController@changeStatus')->name
 
 Route::resource('bookings', 'BookingController');
 
-Route::resource('characters', 'CharacterController');
+Route::resource('characters', 'CharacterController')->middleware('auth','character');
 
 Route::post('characters/status/{character}', 'CharacterController@changeStatus')->name('characters.status');
+
+Route::resource('banks', 'BankController');
+
+
+

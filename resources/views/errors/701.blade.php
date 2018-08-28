@@ -4,15 +4,15 @@
     <div class='container'>
         <div class="card text-center">
             <div class="card-header">
-                Warning!
+                Featured
             </div>
             <div class="card-body">
-                <h5 class="card-title">Lacking Authorization</h5>
-                <p class="card-text">You are not entitled to view this page</p>
-                <a href="{{ route('dashboard.index') }}" class="btn btn-primary">Dashboard</a>
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
             <div class="card-footer text-muted">
-                Oblivion Boost
+                2 days ago
             </div>
         </div>
     </div>

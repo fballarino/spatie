@@ -11,24 +11,12 @@ use App\Event;
 class BookingController extends Controller
 {
 
-    protected $classSpec = [
-        'Death Knight' => ['Any','Blood','Frost','Unholy'],
-        'Demon Hunter' => ['Any','Havoc','Vengeance'],
-        'Druid' => ['Any','Balance','Feral','Guardian', 'Restoration'],
-        'Hunter' => ['Any','Beast Mastery','Marskmanship','Survival'],
-        'Mage' => ['Any','Arcane','Fire','Frost'],
-        'Monk' => ['Any','Brewmaster','Mistweaver','Windwalker'],
-        'Paladin' => ['Any','Holy','Protection','Retribution'],
-        'Priest' => ['Any','Discipline','Holy','Shadow'],
-        'Rogue' => ['Any','Assassination','Outlaw','Subtlety'],
-        'Shaman' => ['Any','Elemental','Enhancement','Restoration'],
-        'Warlock' => ['Any','Affliction','Demonology','Destruction'],
-        'Warrior' => ['Any','Arms','Fury','Protection'],
-    ];
+    protected $classSpec = [];
 
     public function __construct()
     {
         $this->middleware(['auth']);
+        $this->populateClassSpec();
     }
 
     public function index()
@@ -177,5 +165,9 @@ class BookingController extends Controller
             $bookingStatus->save();
         }
         return redirect(route('bookings.show', $booking));
+    }
+
+    private function populateClassSpec(){
+        $this->classSpec = config('globals.classSpec');
     }
 }
