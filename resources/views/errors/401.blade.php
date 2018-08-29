@@ -7,7 +7,7 @@
                 Warning!
             </div>
             <div class="card-body">
-                <h5 class="card-title">Lacking Authorization</h5>
+                <h5 class="card-title">401 - Lacking Authorization</h5>
                 <p class="card-text">You are not entitled to view this page</p>
                 <a href="{{ route('dashboard.index') }}" class="btn btn-primary">Dashboard</a>
             </div>

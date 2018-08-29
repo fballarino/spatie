@@ -10,7 +10,7 @@ class BankController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'bank']);
+        $this->middleware(['auth', 'banks']);
     }
 
     /**
@@ -20,7 +20,9 @@ class BankController extends Controller
      */
     public function index()
     {
-        return "something";
+        $banks = Bank::orderBy('region', 'ASC')->orderBy('name', 'ASC')->orderBy('faction', 'ASC')->get();
+        $totalBalance = Bank::sum('balance');
+        return view('banks.index', compact('banks', 'totalBalance'));
     }
 
     /**

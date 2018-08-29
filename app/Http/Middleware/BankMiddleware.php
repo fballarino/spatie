@@ -20,7 +20,7 @@ class BankMiddleware
 
         if ($request->is('banks/create')) {
             if (!Auth::user()->hasPermissionTo('Bank Create')) {
-                abort('702');
+                abort('401');
             } else {
                 return $next($request);
             }
@@ -28,7 +28,7 @@ class BankMiddleware
 
         if ($request->is('banks/*/edit')) {
             if (!Auth::user()->hasPermissionTo('Bank Edit')) {
-                abort('702');
+                abort('401');
             } else {
                 return $next($request);
             }
@@ -37,7 +37,7 @@ class BankMiddleware
         if ($request->isMethod('Delete'))
         {
             if (!Auth::user()->hasPermissionTo('Bank Delete')) {
-                abort('703');
+                abort('405');
             }
             else
             {

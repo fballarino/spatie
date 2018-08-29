@@ -47,10 +47,10 @@ return [
         6 => "Archived",
     ],
 
-    'managers' => 'Manager|Admin',
+    'managers' => 'Manager',
 
     'executives' => 'Manager|Admin',
 
-    'accountants' => 'Manager|Admin|Accountant|Secretary',
+    'accountants' => 'Manager|Admin|Accountant|Secretary|Collector',
 
 ];

@@ -32,5 +32,9 @@ Route::post('characters/status/{character}', 'CharacterController@changeStatus')
 
 Route::resource('banks', 'BankController');
 
+Route::get('transactions/add', 'BankController@add')->name('transactions.add');
+
+Route::get('transactions/sub', 'BankController@add')->name('transactions.sub');
+
 
 
