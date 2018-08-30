@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Character;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -79,7 +80,15 @@ class EventController extends Controller
 
     public function show($id)
     {
-        //
+        $eventData = Event::find($id);
+        $signups = Character::join('signups as S','characters.id', '=', 'S.character_id')
+                    ->where('S.event_id', $id)
+                    ->where('S.deleted_at', null)
+                    ->orderBy('S.created_at','DESC')
+                    ->get();
+        //dd($signups);
+
+        return view('events.show', compact('eventData','signups'));
     }
 
     public function edit($id)

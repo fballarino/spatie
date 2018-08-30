@@ -9,4 +9,15 @@ class Bank extends Model
 {
     use SoftDeletes;
 
+    /**
+     * Establishes a oneToMany relationship with the Transaction
+     * model
+     *
+     * @param
+     * @return
+     */
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction');
+    }
 }

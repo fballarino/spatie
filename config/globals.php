@@ -47,10 +47,18 @@ return [
         6 => "Archived",
     ],
 
+    'eventStatuses' => [
+        'Signed'   => 'Signed',
+        'Accepted' => 'Accepted',
+        'Declined' => 'Declined',
+        'Backup'   => 'Backup'],
+
     'managers' => 'Manager',
 
     'executives' => 'Manager|Admin',
 
     'accountants' => 'Manager|Admin|Accountant|Secretary|Collector',
+
+    'members' => 'Manager|Admin|Accountant|Secretary|Collector|Member'
 
 ];

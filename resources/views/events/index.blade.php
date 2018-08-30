@@ -34,7 +34,7 @@
             @foreach ($allEvents as $event)
                 <tr>
                     <td>
-                        @hasrole(config('globals.managers'))
+                        @hasrole(config('globals.members'))
                             <a href="{{ route('events.show', $event->id) }}">{{ $event->reference }}</a>
                         @else
                             {{ $event->reference }}
@@ -64,7 +64,26 @@
                             <a href="{{ route('bookings.show', $event->id)}}"><i class="fas fa-list-ol fa-lg"></i></a>
                         @endhasrole
                     </td>
-                    <td>0 / {{ $event->boosters }}</td>
+                    <!-- todo logic for signups-->
+                    <td>
+                        @if(Cookie::get('CookieEvent'.$event->id))
+                            @hasrole(config('globals.members'))
+                                {{ Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['signups.destroy', $event->id] ])}}
+                                {{ $event->boosters_booked }} / {{ $event->boosters }}
+                                <div class="form-group">
+                                    <div class="input-bar-item">
+                                        <button class="btn btn-light"><i class="fas fa-times fa-lg"></i></button>
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+                        @endhasrole
+                            @else
+                                @hasrole(config('globals.members'))
+                                    <a href="{{ route('signups.sign', $event->id) }}"><i class="fas fa-plus fa-lg"></i></a>
+                            &nbsp;&nbsp;      {{ $event->boosters_booked }} / {{ $event->boosters }}
+                                @endhasrole
+                        @endif
+                    </td>
                     <td>{{ ($event->overbooking)? "Yes" : "No" }}</td>
                     <td>temp</td>
                     <td>temp</td>

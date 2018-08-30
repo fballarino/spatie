@@ -32,9 +32,15 @@ Route::post('characters/status/{character}', 'CharacterController@changeStatus')
 
 Route::resource('banks', 'BankController');
 
-Route::get('transactions/add', 'BankController@add')->name('transactions.add');
+Route::resource('transactions', 'TransactionController');
 
-Route::get('transactions/sub', 'BankController@add')->name('transactions.sub');
+Route::get('transactions/add', 'BankController@addDeposit')->name('transactions.add');
 
+Route::get('transactions/sub', 'BankController@subPayment')->name('transactions.sub');
 
+Route::resource('signups', 'SignupController');
+
+Route::get('signups/{event}/sign', 'SignupController@sign')->name('signups.sign');
+
+Route::post('signups/{signup}/status', 'SignupController@status')->name('signups.status');
 

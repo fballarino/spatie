@@ -163,8 +163,9 @@ class BookingController extends Controller
         if($bookingStatus){
             $bookingStatus->status = request()->input('status');
             $bookingStatus->save();
+            $event = $bookingStatus->event_id;
         }
-        return redirect(route('bookings.show', $booking));
+        return redirect(route('bookings.show', $event));
     }
 
     private function populateClassSpec(){
