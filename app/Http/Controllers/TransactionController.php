@@ -10,7 +10,7 @@ class TransactionController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'bank']);
+        $this->middleware(['auth']);
     }
 
     /**
@@ -20,7 +20,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        // Display transaction per bank, requires a bank via hidden param
+        $transactions = Transaction::with(['user', 'bank'])
+                                    ->where('bank_id',1)
+                                    ->limit(10)
+                                    ->get();
+        //dd($transactions);
+        return view('transactions.index', compact('transactions'));
     }
 
     /**
@@ -95,6 +101,18 @@ class TransactionController extends Controller
      * @param  \
      * @return
      */
+    public function showBankTransactions($id)
+    {
+        $transactions = Transaction::with(['user', 'bank'])
+            ->where('bank_id', $id)
+            ->limit(100)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('transactions.index', compact('transactions'));
+
+    }
+
     public function addDeposit()
     {
         //

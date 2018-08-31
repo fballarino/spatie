@@ -145,6 +145,7 @@ class EventController extends Controller
     protected function setEventReference($productName, $eventDifficulty, $eventDate){
         $firstPart = array_search($productName, $this->arrayProducts);
         $secondPart = array_search($eventDifficulty, $this->arrayDifficulties);
+        //dd($this->arrayDifficulties);
         if (is_numeric($secondPart) && $secondPart<10)
         {
             $secondPart = "0".$secondPart;
@@ -153,6 +154,7 @@ class EventController extends Controller
         $fourthPart = substr($this->parseDate($eventDate),8,2);
         $fifthPart = str_replace(":", "",substr($this->parseDate($eventDate),11,5));
         $seed = random_int(1000,1999);
+        ($firstPart."-".$secondPart."/".$fourthPart.$thirdPart."-".$fifthPart."-".$seed);
 
         return ($firstPart."-".$secondPart."/".$fourthPart.$thirdPart."-".$fifthPart."-".$seed);
     }

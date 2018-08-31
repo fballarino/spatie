@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'character' => \App\Http\Middleware\CharacterMiddleware::class,
         'bank' => \App\Http\Middleware\BankMiddleware::class,
         'transaction' => \App\Http\Middleware\TransactionMiddleware::class,
+        'goldtrack' => \App\Http\Middleware\GoldtrackMiddleware::class,
     ];
 }

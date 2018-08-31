@@ -55,6 +55,7 @@ class BankController extends Controller
      */
     public function show($bank)
     {
+        /*
         $transactions = Transaction::join('users as usersR', 'usersR.id', '=', 'user_id')
                         ->join('users as usersA', 'usersA.id', '=', 'operator_id')
                         ->select('transactions.id','transactions.amount', 'usersR.name as Recipient', 'usersA.name as Accountant')
@@ -63,7 +64,33 @@ class BankController extends Controller
                         ->orderBy('transactions.id','ASC')
                         ->get();
         $tras = Bank::find($bank)->transactions()->limit(5)->get();
-        dd($tras);
+
+        /*$transactions = \App\Transaction::with('banks', 'users')
+            ->where('bank_id', $bank)
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+        foreach ($transactions as $transaction) {
+
+            echo $transaction->amount . "<br>";
+
+            echo $transaction->users;
+
+            //$transaction->banks->name;
+            //$transaction->banks->region;
+
+        }*/
+        /*
+        $bank = Bank::find($bank)->transactions()
+            ->orderBy('created_at','DESC')
+            ->get();
+
+        foreach($bank->users as $user) {
+            echo $user->name;
+            echo $user->pivot->amount;
+        }*/
+
+
         //return view('banks.show', compact('transactions'));
     }
 

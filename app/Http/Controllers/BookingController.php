@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\Goldtrack;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,10 +66,21 @@ class BookingController extends Controller
         $newBooking->fpaid = (int)$request->input('fpaid');
         if((int)$request->input('fpaid')){
             $newBooking->collector_id =  Auth::user()->id;
+
         }
+
         $newBooking->note = $request->input('note');
         $newBooking->event_id = $request->input('event_id');
         $newBooking->save();
+
+        if((int)$request->input('fpaid')){
+            $goldtrack = new Goldtrack;
+            $goldtrack->booking_id = $newBooking->id;
+            $goldtrack->user_id = Auth::user()->id;
+            $goldtrack->amount = ($request->input('price')-$request->input('fee'))*1000;
+            $goldtrack->code = 1;
+            $goldtrack->save();
+        }
 
         $currentEvent = Event::find($request->input('event_id'));
         $currentEvent->pot += $request->input('price');
@@ -129,7 +141,21 @@ class BookingController extends Controller
         $booking->buyer_boosters = $request->input('buyer_boosters');
         $booking->price = $request->input('price');
         $booking->fee = $request->input('fee');
-        $booking->fpaid = (int)$request->input('fpaid');
+
+        if(($booking->fpaid == 0) && ($request->input('fpaid') == 1)) {
+            $booking->fpaid = $request->input('fpaid');
+            $goldtrack = Goldtrack::where('booking_id', $id)->first();
+            //dd($goldtrack);
+            if($goldtrack == null){
+                $goldtrack = new Goldtrack;
+                $goldtrack->booking_id = $id;
+                $goldtrack->user_id = Auth::user()->id;
+                $goldtrack->amount = ($request->input('price')-$request->input('fee'))*1000;
+                $goldtrack->code = 1;
+                $goldtrack->save();
+            }
+        }
+
         $booking->note = $request->input('note');
         ($booking->fpaid)? $booking->collector_id = Auth::user()->id : $booking->collector_id = null;
         $booking->save();
@@ -147,6 +173,7 @@ class BookingController extends Controller
     {
         $currentBooking = Booking::findOrFail($id);
         Booking::destroy($id);
+        Goldtrack::where('booking_id',$id)->delete();
         $currentEvent = Event::findOrFail(request()->input('event_id'));
         $currentEvent->pot -= $currentBooking->price;
         $currentEvent->buyers_booked -= 1;

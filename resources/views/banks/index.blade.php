@@ -42,7 +42,7 @@
                                 @endhasrole
                             </td>
                             <td>
-                                <a href="{{route('banks.show', $bank->id)}}"><i class="fas fa-info-circle fa-lg"></i></a>
+                                <a href="{{ route('transactions.bank', $bank->id )}}"><i class="fas fa-info-circle fa-lg"></i></a>
                                 @hasrole(config('globals.executives')) / <i class="fas fa-marker fa-lg"></i>@endhasrole
                                 @hasrole(config('globals.managers')) / <i class="fas fa-trash fa-lg"></i>@endhasrole
                             </td>

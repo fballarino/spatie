@@ -34,6 +34,8 @@ Route::resource('banks', 'BankController');
 
 Route::resource('transactions', 'TransactionController');
 
+Route::get('transactions/{id}/bank', 'TransactionController@showBankTransactions')->name('transactions.bank');
+
 Route::get('transactions/add', 'BankController@addDeposit')->name('transactions.add');
 
 Route::get('transactions/sub', 'BankController@subPayment')->name('transactions.sub');

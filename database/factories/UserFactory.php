@@ -36,7 +36,10 @@ $factory->define(App\Transaction::class, function (Faker $faker) {
         1 => '(001) Collector Deposit',
         2 => '(002) Withdrawal',
         3 => '(003) Booster Payment',
-        4 => '(004) Token Purchase',
+        4 => '(004) Token Value Payment',
+        5 => '(005) Gold Trade',
+        6 => '(006) Uncollected Fee',
+        7 => '(007) Guild Bank Transfer',
     ];
 
     return [

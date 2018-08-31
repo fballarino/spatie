@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class TransactionMiddleware
+class GoldtrackMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +16,7 @@ class TransactionMiddleware
     public function handle($request, Closure $next)
     {
         if ($request->is('transactions')) {
-            if (!Auth::user()->hasPermissionTo('Transaction View')) {
+            if (!Auth::user()->hasPermissionTo('Goldtrack View')) {
                 abort('401');
             } else {
                 return $next($request);
@@ -25,7 +24,7 @@ class TransactionMiddleware
         }
 
         if ($request->is('transactions/create')) {
-            if (!Auth::user()->hasPermissionTo('Transaction Create')) {
+            if (!Auth::user()->hasPermissionTo('Goldtrack Create')) {
                 abort('401');
             } else {
                 return $next($request);
@@ -33,16 +32,7 @@ class TransactionMiddleware
         }
 
         if ($request->is('transactions/*/edit')) {
-            if (!Auth::user()->hasPermissionTo('Transaction Edit')) {
-                abort('401');
-            } else {
-                return $next($request);
-            }
-        }
-
-        if ($request->is('transactions/{id}/bank'))
-        {
-            if (!Auth::user()->hasPermissionTo('Transaction View')) {
+            if (!Auth::user()->hasPermissionTo('Goldtrack Edit')) {
                 abort('401');
             } else {
                 return $next($request);
@@ -51,7 +41,7 @@ class TransactionMiddleware
 
         if ($request->isMethod('Delete'))
         {
-            if (!Auth::user()->hasPermissionTo('Transaction Delete')) {
+            if (!Auth::user()->hasPermissionTo('Goldtrack Delete')) {
                 abort('405');
             }
             else
@@ -59,7 +49,5 @@ class TransactionMiddleware
                 return $next($request);
             }
         }
-
-
     }
 }

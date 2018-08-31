@@ -9,12 +9,12 @@ class Transaction extends Model
 {
     use SoftDeletes;
 
-    public function banks()
+    public function bank()
     {
         return $this->belongsTo('App\Bank');
     }
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }

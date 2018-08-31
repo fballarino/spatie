@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Signup;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -79,11 +80,15 @@ class SignupController extends Controller
         $signup->save();
 
         $addBoosterEvent = Event::find($request->input('event_id'));
+        $eventdate = $addBoosterEvent->run_at;
         $addBoosterEvent->boosters_booked += 1;
         $addBoosterEvent->save();
 
-        Cookie::queue('CookieEvent'.$request->input('event_id'), 'event'.$request->input('event_id'));
-        //dd($value);
+        ($date = Carbon::parse($eventdate));
+        //dd($datenow = ((Carbon::now()->dayOfWeek) % 7)+1);
+        $cookieExpire = ($date->diffInMinutes(Carbon::now())+240);
+        Cookie::queue('CookieEvent'.$request->input('event_id'), 'event'.$request->input('event_id'), $cookieExpire);
+
 
         return redirect()->to('events');
     }
