@@ -57,6 +57,10 @@
                 {{Form::select('overbooking', [ 0 => 'No', 1 => 'Yes'], $event->overbooking,
                                               ['class' => 'form-control'])}}
             </div>
+            <div class="col-2 form-group">
+                <h6><b>{{ Form::label('status', 'Event Status') }}</b></h6>
+                {{ Form::select('status', $eventProgress, null, array('class' => 'form-control')) }}
+            </div>
         </div>
         <div class="row">
             <div class="col-3">
@@ -64,9 +68,7 @@
                 {{ Form::textarea('note', null, array('class' => 'form-control',  'rows' => 2, 'cols' => 40)) }}
             </div>
             <div class="col-2">
-                {{ Form::button('<i class="fas fa-plus fa-2x"></i> Create',  ['type' => 'submit',
-                                                                                  'class' => 'btn btn-default btn-sm',
-                                                                             ]) }}
+                {{ Form::button('Update',  ['type' => 'submit', 'class' => 'btn btn-default btn-sm']) }}
             </div>
             {{ Form::close() }}
         </div>

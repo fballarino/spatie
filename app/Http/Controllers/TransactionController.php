@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
@@ -36,7 +39,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        dd(request()->all());
     }
 
     /**
@@ -47,7 +50,27 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validateRequest = [
+            'code' => 'required|integer',
+            'recipient' => 'required|integer',
+            'amount' => 'integer|min:-9999999|max:9999999',
+            'note' => 'nullable|string|max:255',
+        ];
+        //dd($request->all());
+        $this->validate($request, $validateRequest);
+        //dd($request->input('amount'));
+        $transaction = new Transaction;
+        $transaction->bank_id = $request->input('bank');
+        $transaction->user_id = $request->input('recipient');
+        $transaction->operator_id = Auth::user()->id;
+        $transaction->operation = $this->processOperation($request->input('code'));
+        $transaction->amount = $request->input('amount');
+        $transaction->note = $request->input('note');
+        $transaction->save();
+
+        Session::flash('flash_message', "Transaction Inserted");
+        return redirect()->to('banks');
     }
 
     /**
@@ -58,7 +81,9 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        $recipient = User::where('id', $transaction->user_id)->first();
+        $operator = User::where('id', $transaction->operator_id)->first();
+        return view('transactions.show', compact('transaction', 'recipient', 'operator'));
     }
 
     /**
@@ -113,19 +138,18 @@ class TransactionController extends Controller
 
     }
 
-    public function addDeposit()
+    public function addMovement($id)
     {
-        //
+        $userlist = User::orderBy('name', 'ASC')->get();
+        return view('transactions.create', compact('userlist', 'id'));
     }
 
-    /**
-     * Adds a quick deposit to a Bank
-     *
-     * @param
-     * @return
-     */
-    public function subPayment()
-    {
-        //
+    public function processOperation($code){
+        foreach (config('globals.operationsTransaction') as $key => $value){
+            if($code == $key){
+                return $value;
+            }
+        }
     }
+
 }

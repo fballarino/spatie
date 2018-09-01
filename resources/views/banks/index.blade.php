@@ -23,7 +23,7 @@
                     <th>Realm</th>
                     <th>Faction</th>
                     <th>Current Balance</th>
-                    <th>Ops</th>
+                    <th>Operation</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
@@ -35,10 +35,8 @@
                             <td>@money($bank->balance, 'WOW')</td>
                             <td>
                                 @hasrole(config('globals.accountants'))
-                                    <a href="{{route('transactions.add', $bank->id)}}">
-                                        <i class="fas fa-plus-circle fa-lg"></i></a>
-                                    <a href="{{route('transactions.sub', $bank->id)}}">
-                                        <i class="fas fa-minus-circle fa-lg"></i></a>
+                                    <a href="{{ route('transactions.add', $bank->id) }}">
+                                    <i class="fas fa-plus-circle fa-lg"></i></a>
                                 @endhasrole
                             </td>
                             <td>

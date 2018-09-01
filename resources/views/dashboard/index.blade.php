@@ -40,6 +40,14 @@
                             <a href="{{ route('banks.index') }}" class="btn-link">Banks</a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fas fa-ticket-alt fa-2x"></i>
+                        </div>
+                        <div class="col-3">
+                        <a href="{{ route('attendances.index') }}" class="btn-link">Attedances</a>
+                        </div>
+                    </div>
                 @endhasrole
                     <div class="row">
                         <div class="col-2">

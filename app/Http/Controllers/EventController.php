@@ -95,8 +95,9 @@ class EventController extends Controller
     {
         $arrayProducts = $this->arrayProducts;
         $eventDifficulty = $this->eventDifficulty;
+        $eventProgress = $this->arrayStatuses;
         $event = Event::findOrFail($id);
-        return view('events.edit', compact('event','arrayProducts', 'eventDifficulty'));
+        return view('events.edit', compact('event','arrayProducts', 'eventDifficulty', 'eventProgress'));
     }
 
     public function update(Request $request, $id)
@@ -121,6 +122,7 @@ class EventController extends Controller
         $event->run_at = $this->parseDate(request()->input('run_at'));
         $event->visible_at= $this->parseDate(request()->input('visible_at'));
         $event->note = $request->input('note');
+        $event->status = $this->arrayStatuses[$request->input('status')];
         $event->reference = $this->setEventReference(request()->input('product_name'),
         request()->input('difficulty'), request()->input('run_at'));
         $event->save();
@@ -160,7 +162,7 @@ class EventController extends Controller
     }
 
     protected function initializeArrays(){
-        $this->arrayStatuses = config('globals.arrayStatuses');
+        $this->arrayStatuses = config('globals.eventProgress');
         $this->arrayProducts = config('globals.arrayProducts');
         $this->arrayDifficulties = config('globals.arrayDifficulties');
         $this->eventDifficulty = config('globals.eventDifficulty');

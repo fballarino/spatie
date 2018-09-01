@@ -77,11 +77,27 @@ return [
         6 => "Archived",
     ],
 
+    'eventProgress' => [
+        0 => 'Open',
+        1 => 'In Progress',
+        2 => 'Attendance Ready',
+        3 => 'Closed',
+        4 => 'Placeholder',
+        5 => 'Placeholder',
+    ],
+
     'eventStatuses' => [
         'Signed'   => 'Signed',
         'Accepted' => 'Accepted',
         'Declined' => 'Declined',
         'Backup'   => 'Backup'],
+
+    'attendanceStatuses' => [
+        '0' => 'Absent',
+        '1' => 'Attended',
+        '2' => 'Partially Attended',
+        '3' => 'Placeholder'
+    ],
 
     'goldtrackStatuses' => [
         0 => null,
@@ -92,11 +108,23 @@ return [
         5 => 'Placeholder 5',
     ],
 
+    'operationsTransaction' => [
+        1 => '(001) Collector Deposit',
+        2 => '(002) Withdrawal',
+        3 => '(003) Booster Payment',
+        4 => '(004) Token Value Payment',
+        5 => '(005) Gold Trade',
+        6 => '(006) Uncollected Fee',
+        7 => '(007) Guild Bank Transfer',
+    ],
+
     'managers' => 'Manager',
 
     'executives' => 'Manager|Admin',
 
-    'accountants' => 'Manager|Admin|Accountant|Secretary|Collector',
+    'accountants' => 'Manager|Admin|Accountant|Secretary|',
+
+    'collectors' => 'Manager|Admin|Accountant|Secretary|Collector',
 
     'members' => 'Manager|Admin|Accountant|Secretary|Collector|Member'
 

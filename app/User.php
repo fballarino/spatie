@@ -33,6 +33,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Character');
     }
 
+    public function goldtracks(){
+        return $this->hasMany('App\Goldtrack');
+    }
+
+    public function attendances(){
+        return $this->hasMany('App\Attendances');
+    }
+
 
     public function setPasswordAttribute($password)
     {

@@ -27,7 +27,7 @@
                         </th>
                         <th>
                             @hasrole(config('globals.managers'))
-                                Attendace
+                                Attendance
                             @endhasrole
                         </th>
                     </tr>
@@ -47,11 +47,19 @@
                                     {{ Form::open(['method' => 'POST', 'class' =>'form-inline', 'route' => ['signups.status', $signup->id]]) }}
                                     {{ Form::select('status', config('globals.eventStatuses'), $signup->status ) }}
                                     {{ Form::submit('Change') }}
+                                    {{ Form::close() }}
                                 @endhasrole
                             </td>
                             <td>
                                 @hasrole(config('globals.managers'))
-                                    Attendance
+                                {{ Form::open(['method' => 'POST', 'class' =>'form-inline', 'route' => ['attendances.store', $signup->id]]) }}
+                                {{ Form::hidden('event_id', $signup->event_id) }}
+                                {{ Form::hidden('character_id', $signup->character_id) }}
+                                {{ Form::hidden('user_id', $signup->user_id) }}
+                                {{ Form::hidden('signup_id', $signup->id) }}
+                                {{ Form::select('status', config('globals.attendanceStatuses'), $signup->status ) }}
+                                {{ Form::submit('Change') }}
+                                {{ Form::close() }}
                                 @endhasrole
                             </td>
                         </tr>

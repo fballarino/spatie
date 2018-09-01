@@ -24,10 +24,11 @@ class CreateEventsTable2 extends Migration
             $table->tinyInteger('boosters_booked')->unsigned()->nullable();
             $table->boolean('overbooking')->nullable(false);
             $table->integer('pot')->unsigned();
+            $table->integer('leader_cut')->unsigned()->nullable();
             $table->dateTime('run_at')->nullable();
             $table->dateTime('visible_at')->nullable();
             $table->text('note')->nullable();
-            $table->string('status',10);
+            $table->string('status',20);
             $table->integer('user_id')->unsigned()->nullable(false);
             $table->timestamps();
             $table->softDeletes();

@@ -43,9 +43,9 @@
                             <div class="col-md-7 offset-md-4">
                                 <div class="form-check">
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}&nbsp;
+                                       &nbsp;
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
+                                        {{ __('Remember Me') }}
 
                                     </label>
                                 </div>

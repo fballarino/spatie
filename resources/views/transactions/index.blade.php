@@ -14,7 +14,7 @@ use Akaunting\Money\Money;
         <div class="row">
             <div class="col-1"></div>
             <div class="col-10 border bg-primary text-white">
-                <h5 class="mt-2">Bank of {{$transactions[0]->bank->name}} ({{$transactions[0]->bank->faction}})
+                <h5 class="mt-2">@if(!empty($transactions[0]))Bank of {{$transactions[0]->bank->name}} ({{$transactions[0]->bank->faction}})@endif
                 </h5>
             </div>
             <div class="col-1"></div>
@@ -31,7 +31,7 @@ use Akaunting\Money\Money;
                     <th>Amount OUT</th>
                     <th>Recipient</th>
                     <th>DateTime</th>
-
+                    <th>Operations</th>
                     </thead>
                     <tbody>
                     @foreach($transactions as $transaction)
@@ -48,7 +48,16 @@ use Akaunting\Money\Money;
                             @endif
                             <td>{{ $transaction->user->name }}</td>
                             <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('d M Y H:i') }}</td>
+                            <td>
+                                @hasrole(config('globals.collectors'))
+                                    <a href="{{ route('transactions.show', $transaction->id) }}"><i class="far fa-arrow-alt-circle-right fa-lg"></i></a>
+                                    / Edit
+                                @endhasrole
+                                @hasrole(config('globals.accountants'))
+                                     Delete
+                                @endhasrole
 
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
