@@ -22,6 +22,7 @@ class CreateAttendancesTable extends Migration
             $table->unsignedInteger('cut')->nullable();
             $table->unsignedInteger('leader_cut')->nullable();
             $table->tinyInteger('status');
+            $table->tinyInteger('status');
             $table->timestamps();
             $table->softDeletes();
 

@@ -38,7 +38,19 @@ class User extends Authenticatable
     }
 
     public function attendances(){
-        return $this->hasMany('App\Attendances');
+        return $this->hasMany('App\Attendance');
+    }
+
+    public function bookings(){
+        return $this->hasMany('App\Booking');
+    }
+
+    public function transactions(){
+        return $this->hasMany('App\Transaction');
+    }
+
+    public function goldtrackDeposits(){
+        return $this->hasMany('App\Transaction','operator_id');
     }
 
 

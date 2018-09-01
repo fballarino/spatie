@@ -47,3 +47,5 @@ Route::post('signups/{signup}/status', 'SignupController@status')->name('signups
 Route::get('attendances/{event}/signups', 'AttendanceController@displayEventSignups')->name('attendances.displaySignups');
 
 Route::resource('attendances', 'AttendanceController');
+
+Route::resource('balances', 'BalanceController');

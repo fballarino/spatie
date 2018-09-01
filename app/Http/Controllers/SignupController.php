@@ -77,6 +77,8 @@ class SignupController extends Controller
         $signup->event_id = $request->input('event_id');
         $signup->user_id = Auth::user()->id;
         $signup->status = 'Signed';
+        $signup->attendance = false;
+        $signup->is_leader = false;
         $signup->save();
 
         $addBoosterEvent = Event::find($request->input('event_id'));

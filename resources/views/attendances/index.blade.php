@@ -32,8 +32,8 @@
                                 <td><a href="{{ route('attendances.displaySignups', $attendance->id) }}">{{$attendance->reference}}</a></td>
                                 <td>{{ \Carbon\Carbon::parse($attendance->run_at)->format('d M Y H:i') }}</td>
                                 <td>{{$attendance->boosters}}</td>
-                                <td>{{$attendance->pot}}</td>
-                                <td>{{$attendance->leader_cut}}</td>
+                                <td>@money($attendance->pot,"WOW")</td>
+                                <td>@money($attendance->leader_cut,"WOW")</td>
                             </tr>
                         @endforeach
                     </tbody>

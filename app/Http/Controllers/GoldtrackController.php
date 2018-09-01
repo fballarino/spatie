@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class GoldtrackController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'goldtrack']);
+    }
+
     /**
      * Display a listing of the resource.
      *

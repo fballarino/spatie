@@ -65,6 +65,14 @@
                             <a href="{{ route('events.index') }}" class="btn-link">Events</a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <i class="fas fa-balance-scale fa-2x"></i>
+                        </div>
+                        <div class="col-3">
+                            <a href="{{ route('balances.index') }}" class="btn-link">Balance</a>
+                        </div>
+                     </div>
         </div>
         <div class="col-8">
 

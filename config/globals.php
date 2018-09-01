@@ -93,10 +93,8 @@ return [
         'Backup'   => 'Backup'],
 
     'attendanceStatuses' => [
-        '0' => 'Absent',
         '1' => 'Attended',
-        '2' => 'Partially Attended',
-        '3' => 'Placeholder'
+        '2' => 'Partial',
     ],
 
     'goldtrackStatuses' => [
@@ -126,7 +124,9 @@ return [
 
     'accountants' => 'Manager|Admin|Accountant|Secretary|',
 
-    'collectors' => 'Manager|Admin|Accountant|Secretary|Collector',
+    'advertisers' => 'Manager|Admin|Accountant|Secretary|Advertiser',
+
+    'collectors' => 'Manager|Admin|Accountant|Secretary|TeamLeader|Collector',
 
     'members' => 'Manager|Admin|Accountant|Secretary|Collector|Member'
 
