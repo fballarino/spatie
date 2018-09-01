@@ -40,15 +40,15 @@
                     <label for="run_at"><h6><b>Event Date</b></h6></label>
                     <input name="run_at" id="input" class="form-control" />
                 </div>
-                <div class="col-2 form-group">
+                <div class="col-3 form-group">
                     <label for="visible_at"><h6><b>Show Event on</b></h6></label>
-                    <input name="visible_at" id="input2" class="form-control" />
+                    <input name="visible_at" id="input2" class="form-control"
+                    value="{{\Carbon\Carbon::parse(\Carbon\Carbon::now())->format('H:i m/d/Y')}}"/>
                 </div>
                 <div class="col-2 form-group">
-                    <label for="overbooking"><h6><b>Overbooking Allowed</b></h6></label>
+                    <label for="overbooking"><h6><b>Overbooking</b></h6></label>
                     <select name="overbooking" class="form-control">
-                        <option value="" selected>Select...</option>
-                        <option value="0">No</option>
+                        <option value="0" selected>No</option>
                         <option value="1">Yes</option>
                     </select>
                 </div>
@@ -63,9 +63,7 @@
                     <textarea name="note" id="note" class="form-control" placeholder="notes..."></textarea>
                 </div>
                 <div class="col-2">
-                    {{ Form::button('<i class="fas fa-plus fa-2x"></i> Create',  ['type' => 'submit',
-                                                                                  'class' => 'btn btn-default btn-sm',
-                                                                                 ]) }}
+                    {{ Form::button('Create',  ['type' => 'submit', 'class' => 'btn btn-default btn-sm']) }}
                 </div>
             </div>
         </form>

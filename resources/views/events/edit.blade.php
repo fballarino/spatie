@@ -16,11 +16,7 @@
                 <label for="product_name"><h6><b>Product</b></h6></label>
                 <select id='A' name="product_name" class="form-control">
                     <option value="{{$event->product_name}}">{{$event->product_name}}</option>
-                        @foreach($arrayProducts as $key => $value)
-                            @if($event->product_name != $value)
-                                <option value="{{$key}}">{{$value}}</option>
-                            @endif
-                        @endforeach
+
                 </select>
             </div>
             <div class="col-3 form-group">
@@ -91,6 +87,7 @@
 
 
         var bOptions = <?php echo json_encode($eventDifficulty); ?>;
+        var currentDifficulty = <?php echo json_encode($event->difficulty); ?>;
         //{
             //"Uldir": ["Normal", "Heroic", "Mythic"],
             //"Mythic Plus": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",],
@@ -114,6 +111,9 @@
             op.value = bOptions[_val][i];
             //set the display label
             op.text = bOptions[_val][i];
+            if(currentDifficulty == op.text){
+                op.setAttribute('selected', 'selected');
+            }
             //append it to B
             B.appendChild(op);
         }

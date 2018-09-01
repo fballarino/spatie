@@ -33,7 +33,9 @@ class EventController extends Controller
 
     public function index()
     {
-        $allEvents = Event::where('visible_at','>=', Carbon::now())->get();
+        $allEvents = Event::where('visible_at','<=', Carbon::now())
+                        ->where('run_at', '>=', Carbon::now())
+                        ->get();
         $allUsers = User::all('id', 'name');
         return view('events.index', compact('allEvents', 'allUsers'));
     }
@@ -70,7 +72,7 @@ class EventController extends Controller
         $newEvent->reference = $this->setEventReference(request()->input('product_name'),
             request()->input('difficulty'), request()->input('run_at'));
         $newEvent->pot = 0;
-        $newEvent->leader_cut = request()->input('leader_cut')*1000;
+        $newEvent->leader_cut = request()->input('leader_cut');
         $newEvent->status = $this->arrayStatuses[0];
         $newEvent->user_id = Auth::user()->id;
         $newEvent->save();
