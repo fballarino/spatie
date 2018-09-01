@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '| Create New Event')
 @section('content')
-
     <div class="container">
         <div class="row">
             <h3><i class="fas fa-calendar-alt"></i>
@@ -27,7 +26,7 @@
             <div class="col-3 form-group">
                     <label for="difficulty"><h6><b>Difficulty</b></h6></label>
                     <select id='B' name="difficulty" class="form-control">
-                        <option value="">Select...</option>
+                        <option value="{{$event->difficulty}}" selected>{{$event->difficulty}}</option>
                     </select>
             </div>
             <div class="col-2 form-group">

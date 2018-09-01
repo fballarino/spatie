@@ -16,11 +16,11 @@
                     <th>Buyer</th>
                     <th>Booked on</th>
                     <th>Advertiser</th>
-                    <th>Amount Due</th>
+                    <th>Amount</th>
                     <th>Paid</th>
                     <th>Collector</th>
                     <th>Spec/Class</th>
-                    <th># Boosters (Raid)</th>
+                    <th># Boosters Req.(Raid)</th>
                     <th>BNet Tag</th>
                     <th>Actions</th>
                 </tr>
@@ -45,7 +45,7 @@
                         ?>
                         <td>{{ $dateTemp }}</td>
                         <td>{{$booking->advertiser}}</td>
-                        <td>{{ ($booking->price - $booking->fee) }}k</td>
+                        <td>@money(($booking->price - $booking->fee),"WOW")</td>
                         <td>
                             @if($booking->fpaid)
                                 <i class="fas fa-check fa-lg"></i>

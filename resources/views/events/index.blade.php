@@ -21,8 +21,12 @@
                 <th>Overbooking</th>
                 <th>temp</th>
                 <th>temp</th>
+                @hasrole(config('globals.teamleaders'))
                 <th>Pot</th>
-                <th>Status</th>
+                <th>Leader Cut</th>
+                @endhasrole
+                <th>Raid Status</th>
+
                 <th>
                     @hasrole(config('globals.managers'))
                         Actions
@@ -69,7 +73,7 @@
                         @if(Cookie::get('CookieEvent'.$event->id))
                             @hasrole(config('globals.members'))
                                 {{ Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['signups.destroy', $event->id] ])}}
-                                {{ $event->boosters_booked }} / {{ $event->boosters }}
+                                {{ ($event->boosters_booked)? ($event->boosters_booked) : 0 }} / {{ $event->boosters }}
                                 <div class="form-group">
                                     <div class="input-bar-item">
                                         <button class="btn btn-light"><i class="fas fa-times fa-lg"></i></button>
@@ -80,14 +84,17 @@
                             @else
                                 @hasrole(config('globals.members'))
                                     <a href="{{ route('signups.sign', $event->id) }}"><i class="fas fa-plus fa-lg"></i></a>
-                            &nbsp;&nbsp;      {{ $event->boosters_booked }} / {{ $event->boosters }}
+                            &nbsp;&nbsp;      {{ ($event->boosters_booked)? ($event->boosters_booked) : 0 }} / {{ $event->boosters }}
                                 @endhasrole
                         @endif
                     </td>
                     <td>{{ ($event->overbooking)? "Yes" : "No" }}</td>
                     <td>temp</td>
                     <td>temp</td>
-                    <td>{{ $event->pot }}</td>
+                    @hasrole(config('globals.teamleaders'))
+                    <td>@money($event->pot,"WOW")</td>
+                    <td>@money($event->leader_cut,"WOW")</td>
+                    @endhasrole
                     <td>{{ $event->status }}</td>
                     <td>
                         {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['events.destroy', $event->id] ]) !!}

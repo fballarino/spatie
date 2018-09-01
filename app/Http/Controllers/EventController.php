@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Character;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $allEvents = Event::all();
+        $allEvents = Event::where('visible_at','>=', Carbon::now())->get();
         $allUsers = User::all('id', 'name');
         return view('events.index', compact('allEvents', 'allUsers'));
     }
@@ -51,6 +52,7 @@ class EventController extends Controller
             'buyers'       => 'required|integer',
             'boosters'     => 'required|integer',
             'overbooking'  => 'required|integer',
+            'leader_cut'   => 'nullable|integer',
             'run_at'       => 'required|date',
             'visible_at'   => 'required|date',
             'note'         => 'max:100',
@@ -68,6 +70,7 @@ class EventController extends Controller
         $newEvent->reference = $this->setEventReference(request()->input('product_name'),
             request()->input('difficulty'), request()->input('run_at'));
         $newEvent->pot = 0;
+        $newEvent->leader_cut = request()->input('leader_cut')*1000;
         $newEvent->status = $this->arrayStatuses[0];
         $newEvent->user_id = Auth::user()->id;
         $newEvent->save();

@@ -122,6 +122,8 @@ return [
 
     'executives' => 'Manager|Admin',
 
+    'teamleaders' => 'Manager|Admin|TeamLeader',
+
     'accountants' => 'Manager|Admin|Accountant|Secretary|',
 
     'collectors' => 'Manager|Admin|Accountant|Secretary|Collector',

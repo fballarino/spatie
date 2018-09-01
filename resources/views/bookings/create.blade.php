@@ -89,7 +89,7 @@
             <div class="col-4">
                 <ul>
                     <li>Fields marked with * are mandatory.</li>
-                    <li>Prices have to be inputed in (K) Es. 1,200,000 is entered as 1200</li>
+                    <li>Prices have to be inputed in (g) Es. 1,200,000 is entered as 1200000</li>
                     <li>Remember to collect the 10% fee</li>
                 </ul>
             </div>

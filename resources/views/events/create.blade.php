@@ -52,6 +52,10 @@
                         <option value="1">Yes</option>
                     </select>
                 </div>
+                <div class="col-2 form-group">
+                    <label for="leader_cut"><h6><b>Leader Cut</b></h6></label>
+                    <input name="leader_cut" id="input2" class="form-control" />
+                </div>
             </div>
             <div class="row">
                 <div class="col-3">
