@@ -18,4 +18,14 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function recipient()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
+    public function sender()
+    {
+        return $this->belongsTo('App\User','operator_id');
+    }
 }

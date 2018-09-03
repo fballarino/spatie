@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class GoldtrackMiddleware
 {
@@ -15,7 +16,7 @@ class GoldtrackMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->is('transactions')) {
+        if ($request->is('goldtracks')) {
             if (!Auth::user()->hasPermissionTo('Goldtrack View')) {
                 abort('401');
             } else {
@@ -23,7 +24,16 @@ class GoldtrackMiddleware
             }
         }
 
-        if ($request->is('transactions/create')) {
+        if ($request->is('goldtracks/*')) {
+            if (!Auth::user()->hasPermissionTo('Goldtrack Show')) {
+                abort('401');
+            } else {
+                return $next($request);
+            }
+        }
+
+
+        if ($request->is('goldtracks/create')) {
             if (!Auth::user()->hasPermissionTo('Goldtrack Create')) {
                 abort('401');
             } else {
@@ -31,8 +41,16 @@ class GoldtrackMiddleware
             }
         }
 
-        if ($request->is('transactions/*/edit')) {
+        if ($request->is('goldtracks/*/edit')) {
             if (!Auth::user()->hasPermissionTo('Goldtrack Edit')) {
+                abort('401');
+            } else {
+                return $next($request);
+            }
+        }
+
+        if ($request->is('goldtracks/verify')) {
+            if (!Auth::user()->hasPermissionTo('Goldtrack Verify')) {
                 abort('401');
             } else {
                 return $next($request);

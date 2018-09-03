@@ -19,6 +19,9 @@ class CreateGoldtracksTable extends Migration
             $table->unsignedInteger('user_id');
             $table->integer('amount');
             $table->tinyInteger('code');
+            $table->boolean('verified');
+            $table->string('verified_by', 50);
+            $table->dateTime('verified_at')->nullable();;
             $table->timestamps();
             $table->softDeletes();
 

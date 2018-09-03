@@ -27,33 +27,29 @@
 </head>
 
 <body>
-
+<!-- Top Navbar starts here -->
 <nav class="navbar navbar-expand-md navbar navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#">Oblivion Boosting Community</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ route('posts.index') }}">Home <span class="sr-only">(current)</span></a>
-            </li>
             @if (!Auth::guest())
-                <li class="nav-item active"><a class="nav-link" href="{{ route('posts.create') }}">New Post</a></li>
-            @endif
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Dashboard</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"
+                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dashboard
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{{route('balances.index')}}">Attendance</a>
+                    <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
+                    <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
+                    <a class="dropdown-item" href="{{route('pricelists.index')}}">Pricing</a>
                 </div>
             </li>
+            @endif
         </ul>
         <div class="btn-group dropleft">
             @if (Auth::guest())

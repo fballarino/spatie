@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Goldtrack;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class GoldtrackController extends Controller
 {
@@ -20,7 +24,11 @@ class GoldtrackController extends Controller
      */
     public function index()
     {
-        //
+        $goldtracks = Goldtrack::with(['user', 'booking'])
+            ->limit(200)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('goldtracks.index', compact('goldtracks'));
     }
 
     /**
@@ -30,7 +38,7 @@ class GoldtrackController extends Controller
      */
     public function create()
     {
-        //
+        return "create method";
     }
 
     /**
@@ -52,7 +60,7 @@ class GoldtrackController extends Controller
      */
     public function show(Goldtrack $goldtrack)
     {
-        //
+        return "method show";
     }
 
     /**
@@ -63,7 +71,8 @@ class GoldtrackController extends Controller
      */
     public function edit(Goldtrack $goldtrack)
     {
-        //
+        $userlist = User::orderBy('name', 'asc')->get();
+        return view('goldtracks.edit', compact('goldtrack', 'userlist'));
     }
 
     /**
@@ -75,7 +84,33 @@ class GoldtrackController extends Controller
      */
     public function update(Request $request, Goldtrack $goldtrack)
     {
-        //
+        $validateRequest = [
+            'code' => 'nullable',
+            'user_id' => 'required|integer',
+            'amount' => 'integer|min:-9999999|max:9999999',
+        ];
+        $this->validate($request, $validateRequest);
+        $goldtrack->code = (int)$request->input('code');
+        $goldtrack->user_id = $request->input('user_id');
+        $goldtrack->amount = (int)$request->input('amount');
+        if($request->input('verified') == "on" && $goldtrack->verified == false){
+            $goldtrack->verified = true;
+            $goldtrack->verified_by = Auth::user()->name;
+            $goldtrack->verified_at = Carbon::now();
+        }
+        else{
+            if($request->input('verified') == "" && $goldtrack->verified == true){
+                $goldtrack->verified = false;
+                $goldtrack->verified_by = null;
+                $goldtrack->verified_at = null;
+            }
+        }
+        $result = $goldtrack->save();
+        if($result){
+            Session::flash('flash_message', "Goldtrack " .$goldtrack->id. " successfully updated");
+        }
+        return $this->index();
+
     }
 
     /**
@@ -86,6 +121,40 @@ class GoldtrackController extends Controller
      */
     public function destroy(Goldtrack $goldtrack)
     {
-        //
+        $result = $goldtrack->delete();
+        if($result){
+            Session::flash('flash_message', "Goldtrack " .$goldtrack->id. " successfully soft-deleted");
+        }
+        return $this->index();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Goldtrack  $goldtrack
+     * @return \Illuminate\Http\Response
+     */
+    public function test(Goldtrack $goldtrack)
+    {
+        return "test method";
+    }
+
+    public function verifyMovements(Request $request)
+    {
+        $counter = 0;
+        foreach($request->input() as $key => $value)
+        {
+            if(is_numeric($key) && $value == "on"){
+                Goldtrack::where('id', $key)
+                    ->update([
+                        'verified' => 1,
+                        'verified_by' => Auth::user()->name,
+                        'verified_at' => Carbon::now(),
+                    ]);
+                $counter++;
+            }
+        }
+        Session::flash('flash_message', "Successfully verified ".$counter. " record/s");
+        return $this->index();
     }
 }

@@ -33,7 +33,7 @@ use Akaunting\Money\Money;
                 </div>
                 <div class="form-group mb-3">
                     <label for="operator" class=""><h6>Amount</h6></label>
-                    <input type="text" disabled name="amount" value="{{ abs($transaction->amount) }}" class="form-control">
+                    <input type="text" disabled name="amount" value="@money(abs($transaction->amount), 'WOW')" class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="operator" class=""><h6>Note</h6></label>

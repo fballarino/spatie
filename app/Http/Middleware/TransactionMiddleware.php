@@ -40,15 +40,6 @@ class TransactionMiddleware
             }
         }
 
-        if ($request->is('transactions/{id}/bank'))
-        {
-            if (!Auth::user()->hasPermissionTo('Transaction View')) {
-                abort('401');
-            } else {
-                return $next($request);
-            }
-        }
-
         if ($request->isMethod('Delete'))
         {
             if (!Auth::user()->hasPermissionTo('Transaction Delete')) {

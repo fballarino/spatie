@@ -34,6 +34,14 @@
                 @hasrole(config('globals.accountants'))
                     <div class="row">
                         <div class="col-2">
+                            <i class="fas fa-dollar-sign fa-2x"></i>
+                        </div>
+                        <div class="col-3">
+                            <a href="{{ route('goldtracks.index') }}" class="btn-link">Goldtrack</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
                             <i class="fas fa-file-invoice-dollar fa-2x"></i>
                         </div>
                             <div class="col-3">
@@ -45,7 +53,7 @@
                             <i class="fas fa-ticket-alt fa-2x"></i>
                         </div>
                         <div class="col-3">
-                        <a href="{{ route('attendances.index') }}" class="btn-link">Attedances</a>
+                        <a href="{{ route('attendances.index') }}" class="btn-link">Attendance</a>
                         </div>
                     </div>
                 @endhasrole
@@ -72,23 +80,23 @@
                         <div class="col-3">
                             <a href="{{ route('balances.index') }}" class="btn-link">Balance</a>
                         </div>
-                     </div>
+                    </div>
         </div>
         <div class="col-8">
 
         </div>
-        <div class="col-8 border">
-            Morbi a posuere magna. Etiam dolor risus, ultricies nec odio vitae, placerat aliquet quam. Vivamus eget nisl ut sapien finibus vestibulum. Praesent nec tellus elit. Mauris tellus lectus, consequat vel ligula in, egestas scelerisque mauris. Aliquam in mauris sed est consequat aliquet tempus sed dolor. In sodales, est vel tincidunt.
+        <div class="col-8">
+
         </div>
-        <div class="col-4 border-danger">
-            Morbi a posuere magna. Etiam dolor risus, ultricies nec odio vitae, placerat aliquet quam. Vivamus eget nisl ut sapien finibus vestibulum. Praesent nec tellus elit. Mauris tellus lectus, consequat vel ligula in, egestas scelerisque mauris. Aliquam in mauris sed est consequat aliquet tempus sed dolor. In sodales, est vel tincidunt.
+        <div class="col-4">
+
         </div>
 
         <div class="col-8">
-            Morbi a posuere magna. Etiam dolor risus, ultricies nec odio vitae, placerat aliquet quam. Vivamus eget nisl ut sapien finibus vestibulum. Praesent nec tellus elit. Mauris tellus lectus, consequat vel ligula in, egestas scelerisque mauris. Aliquam in mauris sed est consequat aliquet tempus sed dolor. In sodales, est vel tincidunt.
+
         </div>
-        <div class="col-4 border">
-            Morbi a posuere magna. Etiam dolor risus, ultricies nec odio vitae, placerat aliquet quam. Vivamus eget nisl ut sapien finibus vestibulum. Praesent nec tellus elit. Mauris tellus lectus, consequat vel ligula in, egestas scelerisque mauris. Aliquam in mauris sed est consequat aliquet tempus sed dolor. In sodales, est vel tincidunt.
+        <div class="col-4">
+
         </div>
     </div>
 </div>

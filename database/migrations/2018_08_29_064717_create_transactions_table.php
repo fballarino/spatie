@@ -20,6 +20,9 @@ class CreateTransactionsTable extends Migration
             $table->integer('operator_id')->unsigned();
             $table->string('operation', 128);
             $table->integer('amount');
+            $table->boolean('verified');
+            $table->string('verified_by', 50);
+            $table->dateTime('verified_at')->nullable();
             $table->string('note',255)->nullable();
             $table->timestamps();
             $table->softDeletes();

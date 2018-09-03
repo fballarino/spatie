@@ -32,7 +32,7 @@
                             <td>{{$bank->region}}</td>
                             <td>{{$bank->name}}</td>
                             <td>{{$bank->faction}}</td>
-                            <td>@money($bank->balance, 'WOW')</td>
+                            <td>@money($bank->transactions->sum('amount'), 'WOW')</td>
                             <td>
                                 @hasrole(config('globals.accountants'))
                                     <a href="{{ route('transactions.add', $bank->id) }}">
@@ -52,7 +52,7 @@
                         <td></td>
                         <td></td>
                         <td>Total Balance:</td>
-                        <td>@money($totalBalance, 'WOW')</td>
+                        <td></td>
                         <td></td>
 
                     </tr>

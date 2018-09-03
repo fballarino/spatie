@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bank;
 use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class BankController extends Controller
 {
@@ -21,9 +22,13 @@ class BankController extends Controller
      */
     public function index()
     {
-        $banks = Bank::orderBy('region', 'ASC')->orderBy('name', 'ASC')->orderBy('faction', 'ASC')->get();
-        $totalBalance = Bank::sum('balance');
-        return view('banks.index', compact('banks', 'totalBalance'));
+        $banks = Bank::with(['transactions'])
+            ->orderBy('region', 'ASC')
+            ->orderBy('name', 'ASC')
+            ->orderBy('faction', 'ASC')
+            ->get();
+
+        return view('banks.index', compact('banks'));
     }
 
     /**
@@ -33,7 +38,7 @@ class BankController extends Controller
      */
     public function create()
     {
-        //
+        return view('banks.create');
     }
 
     /**
@@ -44,7 +49,23 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'realm' => 'required|string|min:5|max:30',
+            'faction' => 'required|string|max:10',
+            'region' => 'required||string|max:2',
+            'balance' => 'nullable|integer',
+        ]);
+
+        $bank = new Bank;
+        $bank->name = $request->input('realm');
+        $bank->faction = $request->input('faction');
+        $bank->region = $request->input('region');
+        $bank->balance = (int)$request->input('balance');
+        $creation = $bank->save();
+        if($creation){
+            Session::flash('flash_message', 'Bank successfully created');
+        }
+        return $this->index();
     }
 
     /**
@@ -55,43 +76,7 @@ class BankController extends Controller
      */
     public function show($bank)
     {
-        /*
-        $transactions = Transaction::join('users as usersR', 'usersR.id', '=', 'user_id')
-                        ->join('users as usersA', 'usersA.id', '=', 'operator_id')
-                        ->select('transactions.id','transactions.amount', 'usersR.name as Recipient', 'usersA.name as Accountant')
-                        ->where('bank_id',$bank)
-                        ->limit(10)
-                        ->orderBy('transactions.id','ASC')
-                        ->get();
-        $tras = Bank::find($bank)->transactions()->limit(5)->get();
 
-        /*$transactions = \App\Transaction::with('banks', 'users')
-            ->where('bank_id', $bank)
-            ->orderBy('created_at', 'desc')
-            ->limit(10)
-            ->get();
-        foreach ($transactions as $transaction) {
-
-            echo $transaction->amount . "<br>";
-
-            echo $transaction->users;
-
-            //$transaction->banks->name;
-            //$transaction->banks->region;
-
-        }*/
-        /*
-        $bank = Bank::find($bank)->transactions()
-            ->orderBy('created_at','DESC')
-            ->get();
-
-        foreach($bank->users as $user) {
-            echo $user->name;
-            echo $user->pivot->amount;
-        }*/
-
-
-        //return view('banks.show', compact('transactions'));
     }
 
     /**

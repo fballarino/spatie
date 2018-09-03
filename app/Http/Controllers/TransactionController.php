@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
@@ -24,11 +25,13 @@ class TransactionController extends Controller
     public function index()
     {
         // Display transaction per bank, requires a bank via hidden param
-        $transactions = Transaction::with(['user', 'bank'])
+        /*$transactions = Transaction::with(['user', 'bank'])
                                     ->where('bank_id',1)
                                     ->limit(10)
                                     ->get();
         //dd($transactions);
+        */
+        $transactions = Transaction::with('recipient')->with('sender')->get();
         return view('transactions.index', compact('transactions'));
     }
 
@@ -53,7 +56,7 @@ class TransactionController extends Controller
 
         $validateRequest = [
             'code' => 'required|integer',
-            'recipient' => 'required|integer',
+            'user_id' => 'required|integer',
             'amount' => 'integer|min:-9999999|max:9999999',
             'note' => 'nullable|string|max:255',
         ];
@@ -67,6 +70,7 @@ class TransactionController extends Controller
         $transaction->operation = $this->processOperation($request->input('code'));
         $transaction->amount = $request->input('amount');
         $transaction->note = $request->input('note');
+        $transaction->verified = false;
         $transaction->save();
 
         Session::flash('flash_message', "Transaction Inserted");
@@ -94,7 +98,8 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        //
+        $userlist = User::all();
+        return view('transactions.edit', compact('transaction', 'userlist'));
     }
 
     /**
@@ -106,7 +111,25 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
+        $validateRequest = [
+            'code' => 'required|integer',
+            'user_id' => 'required|integer',
+            'amount' => 'integer|min:-9999999|max:9999999',
+            'note' => 'nullable|string|max:255',
+        ];
+        //dd($request->all());
+        $this->validate($request, $validateRequest);
+
+        $transaction->operation = $this->processOperation($request->input('code'));
+        $transaction->user_id = $request->input('user_id');
+        $transaction->amount = (int)$request->input('amount');
+        $transaction->note = $request->input('note');
+
+        $result = $transaction->save();
+        if($result){
+            Session::flash('flash_message', "Transaction " .$transaction->id. " successfully updated");
+        }
+        return $this->index();
     }
 
     /**
@@ -117,7 +140,11 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        $result = $transaction->delete();
+        if($result){
+            Session::flash('flash_message', "Transaction ID: " .$transaction->id. " successfully deleted");
+        }
+        return redirect()->back();
     }
 
     /**
@@ -150,6 +177,30 @@ class TransactionController extends Controller
                 return $value;
             }
         }
+    }
+
+    public function custom()
+    {
+
+    }
+
+    public function verifyMovements(Request $request)
+    {
+        $counter = 0;
+        foreach($request->input() as $key => $value)
+        {
+            if(is_numeric($key) && $value == "on"){
+                Transaction::where('id', $key)
+                    ->update([
+                        'verified' => 1,
+                        'verified_by' => Auth::user()->name,
+                        'verified_at' => Carbon::now(),
+                    ]);
+                $counter++;
+            }
+        }
+        Session::flash('flash_message', "Successfully verified ".$counter. " record/s");
+        return $this->index();
     }
 
 }

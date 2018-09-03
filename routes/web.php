@@ -8,7 +8,7 @@ Auth::routes();
 
 Route::get('/dashboard', function (){ return view('dashboard/index');})->name('dashboard.index');
 
-Route::get('/', 'PostController@index')->name('home');
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('home');
 
 Route::resource('users', 'UserController');
 
@@ -36,6 +36,8 @@ Route::get('transactions/{id}/bank', 'TransactionController@showBankTransactions
 
 Route::get('transactions/{id}/add', 'TransactionController@addMovement')->name('transactions.add');
 
+Route::post('transactions/verify', 'TransactionController@verifyMovements')->name('transactions.verify');
+
 Route::resource('transactions', 'TransactionController');
 
 Route::resource('signups', 'SignupController');
@@ -46,6 +48,12 @@ Route::post('signups/{signup}/status', 'SignupController@status')->name('signups
 
 Route::get('attendances/{event}/signups', 'AttendanceController@displayEventSignups')->name('attendances.displaySignups');
 
+Route::post('goldtracks/verify', 'GoldtrackController@verifyMovements')->name('goldtracks.verify');
+
+Route::resource('goldtracks', 'GoldtrackController');
+
 Route::resource('attendances', 'AttendanceController');
 
 Route::resource('balances', 'BalanceController');
+
+Route::resource('pricelists', 'PricelistController');
