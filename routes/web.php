@@ -6,7 +6,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', function (){ return view('dashboard/index');})->name('dashboard.index');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('home');
 

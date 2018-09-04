@@ -126,7 +126,7 @@ return [
 
     'advertisers' => 'Manager|Admin|Accountant|Secretary|Advertiser',
 
-    'collectors' => 'Manager|Admin|Accountant|Secretary|TeamLeader|Collector',
+    'collectors' => 'Manager|Admin|Accountant|Secretary|TeamLeader|Advertiser|Collector',
 
     'members' => 'Manager|Admin|Accountant|Secretary|Collector|Member'
 

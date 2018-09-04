@@ -17,6 +17,7 @@ class CreateGoldtracksTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('booking_id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('event_id');
             $table->integer('amount');
             $table->tinyInteger('code');
             $table->boolean('verified');
@@ -33,6 +34,11 @@ class CreateGoldtracksTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade');
+
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
                 ->onUpdate('cascade');
         });
     }

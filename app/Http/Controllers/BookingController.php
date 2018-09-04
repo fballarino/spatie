@@ -76,6 +76,7 @@ class BookingController extends Controller
         if((int)$request->input('fpaid')){
             $goldtrack = new Goldtrack;
             $goldtrack->booking_id = $newBooking->id;
+            $goldtrack->event_id = $request->input('event_id');
             $goldtrack->user_id = Auth::user()->id;
             $goldtrack->amount = ($request->input('price')-$request->input('fee'));
             $goldtrack->code = 1;
@@ -149,6 +150,7 @@ class BookingController extends Controller
             if($goldtrack == null){
                 $goldtrack = new Goldtrack;
                 $goldtrack->booking_id = $id;
+                $goldtrack->event_id = $request->input('event_id');
                 $goldtrack->user_id = Auth::user()->id;
                 $goldtrack->amount = ($request->input('price')-$request->input('fee'));
                 $goldtrack->code = 1;

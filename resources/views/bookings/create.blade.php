@@ -62,7 +62,7 @@
                 <label for="price"><h6><b>Price *</b></h6></label>
                 <input name="price" value="{{old('price')}}" id="" class="form-control" />
             </div>
-            <div class="col-1">
+            <div class="col-2">
                 <label for="fee"><h6><b>Fee</b></h6></label>
                 <input name="fee" value="{{ (old('fee'))? old('fee') : ""}}" id="" value="0" class="form-control" />
             </div>

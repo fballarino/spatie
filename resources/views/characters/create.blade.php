@@ -52,11 +52,6 @@
                     <select name="mainspec" id="B" class="form-control">
                     </select>
                 </div>
-                <div class="col-3 form-group">
-                    <label for="offspec"><h6><b>Off Spec</b></h6></label>
-                    <select name="offspec" id="C" class="form-control">
-                    </select>
-                </div>
             </div>
             <div class="row">
                 <div class="col-6">

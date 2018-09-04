@@ -89,7 +89,7 @@ class SignupController extends Controller
         ($date = Carbon::parse($eventdate));
         //dd($datenow = ((Carbon::now()->dayOfWeek) % 7)+1);
         $cookieExpire = ($date->diffInMinutes(Carbon::now())+240);
-        Cookie::queue('CookieEvent'.$request->input('event_id'), 'event'.$request->input('event_id'), $cookieExpire);
+        Cookie::queue(Auth::user()->id.'/CookieEvent/'.$request->input('event_id'), 'event'.$request->input('event_id'), $cookieExpire);
 
 
         return redirect()->to('events');
@@ -154,7 +154,7 @@ class SignupController extends Controller
 
             Session::flash('flash_message', "Successfully canceled the sign-up!");
             Cookie::queue(
-                Cookie::forget('CookieEvent'.$remBoosterEvent->id)
+                Cookie::forget(Auth::user()->id.'/CookieEvent/'.$remBoosterEvent->id)
             );
             return redirect()->to('events');
         }

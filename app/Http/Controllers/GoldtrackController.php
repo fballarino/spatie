@@ -24,7 +24,7 @@ class GoldtrackController extends Controller
      */
     public function index()
     {
-        $goldtracks = Goldtrack::with(['user', 'booking'])
+        $goldtracks = Goldtrack::with(['user', 'booking', 'event'])
             ->limit(200)
             ->orderBy('created_at', 'desc')
             ->get();

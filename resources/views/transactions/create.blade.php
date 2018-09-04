@@ -1,29 +1,18 @@
 @extends('layouts.app')
 @section('title',"Banks Management")
-<?php
-use Akaunting\Money\Currency;
-use Akaunting\Money\Money;
-?>
-@section('css')
-    <link href="{{ url('/css/banks.css') }}" rel="stylesheet">
-@stop
 @section('content')
-    <div class="container">
-        @component('components.accountant')
-        @endcomponent
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col-10 border bg-primary text-white">
-                <h5 class="mt-2">Generating a Bank movement</h5>
-            </div>
-            <div class="col-1"></div>
-        </div>
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <hr>
-            </div>
-            <div class="col-2"></div>
+<div class="container">
+    <div class="card">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{route('banks.index')}}">Banks</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Create Transaction</li>
+            </ol>
+        </nav>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text"></p>
         </div>
         <div class="row">
             <div class="col-2"></div>
@@ -78,7 +67,12 @@ use Akaunting\Money\Money;
                 </form>
             </div>
             <div class="col-2"></div>
+            </div>
+            <div class="card-footer text-muted">
+                {{ \Illuminate\Support\Facades\Auth::user()->name }}
+            </div>
         </div>
+</div>
         @stop
         @section('javascript')
             @parent

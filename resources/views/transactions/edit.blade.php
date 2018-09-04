@@ -1,21 +1,20 @@
 @extends('layouts.app')
-@section('title',"Banks Management")
-<?php
-use Akaunting\Money\Currency;
-use Akaunting\Money\Money;
-?>
-@section('css')
-    <link href="{{ url('/css/banks.css') }}" rel="stylesheet">
-@stop
+@section('title',"Edit Transaction")
+
 @section('content')
     <div class="container">
-        @component('components.accountant')
-        @endcomponent
-            <div class="card card-header">
+        <div class="card">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('transactions.index')}}">Transactions</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Editing Transaction</li>
+                </ol>
+            </nav>
                 <div class="card-body">
-                    <h5 class="card-title">Displaying Transaction # {{$transaction->id}}</h5>
-                    <hr>
-                    <p class="card-text">
+                    <h5 class="card-title">Editing Transaction # {{$transaction->id}}</h5>
+
+                    <p class="card-text"></p>
                         <form action="{{route('transactions.update', $transaction->id)}}" class="form-group" method="post">
                             {{ csrf_field() }}
                             {{ method_field('PATCH') }}
@@ -79,16 +78,14 @@ use Akaunting\Money\Money;
                                 </div>
                     </form>
                 </div>
-
-                    </p>
-                    <button onclick="goBack()" class="btn btn-primary">Back</button>
-            </div>
+                <button onclick="goBack()" class="btn btn-primary">Back</button><p></p>
             <div class="card-footer text-muted">
                 @if($transaction->verified)
                     <p class="text-info">Transaction verified by <b>{{ $transaction->verified_by }}</b> on
-                    <b>{{ \Carbon\Carbon::parse($transaction->verified_at)->format('d M Y H:i') }}</b></p>
+                        <b>{{ \Carbon\Carbon::parse($transaction->verified_at)->format('d M Y H:i') }}</b></p>
                 @endif
             </div>
+        </div>
     </div>
 @stop
 @section('javascript')

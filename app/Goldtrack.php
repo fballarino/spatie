@@ -19,4 +19,8 @@ class Goldtrack extends Model
         return $this->belongsTo('App\Booking');
     }
 
+    public function event(){
+        return $this->belongsTo('App\Event');
+    }
+
 }

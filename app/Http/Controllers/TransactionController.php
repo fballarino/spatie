@@ -56,7 +56,7 @@ class TransactionController extends Controller
 
         $validateRequest = [
             'code' => 'required|integer',
-            'user_id' => 'required|integer',
+            'recipient' => 'required|integer',
             'amount' => 'integer|min:-9999999|max:9999999',
             'note' => 'nullable|string|max:255',
         ];
