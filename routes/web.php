@@ -57,3 +57,5 @@ Route::resource('attendances', 'AttendanceController');
 Route::resource('balances', 'BalanceController');
 
 Route::resource('pricelists', 'PricelistController');
+
+Route::resource('teams', 'TeamController');

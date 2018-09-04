@@ -43,10 +43,21 @@
                     Dashboard
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{route('balances.index')}}">Attendance</a>
-                    <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
+                    <a class="dropdown-item" href="{{route('characters.index')}}">Characters</a>
                     <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
+                    <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
+                    @hasrole(config('globals.executives'))
                     <a class="dropdown-item" href="{{route('pricelists.index')}}">Pricing</a>
+                    @endhasrole
+                    @hasrole(config('globals.attendances'))
+                    <a class="dropdown-item" href="{{route('attendances.index')}}">Attendances</a>
+                    @endhasrole
+                    @hasrole(config('globals.executives'))
+                        <a class="dropdown-item" href="{{route('teams.index')}}">Teams</a>
+                        <a class="dropdown-item" href="{{route('users.index')}}">Users</a>
+                        <a class="dropdown-item" href="{{route('roles.index')}}">Roles</a>
+                        <a class="dropdown-item" href="{{route('permissions.index')}}">Permissions</a>
+                    @endhasrole
                 </div>
             </li>
             @endif

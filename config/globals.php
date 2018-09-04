@@ -124,6 +124,8 @@ return [
 
     'accountants' => 'Manager|Admin|Accountant|Secretary|',
 
+    'attendances' => 'Manager|Admin|Accountant|Secretary|Attendance',
+
     'advertisers' => 'Manager|Admin|Accountant|Secretary|Advertiser',
 
     'collectors' => 'Manager|Admin|Accountant|Secretary|TeamLeader|Advertiser|Collector',

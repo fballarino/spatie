@@ -16,4 +16,8 @@ class Article extends Model
     public function pricelists(){
         return $this->hasMany('App\Pricelist');
     }
+
+    public function teams(){
+        return $this->hasMany('App\Team');
+    }
 }
