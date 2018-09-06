@@ -24,6 +24,14 @@ class TeamMiddleware {
             }
         }
 
+        if ($request->is('teams/*')) {
+            if (!Auth::user()->hasPermissionTo('Team View')) {
+                abort('401');
+            } else {
+                return $next($request);
+            }
+        }
+
         if ($request->is('teams/create')) {
             if (!Auth::user()->hasPermissionTo('Team Create')) {
                 abort('401');

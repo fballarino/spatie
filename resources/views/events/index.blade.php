@@ -98,20 +98,9 @@
                                 @endhasrole
                                 <td>{{ $event->status }}</td>
                                 <td>
-                                    {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['events.destroy', $event->id] ]) !!}
                                     @hasrole(config('globals.managers'))
-                                    <div class="form-group">
                                         <a href="{{ route('events.edit', $event->id) }}" ><i class="fas fa-edit fa-lg"></i></a>
-                                    </div>
                                     @endhasrole
-                                    @hasrole(config('globals.executives'))
-                                    <div class="form-group">
-                                        <div class="input-bar-item">
-                                            <button class="btn btn-light"><i class="fas fa-trash fa-lg"></i></button>
-                                        </div>
-                                    </div>
-                                    @endhasrole
-                                    {!! Form::close() !!}
                                 </td>
                             </tr>
                         @endforeach

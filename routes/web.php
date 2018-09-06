@@ -59,3 +59,7 @@ Route::resource('balances', 'BalanceController');
 Route::resource('pricelists', 'PricelistController');
 
 Route::resource('teams', 'TeamController');
+
+Route::resource('teamsignups', 'TeamSignupController');
+
+Route::resource('tools/evntmngr', 'ManagerEventController');

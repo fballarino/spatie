@@ -37,29 +37,44 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             @if (!Auth::guest())
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"
-                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dashboard
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{route('characters.index')}}">Characters</a>
-                    <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
-                    <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
-                    @hasrole(config('globals.executives'))
-                    <a class="dropdown-item" href="{{route('pricelists.index')}}">Pricing</a>
-                    @endhasrole
-                    @hasrole(config('globals.attendances'))
-                    <a class="dropdown-item" href="{{route('attendances.index')}}">Attendances</a>
-                    @endhasrole
-                    @hasrole(config('globals.executives'))
-                        <a class="dropdown-item" href="{{route('teams.index')}}">Teams</a>
-                        <a class="dropdown-item" href="{{route('users.index')}}">Users</a>
-                        <a class="dropdown-item" href="{{route('roles.index')}}">Roles</a>
-                        <a class="dropdown-item" href="{{route('permissions.index')}}">Permissions</a>
-                    @endhasrole
-                </div>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dashboard
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{route('characters.index')}}">Characters</a>
+                        <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
+                        <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
+                        <a class="dropdown-item" href="{{route('teamsignups.index')}}">Teams Signups</a>
+                    </div>
+                </li>
+            @endif
+            @if (!Auth::guest())
+                @hasrole(config('globals.collectors'))
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Admin Tools
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{route('goldtracks.index')}}">Goldtrack</a>
+                @endhasrole
+                       @hasrole(config('globals.executives'))
+                           <a class="dropdown-item" href="{{route('pricelists.index')}}">Pricing</a>
+                       @endhasrole
+                       @hasrole(config('globals.attendances'))
+                            <a class="dropdown-item" href="{{route('attendances.index')}}">Attendances</a>
+                       @endhasrole
+                       @hasrole(config('globals.executives'))
+                            <a class="dropdown-item" href="{{route('evntmngr.index')}}">Manage Events</a>
+                            <a class="dropdown-item" href="{{route('teams.index')}}">Teams</a>
+                            <a class="dropdown-item" href="{{route('users.index')}}">Users</a>
+                            <a class="dropdown-item" href="{{route('roles.index')}}">Roles</a>
+                            <a class="dropdown-item" href="{{route('permissions.index')}}">Permissions</a>
+                       @endhasrole
+                    </div>
+                </li>
             @endif
         </ul>
         <div class="btn-group dropleft">

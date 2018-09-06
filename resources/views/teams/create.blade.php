@@ -21,18 +21,57 @@
                         {{ csrf_field() }}
                         <div class="container">
                             <div class="row">
-                                <div class="col-5">
+                                <div class="col-6">
                                     <label for="article_id" class=""><h6>Article</h6></label>
                                     <select name="article_id" class="form-control">
                                         <option value="" selected>Select...</option>
                                         @foreach($articles as $article)
-                                            <option value="{{ $article->id }}" >{{ $article->description }}</option>
+                                            <option value="{{ $article->id }}" >{{ $article->code }}-{{ $article->description }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-5">
-                                    <label for="name" class=""><h6>Name</h6></label>
-                                        <input type="text" name="name" value="{{ old('name') }}" class="form-control">
+                            </div>
+                            <p></p>
+                            <div class="row">
+                                <div class="col-2">
+                                    <label for="name1" class=""><h6>Name</h6></label>
+                                    <input type="text" name="name1" readonly value="Team" class="form-control">
+                                </div>
+                                <div class="col-2">
+                                    <label for="name1" class=""><h6>&nbsp;</h6></label>
+                                    <select name="name2" class="form-control">
+                                        <option value="" selected>Select...</option>
+                                        @foreach(config('globals.colors') as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <label for="name1" class=""><h6>&nbsp;</h6></label>
+                                    <select name="name3" class="form-control">
+                                        <option value="" selected>Select...</option>
+                                        @foreach(config('globals.days') as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <label for="name1" class=""><h6>&nbsp;</h6></label>
+                                    <select name="name4" class="form-control">
+                                        <option value="" selected>Select...</option>
+                                        @foreach(config('globals.hours') as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <label for="name1" class=""><h6>&nbsp;</h6></label>
+                                    <select name="name5" class="form-control">
+                                        <option value="" selected>Select...</option>
+                                        @foreach(config('globals.minutes') as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <p></p>
@@ -57,10 +96,10 @@
                             <p></p>
                             <div class="row">
                                 <div class="col-5">
-                                    <label for="description" class=""><h6><b>Comments</b></h6></label>
+                                    <label for="description" class=""><h6>Comments</h6></label>
                                     <textarea rows="5" cols="15" name="description"
                                               placeholder="Additional Info" class="form-control">
-                                              {{ old('description') }}"</textarea>
+                                              {{ old('description') }}</textarea>
                                 </div>
                                 <div class="col-3 form-inline">
                                     <p></p>

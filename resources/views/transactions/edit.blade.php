@@ -71,7 +71,6 @@
                                                 <li class="list-group-item">Select Oblivion Community for all movements apart from Booster Payment,
                                                     where you have to select the recipient of the amount</li>
                                                 <li class="list-group-item">Input negative amount for gold outbound, positive for inbound</li>
-                                                <li class="list-group-item">Vestibulum at eros</li>
                                             </ul>
                                         </div>
                                     </div>

@@ -33,6 +33,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Character');
     }
 
+    public function events(){
+        return $this->hasMany('App\Event');
+    }
+
     public function goldtracks(){
         return $this->hasMany('App\Goldtrack');
     }
@@ -51,6 +55,10 @@ class User extends Authenticatable
 
     public function goldtrackDeposits(){
         return $this->hasMany('App\Transaction','operator_id');
+    }
+
+    public function teamsignups(){
+        return $this->hasMany('App\TeamSignup');
     }
 
 

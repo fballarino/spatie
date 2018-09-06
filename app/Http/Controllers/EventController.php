@@ -34,7 +34,7 @@ class EventController extends Controller
     public function index()
     {
         $allEvents = Event::where('visible_at','<=', Carbon::now())
-                        ->where('run_at', '>=', Carbon::now())
+                        ->where('run_at', '>=', Carbon::now()->subHours(24))
                         ->get();
         $allUsers = User::all('id', 'name');
         return view('events.index', compact('allEvents', 'allUsers'));
@@ -75,6 +75,8 @@ class EventController extends Controller
         $newEvent->leader_cut = request()->input('leader_cut');
         $newEvent->status = $this->arrayStatuses[0];
         $newEvent->user_id = Auth::user()->id;
+        $newEvent->buyers_booked = 0;
+        $newEvent->boosters_booked = 0;
         $newEvent->save();
 
         return redirect()->route('events.index')
@@ -135,9 +137,17 @@ class EventController extends Controller
         return $this->index();
     }
 
-    public function destroy($id)
+    public function destroy(Event $event)
     {
-        //
+        try{
+            $event->delete();
+            return redirect()->to('tools/evntmngr')
+                ->with('flash_message', 'Event '.$event->name. ' deleted successfully' );
+        }
+        catch(\Exception $e){
+            return redirect()->to('tools/evntmngr')
+                ->with('flash_message', 'Event '.$event->name. '  was not deleted' );
+        }
     }
 
     protected function parseDate($dateToProcess)

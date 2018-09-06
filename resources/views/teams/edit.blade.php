@@ -68,8 +68,9 @@
                                 </div>
                                 <div class="col-3 form-inline">
                                     <p></p>
+                    </form>
                                     <button role="submit" name="submit" class="btn btn-outline-primary">Update Team</button>
-                                    <form action="{{route('teams.update', $team->id)}}" method="post">
+                                    <form action="{{route('teams.destroy', $team->id)}}" method="post">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button role="submit" name="submit" class="btn btn-outline-danger">Delete Team</button>
@@ -77,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+
                 </div>
                 <div class="col-2"></div>
             </div>

@@ -1,73 +1,85 @@
 @extends('layouts.app')
-@section('title', '| Create New Event')
+@section('title', 'Create New Event')
 @section('content')
-    <div class="container">
-        <div class="row">
-            <h3><i class="fas fa-calendar-alt"></i>
-                <a href="{{ route('dashboard.index') }}">Dashboard </a>/
-                <a href="{{ route('events.index') }}"> Events</a> / Creating Event</h3>
-            <hr>
-        </div>
-        <hr>
-        <form action="{{ route('events.store') }}" class="form-group" method="post">
-            {{ csrf_field() }}
-            <div class="row">
-                <div class="col-3 form-group">
-                    <label for="product_name"><h6><b>Product</b></h6></label>
+<div class="container">
+    <div class="card">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{route('events.index')}}">Events</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Create Event</li>
+            </ol>
+        </nav>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text"></p>
+            <form action="{{ route('events.store') }}" class="form-group" method="post">
+                {{ csrf_field() }}
+                <div class="row">
+                    <div class="col-3 form-group">
+                        <label for="product_name"><h6>Product</h6></label>
                         <select id='A' name="product_name" class="form-control">
                             <option value="">Select...</option>
                             @foreach($eventDiff as $key => $value)
                                 <option value="{{$key}}">{{$key}}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label for="difficulty"><h6>Difficulty</h6></label>
+                        <select id='B' name="difficulty" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label for="buyers"><h6>Buyers Slots</h6></label>
+                        <input name="buyers" id="buyers" class="form-control" />
+                    </div>
+                    <div class="col-2 form-group">
+                        <label for="boosters"><h6>Boosters Slots</h6></label>
+                        <input name="boosters" id="boosters" class="form-control" />
+                    </div>
                 </div>
-                <div class="col-2 form-group">
-                    <label for="difficulty"><h6><b>Difficulty</b></h6></label>
-                    <select id='B' name="difficulty" class="form-control">
-                    </select>
+                <div class="row">
+                    <div class="col-3 form-group">
+                        <label for="run_at"><h6>Event Date</h6></label>
+                        <input name="run_at" id="input" class="form-control" />
+                    </div>
+                    <div class="col-3 form-group">
+                        <label for="visible_at"><h6>Show Event on</h6></label>
+                        <input name="visible_at" id="input2" class="form-control"
+                               value="{{\Carbon\Carbon::parse(\Carbon\Carbon::now())->format('H:i m/d/Y')}}"/>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label for="overbooking"><h6>Overbooking</h6></label>
+                        <select name="overbooking" class="form-control">
+                            <option value="0" selected>No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label for="leader_cut"><h6>Leader Cut</h6></label>
+                        <input name="leader_cut" id="input2" class="form-control" />
+                    </div>
                 </div>
-                <div class="col-2 form-group">
-                    <label for="buyers"><h6><b>Buyers Slots</b></h6></label>
-                    <input name="buyers" id="buyers" class="form-control" />
+                <div class="row">
+                    <div class="col-3">
+                        <label for="note"><h6>Info</h6></label>
+                        <textarea rows="6" cols="80" name="note" id="note" class="form-control"
+                                  placeholder="Notes..."></textarea>
+                    </div>
+                    <div class="col-2 form-inline">
+                        {{ Form::button('Create',  ['type' => 'submit', 'class' => 'btn btn-outline-primary']) }}
+                    </div>
                 </div>
-                <div class="col-2 form-group">
-                    <label for="boosters"><h6><b>Boosters Slots</b></h6></label>
-                    <input name="boosters" id="boosters" class="form-control" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3 form-group">
-                    <label for="run_at"><h6><b>Event Date</b></h6></label>
-                    <input name="run_at" id="input" class="form-control" />
-                </div>
-                <div class="col-3 form-group">
-                    <label for="visible_at"><h6><b>Show Event on</b></h6></label>
-                    <input name="visible_at" id="input2" class="form-control"
-                    value="{{\Carbon\Carbon::parse(\Carbon\Carbon::now())->format('H:i m/d/Y')}}"/>
-                </div>
-                <div class="col-2 form-group">
-                    <label for="overbooking"><h6><b>Overbooking</b></h6></label>
-                    <select name="overbooking" class="form-control">
-                        <option value="0" selected>No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                </div>
-                <div class="col-2 form-group">
-                    <label for="leader_cut"><h6><b>Leader Cut</b></h6></label>
-                    <input name="leader_cut" id="input2" class="form-control" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <label for="note"><h6><b>Info</b></h6></label>
-                    <textarea name="note" id="note" class="form-control" placeholder="notes..."></textarea>
-                </div>
-                <div class="col-2">
-                    {{ Form::button('Create',  ['type' => 'submit', 'class' => 'btn btn-default btn-sm']) }}
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <div class="col-2"></div>
+        <div class="card-footer text-muted">
+            {{ \Illuminate\Support\Facades\Auth::user()->name }}
+        </div>
     </div>
+</div>
+
 @stop
 @section('javascript')
     @parent

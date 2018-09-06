@@ -88,6 +88,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-4">
+                <div class="card border-light mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-piggy-bank fa-2x"></i>
+                        <a href="#" class="card-link">Teams</a></div>
+                    <div class="card-body">
+                        <h6 class="card-title"></h6>
+                        <ul class="list-group list-group-flush">
+                            @foreach($characters_array as $single_character)
+                                @foreach($single_character->teams as $team)
+                                <li class="list-group-item">
+                                    <a href="{{ route('teams.show',$team->id) }}" class="card-link">
+                                        {{$single_character->name}}-{{$single_character->realm}} /
+                                        {{$team->name}}</a></li>
+                                @endforeach
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
             @hasrole(config('globals.accountants'))
             <div class="col-4">
                 <div class="card border-light mb-3">

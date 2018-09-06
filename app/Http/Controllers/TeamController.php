@@ -44,7 +44,11 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required|string|min:10|max:128',
+            'name1'        => 'required|string',
+            'name2'        => 'required|string',
+            'name3'        => 'required|string',
+            'name4'        => 'required',
+            'name5'        => 'required',
             'tank'        => 'required|integer|min:1|max:2',
             'healer'      => 'required|integer|min:3|max:6',
             'mdps'        => 'required|integer|min:4|max:11',
@@ -52,18 +56,28 @@ class TeamController extends Controller
             'description' => 'nullable|string|max:255'
         ]);
 
-        $team = new Team;
-        $team->name = $request->input('name');
-        $team->article_id = $request->input('article_id');
-        $team->tank = $request->input('tank');
-        $team->healer = $request->input('healer');
-        $team->mdps = $request->input('mdps');
-        $team->rdps = $request->input('rdps');
-        $team->description = $request->input('description');
-        $team->save();
+        try{
+            $team = new Team;
+            $team->name = ($request->input('name1')." ".
+                $request->input('name2')." ".
+                $request->input('name3')." ".
+                $request->input('name4').":".
+                $request->input('name5'));
+            $team->article_id = $request->input('article_id');
+            $team->tank = $request->input('tank');
+            $team->healer = $request->input('healer');
+            $team->mdps = $request->input('mdps');
+            $team->rdps = $request->input('rdps');
+            $team->description = $request->input('description');
+            $team->save();
 
-        return redirect()->to('teams')
-            ->with('flash_message', 'Team '.$request->input('name').' created successfully' );
+            return redirect()->to('teams')
+                ->with('flash_message', 'Team '.$request->input('name').' created successfully' );
+        }
+        catch(\Exception $e){
+            return redirect()->to('teams/create')
+                ->with('flash_message', 'Team '.$request->input('name').' duplicated found, not created' );
+        }
     }
 
     /**
@@ -74,7 +88,9 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
+        $team_data = Team::with('characters')->find($team->id);
+        //dd($team_data);
+        return view('teams.show', compact('team_data'));
     }
 
     /**
@@ -99,7 +115,7 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $request->validate([
-            'name'        => 'required|string|min:10|max:128',
+            'name'        => 'required|string',
             'tank'        => 'required|integer|min:1|max:2',
             'healer'      => 'required|integer|min:3|max:6',
             'mdps'        => 'required|integer|min:4|max:11',
@@ -107,17 +123,23 @@ class TeamController extends Controller
             'description' => 'nullable|string|max:255'
         ]);
 
-        $team->name = $request->input('name');
-        $team->article_id = $request->input('article_id');
-        $team->tank = $request->input('tank');
-        $team->healer = $request->input('healer');
-        $team->mdps = $request->input('mdps');
-        $team->rdps = $request->input('rdps');
-        $team->description = $request->input('description');
-        $team->save();
+        try{
+            $team->name = $request->input('name');
+            $team->article_id = $request->input('article_id');
+            $team->tank = $request->input('tank');
+            $team->healer = $request->input('healer');
+            $team->mdps = $request->input('mdps');
+            $team->rdps = $request->input('rdps');
+            $team->description = $request->input('description');
+            $team->save();
 
-        return redirect()->to('teams')
-            ->with('flash_message', 'Team '.$request->input('name').' updated successfully' );
+            return redirect()->to('teams')
+                ->with('flash_message', 'Team '.$request->input('name').' updated successfully' );
+        }
+        catch(\Exception $e){
+            return redirect()->to('teams/create')
+                ->with('flash_message', 'Team '.$request->input('name').' could not be updated!' );
+        }
     }
 
     /**

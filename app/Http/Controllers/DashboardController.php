@@ -42,11 +42,23 @@ class DashboardController extends Controller
             ->where('user_id', Auth::user()->id)
             ->sum('fee');
 
+        $characters_array = Character::with('teams')
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
         $earned = ($attendances->sum('cut')+$attendances->sum('leader_cut'));
         $paid = abs($payments->sum('amount'));
         $balance = $earned-$paid;
 
-        return view('dashboard.indexnew', compact('characters', 'signups', 'attendances', 'balance', 'fees'));
+        /*
+        foreach($characters_array as $single_character){
+            foreach($single_character->teams as $team){
+                echo $single_character->name . $team->name;
+            };
+        }*/
+
+        return view('dashboard.indexnew', compact('characters', 'signups',
+           'attendances', 'balance', 'fees', 'characters_array'));
 
 
     }

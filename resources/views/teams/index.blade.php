@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('title',"Teams Management")
 @section('content')
-    <div class="container">
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
         <div class="card">
             <div>
                 <nav aria-label="breadcrumb">
@@ -16,9 +19,6 @@
                 <p class="card-text"></p>
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('goldtracks.verify') }}" method="post">
-                            {{csrf_field()}}
-                            {{method_field('POST')}}
                             <table class="" id="teamsDataTable">
                                 <thead class="">
                                 <th>Team ID</th>
@@ -45,9 +45,10 @@
                                         <td>{{ \Carbon\Carbon::parse($team->created_at)->format('d M Y H:i') }}</td>
                                         <td>
                                             @hasrole(config('globals.collectors'))
+                                                <a href="{{route('teams.show', $team->id)}}">
                                                 <i class="far fa-eye fa-lg"></i></a>
                                                 <a href="{{route('teams.edit', $team->id)}}">
-                                                    <i class="far fa-edit fa-lg"></i></a>
+                                                <i class="far fa-edit fa-lg"></i></a>
                                             @endhasrole
                                         </td>
                                     </tr>
@@ -63,8 +64,6 @@
                                 </tr>
                                 </tfoot>
                             </table>
-
-                        </form>
                     </div>
                 </div>
                 @hasrole(config('globals.executives'))
@@ -76,6 +75,9 @@
             </div>
         </div>
     </div>
+    <div class="col-1"></div>
+    </div>
+</div>
 @stop
 @section('javascript')
     @parent

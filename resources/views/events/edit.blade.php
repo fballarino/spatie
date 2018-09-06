@@ -1,13 +1,19 @@
 @extends('layouts.app')
 @section('title', '| Create New Event')
 @section('content')
-    <div class="container">
-        <div class="row">
-            <h3><i class="fas fa-calendar-alt"></i>
-                <a href="{{ route('dashboard.index') }}">Dashboard </a>/
-                <a href="{{ route('events.index') }}"> Events</a> / Event: {{$event->reference}}</h3>
-        </div>
-        <hr>
+<div class="container">
+    <div class="card">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{route('events.index')}}">Events</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editing {{$event->reference}}</li>
+            </ol>
+        </nav>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text"></p>
+
         {{-- Using the Laravel HTML Form Collective to create our form --}}
         {{ Form::model($event, array('route' => array('events.update', $event->id), 'method' => 'PUT')) }}
         {{ csrf_field() }}
@@ -58,16 +64,27 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 form-group">
                 <h6><b>{{ Form::label('note', 'Note') }}</b></h6>
-                {{ Form::textarea('note', null, array('class' => 'form-control',  'rows' => 2, 'cols' => 40)) }}
+                {{ Form::textarea('note', null, array('class' => 'form-control',  'rows' => 6, 'cols' => 80)) }}
             </div>
-            <div class="col-2">
-                {{ Form::button('Update',  ['type' => 'submit', 'class' => 'btn btn-default btn-sm']) }}
+            <div class="col-2 form-inline">
+                {{ Form::button('Update',  ['type' => 'submit', 'class' => 'btn btn-outline-primary']) }}
+                {{ Form::close() }}
+
+                {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['events.destroy', $event->id] ]) !!}
+                {{ Form::button('Delete',  ['type' => 'submit', 'class' => 'btn btn-outline-danger']) }}
+                {!! Form::close() !!}
             </div>
-            {{ Form::close() }}
+
+        </div>
+        </div>
+        <div class="col-2"></div>
+        <div class="card-footer text-muted">
+            {{ \Illuminate\Support\Facades\Auth::user()->name }}
         </div>
     </div>
+</div>
 @stop
 @section('javascript')
     @parent

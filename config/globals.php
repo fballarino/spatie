@@ -97,6 +97,51 @@ return [
         '2' => 'Partial',
     ],
 
+    'colors' => [
+        'Black'   => 'Black',
+        'Blue'    => 'Blue',
+        'Green'   => 'Green',
+        'Gold'    => 'Gold',
+        'Grey'    => 'Grey',
+        'Magenta' => 'Magenta',
+        'Orange'  => 'Orange',
+        'Purple'  => 'Purple',
+        'Red'     => 'Red',
+        'Violet'  => 'Violet',
+        'White'   => 'White',
+        'Yellow'  => 'Yellow',
+    ],
+
+    'days' => [
+        'Monday'    => 'Monday',
+        'Tuesday'   => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday'  => 'Thursday',
+        'Friday'    => 'Friday',
+        'Saturday'  => 'Saturday',
+        'Sunday'    => 'Sunday',
+    ],
+
+    'hours' => [
+        15 => 15,
+        16 => 16,
+        17 => 17,
+        18 => 18,
+        19 => 19,
+        20 => 20,
+        21 => 21,
+        22 => 22,
+        23 => 23,
+        '00' => '00',
+    ],
+
+    'minutes' => [
+        15   => 15,
+        30   => 30,
+        45   => 45,
+        '00' => '00',
+    ],
+
     'goldtrackStatuses' => [
         0 => null,
         1 => 'Placeholder 1',

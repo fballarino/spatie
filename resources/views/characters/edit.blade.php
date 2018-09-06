@@ -1,92 +1,89 @@
 @extends('layouts.app')
-@section('title', '| Create New Character')
+@section('title', 'Edit Character')
 
 @section('content')
-    <div class="container">
-        <!-- Main Navigation Bar -->
-        <div class="row">
-            <h3><i class="fas fa-calendar-alt"></i>
-                <a href="{{ route('dashboard.index') }}">Dashboard </a>/
-                <a href="{{ route('events.index') }}"> Events </a>/
-                <a href="{{ route('characters.index') }}"> Characters </a>
-            </h3>
-            <hr>
-        </div>
-        <div class="row border">
-            <div class="col-6">
-                <p><h5>Updating <b>Char Name Here</b></h5></p>
+<div class="container">
+    <div class="card">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{route('characters.index')}}">Characters</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Character</li>
+            </ol>
+        </nav>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text"></p>
+            {{ Form::model($character, array('route' => array('characters.update', $character->id), 'method' => 'PUT')) }}
+            {{ csrf_field() }}
+            <div class="row">
+                <div class="col-2">
+                    <label for="name"><h6>Name</h6></label>
+                    {{ Form::text('name', null, array('class' => 'form-control')) }}
+                </div>
+                <div class="col-3">
+                    <label for="realm"><h6>Realm</h6></label>
+                    {{ Form::text('realm', null, array('class' => 'form-control')) }}
+                </div>
+                <div class="col-2">
+                    <label for="main"><h6>Main Character</h6></label>
+                    {{Form::select('main', [ 0 => 'No', 1 => 'Yes'], $character->main,
+                                   ['class' => 'form-control'])}}
+                </div>
+                <div class="col-3">
+                </div>
             </div>
-        </div>
-        <hr>
-        <!-- Main Navigation Bar Ends Here -->
-
-        <!-- Laravel HTML Form Collective Model Binding -->
-        {{ Form::model($character, array('route' => array('characters.update', $character->id), 'method' => 'PUT')) }}
-        {{ csrf_field() }}
-        <div class="row">
-            <div class="col-2">
-                <label for="name"><h6><b>Name</b></h6></label>
-                {{ Form::text('name', null, array('class' => 'form-control')) }}
-            </div>
-            <div class="col-3">
-                <label for="realm"><h6><b>Realm</b></h6></label>
-                {{ Form::text('realm', null, array('class' => 'form-control')) }}
-            </div>
-            <div class="col-2">
-                <label for="main"><h6><b>Main Character</b></h6></label>
-                {{Form::select('main', [ 0 => 'No', 1 => 'Yes'], $character->main,
-                               ['class' => 'form-control'])}}
-            </div>
-            <div class="col-3">
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-2 form-group">
-                <label for="class"><h6><b>Class</b></h6></label>
-                <select name="class" id="A" class="form-control">
-                    <option value="{{$character->class}}">{{$character->class}}</option>
-                    @foreach($classSpec as $key => $value)
-                        @if($character->class != $key)
-                            <option value="{{$key}}">{{$key}}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
+            <br>
+            <div class="row">
+                <div class="col-2 form-group">
+                    <label for="class"><h6>Class</h6></label>
+                    <select name="class" id="A" class="form-control">
+                        <option value="{{$character->class}}">{{$character->class}}</option>
+                        @foreach($classSpec as $key => $value)
+                            @if($character->class != $key)
+                                <option value="{{$key}}">{{$key}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-3 form-group">
-                    <label for="mainspec"><h6><b>Main Spec</b></h6></label>
+                    <label for="mainspec"><h6>Main Spec</h6></label>
                     <select name="mainspec" id="B" class="form-control">
                     </select>
                 </div>
                 <div class="col-3 form-group">
-                    <label for="offspec"><h6><b>Off Spec</b></h6></label>
+                    <label for="offspec"><h6>Off Spec<</h6></label>
                     <select name="offspec" id="C" class="form-control">
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-6">
-                    <label for="wowprogress"><h6><b>Wowprogress</b></h6></label>
+                    <label for="wowprogress"><h6>Wowprogress</h6></label>
                     {{ Form::text('wowprogress', null, array('class' => 'form-control')) }}
                 </div>
                 <div class="col-2">
-                    <label for="gear"><h6><b>Item Level</b></h6></label>
+                    <label for="gear"><h6>Item Level</h6></label>
                     {{ Form::text('gear', null, array('class' => 'form-control w-50')) }}
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-1 form-inline">
-                    {{ Form::button('Edit', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+                    {{ Form::button('Update', ['type' => 'submit', 'class' => 'btn btn-outline-primary']) }}
+                    {{ Form::close() }}
                 </div>
                 <div class="col-1">
                 </div>
                 <div class="col-4">
                 </div>
             </div>
-        {{ Form::close() }}
-        <!-- End of Form -->
+        </div>
+        <div class="card-footer text-muted">
+            {{ \Illuminate\Support\Facades\Auth::user()->name }}
+        </div>
     </div>
+</div>
 
 @endsection
 @section('javascript')

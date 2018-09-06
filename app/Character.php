@@ -10,6 +10,10 @@ class Character extends Model
     use SoftDeletes;
 
     public function user(){
-        $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
+    }
+
+    public function teams(){
+        return $this->belongsToMany('App\Team')->withTimestamps();
     }
 }
