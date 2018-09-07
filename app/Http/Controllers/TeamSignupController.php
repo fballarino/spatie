@@ -63,22 +63,23 @@ class TeamSignupController extends Controller
         $teams= Input::get('team');
         $characters= Input::get('character');
         $parts= Input::get('part');
-        //dd($data = [$teams, $characters, $parts]);
-        //dd($characters);
+
         $data = [];
-        $result = count($characters);
-        for($counter = 1; $counter <= $result; $counter++){
-            if($characters[$counter] != 0){
+
+        //dd($characters);
+        foreach($characters as $key => $value){
+            if($value != 0){
                 $data[] = [
-                    'team_id' => $teams[$counter],
-                    'character_id' => $characters[$counter],
-                    'part' => $parts[$counter],
+                    'team_id' => $teams[$key],
+                    'character_id' => $value,
+                    'part' => $parts[$key],
                     'user_id' => Auth::user()->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
             }
         }
+
         foreach($data as $signup){
             //dd($signup);
             $result = DB::table('character_team')

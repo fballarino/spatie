@@ -37,7 +37,7 @@
                             @foreach($signups as $signup)
                                 @if($signup->event->run_at >= \Carbon\Carbon::now())
                                     <li class="list-group-item">
-                                    {{$signup->event->product_name}}-{{$signup->event->difficulty}}  /
+                                    {{$signup->event->reference}} /
                                     {{\Carbon\Carbon::parse($signup->event->run_at)->format('d M Y H:i')}}
                                     </li>
                                 @endif
