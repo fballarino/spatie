@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
 
     public function teamsignups(){
-        return $this->hasMany('App\TeamSignup');
+        return $this->hasMany('App\TeamSignup')->withTimestamps();
     }
 
 

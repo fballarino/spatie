@@ -28,7 +28,7 @@
                 <div class="card border-light mb-3">
                     <div class="card-header">
                         <i class="far fa-file-alt fa-2x"></i>
-                        <a href="#" class="card-link">Signups</a>
+                        <a href="{{route('signups.index')}}" class="card-link">Signups</a>
                     </div>
                     <div class="card-body text-dark">
                         <h7 class="card-title"></h7>

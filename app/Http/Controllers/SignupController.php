@@ -20,6 +20,9 @@ class SignupController extends Controller
 
     public function index()
     {
+        $signups_user = Signup::getSignupsUser();
+        //dd($signups_user);
+        return view('signups.index', compact('signups_user'));
 
     }
 

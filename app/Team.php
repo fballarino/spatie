@@ -16,4 +16,8 @@ class Team extends Model
     public function characters(){
         return $this->belongsToMany('App\Character')->withTimestamps()->withPivot('part');
     }
+
+    public function users(){
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
 }

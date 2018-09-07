@@ -79,8 +79,8 @@
         </ul>
         <div class="btn-group dropleft">
             @if (Auth::guest())
-                    <a class="nav-link" href="{{ route('login') }}">Login</a>
-                    <a class="nav-link" href="{{ route('register') }}">Register</a>
+                    <a class="text-white" href="{{ route('login') }}" ><h6>Login</h6></a>&nbsp;&nbsp;&nbsp;
+                    <a class="text-white" href="{{ route('register') }}" ><h6>Register</h6></a>
             @else
                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
