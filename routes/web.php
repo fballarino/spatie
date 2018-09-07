@@ -44,9 +44,13 @@ Route::resource('signups', 'SignupController');
 
 Route::get('signups/{event}/sign', 'SignupController@sign')->name('signups.sign');
 
+Route::get('signups/{event}/cancel', 'SignupController@cancel')->name('signups.cancel');
+
 Route::post('signups/{signup}/status', 'SignupController@status')->name('signups.status');
 
 Route::get('attendances/{event}/signups', 'AttendanceController@displayEventSignups')->name('attendances.displaySignups');
+
+Route::get('attendances/member', 'AttendanceController@memberDisplay')->name('attendances.member');
 
 Route::post('goldtracks/verify', 'GoldtrackController@verifyMovements')->name('goldtracks.verify');
 
@@ -63,3 +67,5 @@ Route::resource('teams', 'TeamController');
 Route::resource('teamsignups', 'TeamSignupController');
 
 Route::resource('tools/evntmngr', 'ManagerEventController');
+
+Route::resource('articles', 'ArticleController');

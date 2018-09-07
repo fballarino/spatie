@@ -20,4 +20,8 @@ class Article extends Model
     public function teams(){
         return $this->hasMany('App\Team');
     }
+
+    public function events(){
+        return $this->hasMany('App\Event');
+    }
 }

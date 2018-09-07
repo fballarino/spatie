@@ -1,7 +1,11 @@
 @extends('layouts.app')
+@section('title', 'Display Event')
 @section('content')
     <div class="container-fluid">
-        <div class="card">
+        <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="card">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Dashboard</a></li>
@@ -16,7 +20,6 @@
                     <table class="display nowrap" id="signupsTableData">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Character</th>
                             <th>Signed on:</th>
                             <th>Gear</th>
@@ -28,15 +31,11 @@
                                 Team Leader Choice
                                 @endhasrole
                             </th>
-                            <th>
-                                tbh
-                            </th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($signups as $signup)
                             <tr>
-                                <td>{{ $signup->id }}</td>
                                 <td>{{ $signup->name }}-{{ $signup->realm }}</td>
                                 <td>{{ \Carbon\Carbon::parse($signup->created_at)->format('d M Y H:i') }}</td>
                                 <td>{{ $signup->gear }}</td>
@@ -47,12 +46,9 @@
                                     @hasrole(config('globals.managers'))
                                     {{ Form::open(['method' => 'POST', 'class' =>'form-inline', 'route' => ['signups.status', $signup->id]]) }}
                                     {{ Form::select('status', config('globals.eventStatuses'), $signup->status ) }}
-                                    {{ Form::submit('Change') }}
+                                    &nbsp;<button type="submit" class="btn btn-secondary btn-sm"> Change</button>
                                     {{ Form::close() }}
                                     @endhasrole
-                                </td>
-                                <td>
-                                    tbh
                                 </td>
                             </tr>
                         @endforeach
@@ -64,7 +60,9 @@
                 {{ \Illuminate\Support\Facades\Auth::user()->name }}
             </div>
         </div>
-
+        </div>
+        <div class="col-1"></div>
+        </div>
     </div>
 @stop
 

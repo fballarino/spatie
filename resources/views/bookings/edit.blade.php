@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '| Create New Product')
+@section('title', 'Edit Booking')
 
 @section('content')
     <div class="container">
@@ -82,18 +82,38 @@
                         <h6><b>{{ Form::label('fpaid', 'Fully Paid') }}</b></h6>
                         {{ Form::select('fpaid', [0 => 'No', 1 => 'Yes'], null, array('class' => 'form-control')) }}
                     </div>
-                    <div class="col-1 form-inline">
-                        {{ Form::submit('Edit Booking', array('class' => 'btn btn-default')) }}
+                    <div class="col-2 form-inline">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-paperclip"> Update</i></button>
                         {{ Form::close() }}
+
+                        <form action="{{route('bookings.destroy', $booking->id)}}" method="post">
+                            {{csrf_field()}}
+                            {{method_field('DELETE')}}
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="fas fa-minus-circle fa-lg"></i> Delete</button>
+                        </form>
+                    </div>
+                    <div class="col-4">
+                        <div class="card bg-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">Instructions</div>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">Fields with * are mandatory</li>
+                                    <li class="list-group-item">Price and fee must be entered in the full format</li>
+                                    <li class="list-group-item">If you select fully paid that line goes straight
+                                        in the Goldtrack, use it carefully as you are responsible for that</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <button onclick="goBack()" class="btn btn-outline-primary">Back</button>
             </div>
             <div class="card-footer text-muted">
                 {{ \Illuminate\Support\Facades\Auth::user()->name }}
             </div>
         </div>
-
-
     </div>
 
 @endsection
@@ -121,5 +141,9 @@
             };
             A.onchange();
         })();
+
+        function goBack() {
+            window.history.back();
+        }
     </script>
 @stop

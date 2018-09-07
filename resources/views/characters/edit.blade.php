@@ -51,11 +51,6 @@
                     <select name="mainspec" id="B" class="form-control">
                     </select>
                 </div>
-                <div class="col-3 form-group">
-                    <label for="offspec"><h6>Off Spec<</h6></label>
-                    <select name="offspec" id="C" class="form-control">
-                    </select>
-                </div>
             </div>
             <div class="row">
                 <div class="col-6">
@@ -70,10 +65,15 @@
             <br>
             <div class="row">
                 <div class="col-1 form-inline">
-                    {{ Form::button('Update', ['type' => 'submit', 'class' => 'btn btn-outline-primary']) }}
+                    <button type="submit" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</button>
                     {{ Form::close() }}
                 </div>
-                <div class="col-1">
+                <div class="col-1 form-inline">
+                    @can('Character Delete')
+                        {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['characters.destroy', $character->id] ]) !!}
+                            <button type="submit" class="btn btn-outline-danger"><i class="far fa-times-circle"></i> Delete</button>
+                        {!! Form::close() !!}
+                    @endcan
                 </div>
                 <div class="col-4">
                 </div>

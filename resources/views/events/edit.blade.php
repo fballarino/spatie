@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '| Create New Event')
+@section('title', 'Editing Event')
 @section('content')
 <div class="container">
     <div class="card">
@@ -18,18 +18,9 @@
         {{ Form::model($event, array('route' => array('events.update', $event->id), 'method' => 'PUT')) }}
         {{ csrf_field() }}
         <div class="row">
-            <div class="col-3 form-group">
-                <label for="product_name"><h6><b>Product</b></h6></label>
-                <select id='A' name="product_name" class="form-control">
-                    <option value="{{$event->product_name}}">{{$event->product_name}}</option>
-
-                </select>
-            </div>
-            <div class="col-3 form-group">
-                    <label for="difficulty"><h6><b>Difficulty</b></h6></label>
-                    <select id='B' name="difficulty" class="form-control">
-                        <option value="{{$event->difficulty}}" selected>{{$event->difficulty}}</option>
-                    </select>
+            <div class="col-5 form-group">
+                <label for="article_id"><h6><b>Product</b></h6></label>
+                    {{ Form::select('article_id', $articles, null, array('class' => 'form-control')) }}
             </div>
             <div class="col-2 form-group">
                 <h6><b>{{ Form::label('buyers', 'Buyers Slots') }}</b></h6>
@@ -54,13 +45,21 @@
                 <input type="text" id="input2" class="form-control" name="visible_at" value="{{$dateTempOne}}">
             </div>
             <div class="col-2 form-group">
-                <label for="overbooking"><h6><b>Overbooking Allowed</b></h6></label>
+                <label for="overbooking"><h6><b>Overbooking</b></h6></label>
                 {{Form::select('overbooking', [ 0 => 'No', 1 => 'Yes'], $event->overbooking,
                                               ['class' => 'form-control'])}}
             </div>
             <div class="col-2 form-group">
                 <h6><b>{{ Form::label('status', 'Event Status') }}</b></h6>
-                {{ Form::select('status', $eventProgress, null, array('class' => 'form-control')) }}
+                <select name="status" id="" class="form-control">
+                    @foreach($eventProgress as $key => $value)
+                        @if($event->status == $value)
+                            <option value="{{$value}}" selected>{{$value}}</option>
+                        @else
+                            <option value="{{$value}}">{{$value}}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="row">
@@ -71,10 +70,12 @@
             <div class="col-2 form-inline">
                 {{ Form::button('Update',  ['type' => 'submit', 'class' => 'btn btn-outline-primary']) }}
                 {{ Form::close() }}
-
-                {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['events.destroy', $event->id] ]) !!}
-                {{ Form::button('Delete',  ['type' => 'submit', 'class' => 'btn btn-outline-danger']) }}
-                {!! Form::close() !!}
+                &nbsp;
+                @hasrole(config('globals.executives'))
+                    {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['events.destroy', $event->id] ]) !!}
+                    {{ Form::button('Delete',  ['type' => 'submit', 'class' => 'btn btn-outline-danger']) }}
+                    {!! Form::close() !!}
+                @endhasrole
             </div>
 
         </div>
@@ -94,50 +95,5 @@
             modal: true,
         });
         $('#input2').datetimepicker({ footer: true, modal: true });
-        var jArray = <?php echo json_encode($eventDifficulty); ?>;
-
-    (function() {
-    //setup an object fully of arrays
-    //alternatively it could be something like
-    //{"yes":[{value:sweet, text:Sweet}.....]}
-    //so you could set the label of the option tag something different than the name
-
-
-        var bOptions = <?php echo json_encode($eventDifficulty); ?>;
-        var currentDifficulty = <?php echo json_encode($event->difficulty); ?>;
-        //{
-            //"Uldir": ["Normal", "Heroic", "Mythic"],
-            //"Mythic Plus": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",],
-            //"Island Expedition": ["Normal", "Heroic", "Mythic"],
-        //};
-
-        var A = document.getElementById('A');
-        var B = document.getElementById('B');
-
-        //on change is a good event for this because you are guarenteed the value is different
-        A.onchange = function() {
-        //clear out B
-        B.length = 0;
-        //get the selected value from A
-        var _val = this.options[this.selectedIndex].value;
-        //loop through bOption at the selected value
-        for (var i in bOptions[_val]) {
-            //create option tag
-            var op = document.createElement('option');
-            //set its value
-            op.value = bOptions[_val][i];
-            //set the display label
-            op.text = bOptions[_val][i];
-            if(currentDifficulty == op.text){
-                op.setAttribute('selected', 'selected');
-            }
-            //append it to B
-            B.appendChild(op);
-        }
-    };
-    //fire this to update B on load
-    A.onchange();
-
-    })();
     </script>
 @stop

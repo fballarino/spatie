@@ -3,7 +3,6 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-1"></div>
             <div class="col-3">
                 <div class="card border-light mb-3">
                     <div class="card-header">
@@ -36,21 +35,23 @@
                         <p class="card-text">
                         <ul class="list-group list-group-flush">
                             @foreach($signups as $signup)
-                                <li class="list-group-item">
+                                @if($signup->event->run_at >= \Carbon\Carbon::now())
+                                    <li class="list-group-item">
                                     {{$signup->event->product_name}}-{{$signup->event->difficulty}}  /
                                     {{\Carbon\Carbon::parse($signup->event->run_at)->format('d M Y H:i')}}
-                                </li>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <div class="card border-light mb-3">
                     <div class="card-header">
                         <i class="fas fa-sitemap fa-2x"></i>
-                        <a href="#" class="card-link">Attendances</a>
+                        <a href="{{ route('attendances.member') }}" class="card-link">Attendance</a>
                     </div>
                     <div class="card-body text-dark">
                         <h6 class="card-title"></h6>
@@ -58,9 +59,8 @@
                         <ul class="list-group list-group-flush">
                             @foreach($attendances as $attendance)
                                 <li class="list-group-item">
-                                    {{$attendance->event->product_name}} /
+                                    {{$attendance->event->reference}} on
                                     {{\Carbon\Carbon::parse($attendance->event->run_at)->format('d M Y H:i')}}
-                                    Cut: @money(($attendance->cut + $attendance->leader_cut),"WOW")
                                 </li>
                             @endforeach
                         </ul>
@@ -69,10 +69,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-1"></div>
         <!-- / row 1-->
         <div class="row">
-            <div class="col-1"></div>
             <div class="col-3">
                 <div class="card border-light mb-3">
                     <div class="card-header">
@@ -81,7 +79,7 @@
                     </div>
                     <div class="card-body text-dark">
                         <h6 class="card-title"></h6>
-                        <p class="card-text">Amount due: @money($balance,"WOW")</p>
+                        <p class="card-text">Amount: @money($balance,"WOW")</p>
                         @hasrole(config('globals.advertisers'))
                         <p class="card-text">Fees collected: @money($fees,"WOW")</p>
                         @endhasrole
@@ -91,7 +89,7 @@
             <div class="col-4">
                 <div class="card border-light mb-3">
                     <div class="card-header">
-                        <i class="fas fa-piggy-bank fa-2x"></i>
+                        <i class="fas fa-chalkboard-teacher fa-2x"></i></i>
                         <a href="#" class="card-link">Teams</a></div>
                     <div class="card-body">
                         <h6 class="card-title"></h6>
@@ -126,7 +124,6 @@
                 </div>
             </div>
             @endhasrole
-            <div class="col-1"></div>
         </div>
     </div>
 @stop

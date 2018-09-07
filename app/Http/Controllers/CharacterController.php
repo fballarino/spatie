@@ -103,7 +103,7 @@ class CharacterController extends Controller
     {
         $character = Character::findOrFail($id);
         Character::destroy($id);
-        return redirect()->back()->with('flash_message', 'Character:
+        return redirect()->to('characters')->with('flash_message', 'Character:
                                         '.$character->name.' successfully deleted');
     }
 

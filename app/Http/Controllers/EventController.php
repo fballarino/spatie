@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
 use App\Event;
 use App\Character;
 use Carbon\Carbon;
@@ -33,24 +34,23 @@ class EventController extends Controller
 
     public function index()
     {
-        $allEvents = Event::where('visible_at','<=', Carbon::now())
-                        ->where('run_at', '>=', Carbon::now()->subHours(24))
-                        ->get();
-        $allUsers = User::all('id', 'name');
-        return view('events.index', compact('allEvents', 'allUsers'));
+        $events_all = Event::with('user', 'article')
+            ->where('visible_at','<=', Carbon::now())
+            ->where('run_at', '>=', Carbon::now()->subHours(4))
+            ->get();
+        return view('events.index', compact('events_all'));
     }
 
     public function create()
     {
-        $eventDiff = $this->eventDifficulty;
-        return view('events.create', compact('products', 'eventDiff'));
+        $articles = Article::orderBY('description', 'asc')->get();
+        return view('events.create', compact('articles'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'product_name' => 'required|string',
-            'difficulty'   => 'required|string',
+            'article_id' => 'required|integer',
             'buyers'       => 'required|integer',
             'boosters'     => 'required|integer',
             'overbooking'  => 'required|integer',
@@ -60,28 +60,33 @@ class EventController extends Controller
             'note'         => 'max:100',
         ]);
 
-        $newEvent = new Event;
-        $newEvent->product_name = request()->input('product_name');
-        $newEvent->difficulty = request()->input('difficulty');
-        $newEvent->buyers = request()->input('buyers');
-        $newEvent->boosters = request()->input('boosters');
-        $newEvent->overbooking = request()->input('overbooking');
-        $newEvent->run_at = $this->parseDate(request()->input('run_at'));
-        $newEvent->visible_at = $this->parseDate(request()->input('visible_at'));
-        $newEvent->note = request()->input('note');
-        $newEvent->reference = $this->setEventReference(request()->input('product_name'),
-            request()->input('difficulty'), request()->input('run_at'));
-        $newEvent->pot = 0;
-        $newEvent->leader_cut = request()->input('leader_cut');
-        $newEvent->status = $this->arrayStatuses[0];
-        $newEvent->user_id = Auth::user()->id;
-        $newEvent->buyers_booked = 0;
-        $newEvent->boosters_booked = 0;
-        $newEvent->save();
+        try {
+            $newEvent = new Event;
+            $newEvent->article_id = request()->input('article_id');
+            $newEvent->buyers = request()->input('buyers');
+            $newEvent->boosters = request()->input('boosters');
+            $newEvent->overbooking = request()->input('overbooking');
+            $newEvent->run_at = $this->parseDate(request()->input('run_at'));
+            $newEvent->visible_at = $this->parseDate(request()->input('visible_at'));
+            $newEvent->note = request()->input('note');
+            $newEvent->reference = $this->setEventReference(request()->input('article_id'),
+                request()->input('run_at'));
+            $newEvent->pot = 0;
+            $newEvent->leader_cut = ((request()->input('leader_cut') == "")? 0 : request()->input('leader_cut'));
+            $newEvent->status = $this->arrayStatuses[0];
+            $newEvent->user_id = Auth::user()->id;
+            $newEvent->buyers_booked = 0;
+            $newEvent->boosters_booked = 0;
+            $newEvent->save();
 
-        return redirect()->route('events.index')
-            ->with('flash_message', 'Event:
-             '. request()->input('product_name').' created');
+            return redirect()->route('events.index')
+                ->with('flash_message', 'Event successfully created');
+        }
+
+        catch(\Exception $e){
+            return redirect()->route('events.index')
+                ->with('flash_message', 'Event could not be created');
+        }
 
     }
 
@@ -100,18 +105,16 @@ class EventController extends Controller
 
     public function edit($id)
     {
-        $arrayProducts = $this->arrayProducts;
-        $eventDifficulty = $this->eventDifficulty;
         $eventProgress = $this->arrayStatuses;
-        $event = Event::findOrFail($id);
-        return view('events.edit', compact('event','arrayProducts', 'eventDifficulty', 'eventProgress'));
+        $articles = Article::pluck('description','id');
+        $event = Event::with('article')->findOrFail($id);
+        return view('events.edit', compact('event','articles', 'eventProgress'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'product_name' => 'required|string',
-            'difficulty'   => 'required|string',
+            'article_id'   => 'required|integer',
             'buyers'       => 'required|integer',
             'boosters'     => 'required|integer',
             'overbooking'  => 'required|integer',
@@ -120,21 +123,28 @@ class EventController extends Controller
             'note'         => 'max:100',
         ]);
 
-        $event = Event::findOrFail($id);
-        $event->product_name = $request->input('product_name');
-        $event->difficulty = $request->input('difficulty');
-        $event->buyers = $request->input('buyers');
-        $event->boosters = $request->input('boosters');
-        $event->overbooking = $request->input('overbooking');
-        $event->run_at = $this->parseDate(request()->input('run_at'));
-        $event->visible_at= $this->parseDate(request()->input('visible_at'));
-        $event->note = $request->input('note');
-        $event->status = $this->arrayStatuses[$request->input('status')];
-        $event->reference = $this->setEventReference(request()->input('product_name'),
-        request()->input('difficulty'), request()->input('run_at'));
-        $event->save();
+        try {
+            $event = Event::findOrFail($id);
+            $event->article_id = $request->input('article_id');
+            $event->buyers = $request->input('buyers');
+            $event->boosters = $request->input('boosters');
+            $event->overbooking = $request->input('overbooking');
+            $event->run_at = $this->parseDate(request()->input('run_at'));
+            $event->visible_at= $this->parseDate(request()->input('visible_at'));
+            $event->note = $request->input('note');
+            $event->status = $request->input('status');
+            $event->reference = $this->setEventReference($request->input('article_id'),
+                request()->input('run_at'));
+            $event->save();
 
-        return $this->index();
+            return redirect()->route('events.index')
+                ->with('flash_message', 'Event successfully updated');
+        }
+
+        catch(\Exception $e){
+            return redirect()->route('events.index')
+                ->with('flash_message', 'Event could not be updated');
+        }
     }
 
     public function destroy(Event $event)
@@ -159,21 +169,14 @@ class EventController extends Controller
         return $dateTemp;
     }
 
-    protected function setEventReference($productName, $eventDifficulty, $eventDate){
-        $firstPart = array_search($productName, $this->arrayProducts);
-        $secondPart = array_search($eventDifficulty, $this->arrayDifficulties);
-        //dd($this->arrayDifficulties);
-        if (is_numeric($secondPart) && $secondPart<10)
-        {
-            $secondPart = "0".$secondPart;
-        }
-        $thirdPart = substr($this->parseDate($eventDate),5,2);
-        $fourthPart = substr($this->parseDate($eventDate),8,2);
-        $fifthPart = str_replace(":", "",substr($this->parseDate($eventDate),11,5));
+    protected function setEventReference($article_id, $event_date){
+        $article_code = Article::find($article_id)->code;
+        $thirdPart = substr($this->parseDate($event_date),5,2);
+        $fourthPart = substr($this->parseDate($event_date),8,2);
+        $fifthPart = str_replace(":", "", substr($this->parseDate($event_date),11,5));
         $seed = random_int(1000,1999);
-        ($firstPart."-".$secondPart."/".$fourthPart.$thirdPart."-".$fifthPart."-".$seed);
 
-        return ($firstPart."-".$secondPart."/".$fourthPart.$thirdPart."-".$fifthPart."-".$seed);
+        return ($article_code."/".$fourthPart.$thirdPart."-".$fifthPart."-".$seed);
     }
 
     protected function initializeArrays(){

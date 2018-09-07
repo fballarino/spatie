@@ -18,15 +18,14 @@
                         <tr>
                             <th>Reference</th>
                             <th>Event</th>
-                            <th>Difficulty</th>
                             <th>Scheduled</th>
                             <th>Planner</th>
                             <th>Bookings / Total</th>
                             <th>Signups / Total</th>
                             <th>Overbooking</th>
                             @hasrole(config('globals.teamleaders'))
-                            <th>Pot</th>
-                            <th>Leader Cut</th>
+                                <th>Pot</th>
+                                <th>Leader Cut</th>
                             @endhasrole
                             <th>Raid Status</th>
 
@@ -38,29 +37,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($allEvents as $event)
+                        @foreach ($events_all as $event)
                             <tr>
-                                <td>
-                                    @hasrole(config('globals.members'))
-                                    <a href="{{ route('events.show', $event->id) }}">{{ $event->reference }}</a>
-                                    @else
-                                        {{ $event->reference }}
-                                        @endhasrole
-                                </td>
-                                <td>{{ $event->product_name }}</td>
-                                <td>{{ $event->difficulty }}</td>
-                                <?php $dateTemp = DateTime::createFromFormat('Y-m-d H:i:s', $event->run_at);
-                                $dateTemp = $dateTemp->format('d M Y H:i');
-                                ?>
-                                <td>{{ ($event->run_at)? $dateTemp : "" }}</td>
-                                <td>
-                                    @foreach($allUsers as $user)
-                                        {{ ($user->id == $event->user_id)? $user->name : "" }}
-                                    @endforeach
-                                </td>
+                                <td><a href="{{ route('events.show', $event->id) }}">{{ $event->reference }}</a></td>
+                                <td>{{ $event->article->description }}</td>
+                                <td>{{ ($event->run_at)? \Carbon\Carbon::parse($event->run_at)->format('d M Y H:i') : "" }}</td>
+                                <td>{{ $event->user->name}}</td>
                                 <td>
                                     @hasrole(config('globals.managers'))
-                                    <a href="{{ route('bookings.create')}}?id={{$event->id}}&ref={{$event->reference}}" ><i class="fas fa-book fa-lg"></i></a>
+                                        <a href="{{ route('bookings.create')}}?id={{$event->id}}&ref={{$event->reference}}" >
+                                            <i class="fas fa-book fa-lg"></i></a>
                                     @endhasrole
                                     @if($event->buyers_booked > $event->buyers)
                                         <font color="red">{{$event->buyers_booked}}</font> / {{ $event->buyers }}
@@ -71,25 +57,24 @@
                                     <a href="{{ route('bookings.show', $event->id)}}"><i class="fas fa-list-ol fa-lg"></i></a>
                                     @endhasrole
                                 </td>
-                                <!-- todo logic for signups-->
                                 <td>
-                                    @if(Cookie::get(Auth::user()->id.'/CookieEvent/'.$event->id))
-                                        @hasrole(config('globals.members'))
-                                        {{ Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['signups.destroy', $event->id] ])}}
-                                        {{ ($event->boosters_booked)? ($event->boosters_booked) : 0 }} / {{ $event->boosters }}
-                                        <div class="form-group">
-                                            <div class="input-bar-item">
-                                                <button class="btn btn-light"><i class="fas fa-times fa-lg"></i></button>
-                                            </div>
-                                        </div>
-                                        {!! Form::close() !!}
-                                        @endhasrole
-                                    @else
-                                        @hasrole(config('globals.members'))
-                                        <a href="{{ route('signups.sign', $event->id) }}"><i class="fas fa-plus fa-lg"></i></a>
-                                        &nbsp;&nbsp;      {{ ($event->boosters_booked)? ($event->boosters_booked) : 0 }} / {{ $event->boosters }}
-                                        @endhasrole
-                                    @endif
+                                    @hasrole(config('globals.members'))
+                                        @if(Cookie::get(Auth::user()->id.'/CookieEvent/'.$event->id))
+                                            {{ ($event->boosters_booked)? ($event->boosters_booked) : 0 }}
+                                                / {{ $event->boosters }}
+                                            @if($event->status == "Open")
+                                                <a href="{{ route('signups.cancel',$event->id)}}">
+                                                    <i class="fas fa-times fa-lg"></i></a>
+                                            @endif
+                                        @else
+                                            @if($event->status == "Open")
+                                                <a href="{{ route('signups.sign', $event->id) }}">
+                                                    <i class="fas fa-plus fa-lg"></i></a>
+                                            @endif
+                                            {{ ($event->boosters_booked)? ($event->boosters_booked) : 0 }}
+                                                / {{ $event->boosters }}
+                                        @endif
+                                    @endhasrole
                                 </td>
                                 <td>{{ ($event->overbooking)? "Yes" : "No" }}</td>
                                 @hasrole(config('globals.teamleaders'))
@@ -125,7 +110,7 @@
             $.fn.dataTable.moment('DD-MM-YYYY HH:mm');
 
             $('#eventsTableData').DataTable({
-                order: [ 3, 'desc' ],
+                order: [ 2, 'desc' ],
                 });
         } );
 

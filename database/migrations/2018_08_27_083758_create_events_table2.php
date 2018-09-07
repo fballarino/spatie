@@ -15,8 +15,6 @@ class CreateEventsTable2 extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('product_name', 50);
-            $table->string('difficulty',20);
             $table->string('reference', 30);
             $table->tinyInteger('buyers')->unsigned()->nullable(false);
             $table->tinyInteger('boosters')->unsigned()->nullable(false);

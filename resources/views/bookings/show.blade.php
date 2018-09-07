@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','Bookings')
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -63,17 +64,8 @@
                                 <td>{{ ($booking->buyer_boosters)? $booking->buyer_boosters : 0 }}</td>
                                 <td>{{ $booking->buyer_btag }}</td>
                                 <td>
-                                    {!! Form::open(['method' => 'DELETE', 'class' =>'form-inline', 'route' => ['bookings.destroy', $booking->id] ]) !!}
-                                    <input type="hidden" name="event_id" value={{$booking->event_id}}>
-                                    <div class="form-group">
-                                        <a href="{{ route('bookings.edit', $booking->id) }}" ><i class="fas fa-edit fa-lg fa-lg"></i></a>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-bar-item">
-                                            <button class="btn btn-light"><i class="fas fa-trash fa-lg fa-lg"></i></button>
-                                        </div>
-                                    </div>
-                                    {!! Form::close() !!}
+                                    <a href="{{ route('bookings.edit', $booking->id) }}" >
+                                        <i class="fas fa-edit fa-lg fa-lg"></i></a>
                                 </td>
                             </tr>
                         @endforeach
