@@ -46,7 +46,9 @@
                         <a class="dropdown-item" href="{{route('characters.index')}}">Characters</a>
                         <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
                         <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
-                        <a class="dropdown-item" href="{{route('teamsignups.index')}}">Teams Signups</a>
+                        @if (env('TEAMSIGNUPS'))
+                            <a class="dropdown-item" href="{{route('teamsignups.index')}}">Teams Signups</a>
+                        @endif
                     </div>
                 </li>
             @endif

@@ -22,20 +22,20 @@ class TeamSignupController extends Controller
      */
     public function index()
     {
-        $teams = Team::all();
-        $characters = Character::with('teams')
-            ->where('user_id', Auth::user()->id)
-            ->get();
-        $characters2 = $characters;
-        //dd($characters);
-        /*foreach($characters as $character){
-            foreach ($character->teams as $character)
-                var_dump($character);
-            }*/
+        if (env('TEAMSIGNUPS'))
+        {
+            $teams = Team::all();
+            $characters = Character::with('teams')
+                ->where('user_id', Auth::user()->id)
+                ->get();
+            $characters2 = $characters;
 
-        $parts = Part::all();
-        //dd($characters);
-        return view('teamsignups.index', compact('teams', 'characters', 'parts', 'characters2'));
+            $parts = Part::all();
+            return view('teamsignups.index', compact('teams', 'characters', 'parts', 'characters2'));
+        }
+        else{
+            return view('teamsignups.closed');
+        }
     }
 
     /**
@@ -60,44 +60,50 @@ class TeamSignupController extends Controller
      */
     public function store(Request $request)
     {
-        $counter = 0;
-        $teams= Input::get('team');
-        $characters= Input::get('character');
-        $parts= Input::get('part');
+        if (env('TEAMSIGNUPS'))
+        {
+            $counter = 0;
+            $teams= Input::get('team');
+            $characters= Input::get('character');
+            $parts= Input::get('part');
 
-        $data = [];
+            $data = [];
 
-        //dd($characters);
-        foreach($characters as $key => $value){
-            if($value != 0){
-                $data[] = [
-                    'team_id' => $teams[$key],
-                    'character_id' => $value,
-                    'part' => $parts[$key],
-                    'user_id' => Auth::user()->id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ];
+            //dd($characters);
+            foreach($characters as $key => $value){
+                if($value != 0){
+                    $data[] = [
+                        'team_id' => $teams[$key],
+                        'character_id' => $value,
+                        'part' => $parts[$key],
+                        'user_id' => Auth::user()->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+                }
             }
+
+            foreach($data as $signup){
+                //dd($signup);
+                $result = DB::table('character_team')
+                    ->where('team_id', $signup['team_id'])
+                    ->where('user_id', Auth::user()->id)
+                    ->first();
+                //dd($result);
+                if($result)
+                {
+                    return redirect()->to('teamsignups')->with('flash_message', "Already signed up for that team!");
+                }
+                else{
+                    DB::table('character_team')->insert($signup);
+                    $counter++;
+                }
+            }
+            return redirect()->to('teamsignups')->with('flash_message', $counter." Signups successfully created");
         }
-
-        foreach($data as $signup){
-            //dd($signup);
-            $result = DB::table('character_team')
-                ->where('team_id', $signup['team_id'])
-                ->where('user_id', Auth::user()->id)
-                ->first();
-            //dd($result);
-            if($result)
-            {
-                return redirect()->to('teamsignups')->with('flash_message', "Already signed up for that team!");
-            }
-            else{
-                DB::table('character_team')->insert($signup);
-                $counter++;
-            }
+        else{
+            return view('teamsignups.closed');
         }
-        return redirect()->to('teamsignups')->with('flash_message', $counter." Signups successfully created");
 
     }
 
@@ -160,6 +166,12 @@ class TeamSignupController extends Controller
 
     public function cancelSignup($id)
     {
+        if (env('TEAMSIGNUPS'))
+        {
         return $this->destroy($id);
+        }
+        else{
+            return view('teamsignups.closed');
+        }
     }
 }

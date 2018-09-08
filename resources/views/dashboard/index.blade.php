@@ -37,7 +37,7 @@
                             @foreach($signups as $signup)
                                 @if($signup->event->run_at >= \Carbon\Carbon::now())
                                     <li class="list-group-item">
-                                    {{$signup->event->reference}} /
+                                    {{$signup->event->article->description}} /
                                     {{\Carbon\Carbon::parse($signup->event->run_at)->format('d M Y H:i')}}
                                     </li>
                                 @endif
@@ -50,7 +50,7 @@
             <div class="col-4">
                 <div class="card border-light mb-3">
                     <div class="card-header">
-                        <i class="fas fa-sitemap fa-2x"></i>
+                        <i class="fas fa-project-diagram fa-2x"></i>
                         <a href="{{ route('attendances.member') }}" class="card-link">Attendance</a>
                     </div>
                     <div class="card-body text-dark">

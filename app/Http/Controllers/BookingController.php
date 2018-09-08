@@ -22,7 +22,7 @@ class BookingController extends Controller
 
     public function index()
     {
-
+        //return $this->testRelation();
     }
 
     public function create(Request $request)
@@ -199,5 +199,12 @@ class BookingController extends Controller
 
     private function populateClassSpec(){
         $this->classSpec = config('globals.classSpec');
+    }
+
+    public function testRelation(){
+
+        $result = Booking::first();
+        $stuff = Booking::first()->event->article;
+        dd($stuff);
     }
 }
