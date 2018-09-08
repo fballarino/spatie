@@ -75,7 +75,7 @@
                 <div class="card border-light mb-3">
                     <div class="card-header">
                         <i class="fas fa-dollar-sign fa-2x"></i>
-                        <a href="#" class="card-link">Balance</a>
+                        <a href="{{ route('balances.index') }}" class="card-link">Balance</a>
                     </div>
                     <div class="card-body text-dark">
                         <h6 class="card-title"></h6>
