@@ -57,7 +57,7 @@ class DashboardController extends Controller
             };
         }*/
 
-        return view('dashboard.indexnew', compact('characters', 'signups',
+        return view('dashboard.index', compact('characters', 'signups',
            'attendances', 'balance', 'fees', 'characters_array'));
 
 
