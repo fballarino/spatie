@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Balance;
+use App\Booking;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -33,69 +34,45 @@ class BalanceController extends Controller
         return view('balances.index', compact('balance'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Balance  $balance
-     * @return \Illuminate\Http\Response
-     */
     public function show(Balance $balance)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Balance  $balance
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Balance $balance)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Balance  $balance
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Balance $balance)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Balance  $balance
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Balance $balance)
     {
         //
+    }
+
+    public function getAdvertiserFees(){
+
+        $fees_advertiser = Booking::with('event')
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        $fees_total = $fees_advertiser->sum('fee');
+
+        return view('balances.fees', compact('fees_advertiser', 'fees_total'));
+
     }
 }

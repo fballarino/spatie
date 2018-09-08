@@ -58,6 +58,8 @@ Route::resource('goldtracks', 'GoldtrackController');
 
 Route::resource('attendances', 'AttendanceController');
 
+Route::get('balances/advertiser', 'BalanceController@getAdvertiserFees')->name('balances.advertiser');
+
 Route::resource('balances', 'BalanceController');
 
 Route::resource('pricelists', 'PricelistController');
