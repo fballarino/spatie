@@ -29,6 +29,8 @@
                                 <th>Date Time</th>
                                 <th>Character</th>
                                 <th>Role</th>
+                                <th>Signed as</th>
+                                <th>Action</th>
                                 </thead>
                                 <tbody>
                                 <p></p>
@@ -59,18 +61,33 @@
                                                 </select>
                                             </div>
                                         </td>
+                                        @foreach($characters as $character)
+                                            @foreach($character->teams as $character_team)
+                                                @if($character_team->pivot->team_id == $team->id)
+                                                    <td>{{$character->name}}-{{$character->realm}} / {{$character_team->pivot->part}}</td>
+                                                    <td>
+                                                        <a href="{{route('teamsignups.cancel', $team->id)}}"><i class="fas fa-user-times fa-lg"></i></a>
+                                                    </td>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                     </tr>
                                 @endforeach
                                 </tbody>
                                 <tfoot>
-                                <tr>
-                                    <td></td><td></td><td></td><td></td>
-                                    <td>
-
-                                        <button role="submit" name="submit" class="btn btn-outline-primary btn-sm">
-                                            <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Signup</button>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <button role="submit" name="submit" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Signup</button>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                 </tfoot>
                             </table>
                         </form>

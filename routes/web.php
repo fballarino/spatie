@@ -66,6 +66,8 @@ Route::resource('pricelists', 'PricelistController');
 
 Route::resource('teams', 'TeamController');
 
+Route::get('teamsignups/{id}/cancel', 'TeamSignupController@cancelSignup')->name('teamsignups.cancel');
+
 Route::resource('teamsignups', 'TeamSignupController');
 
 Route::resource('tools/evntmngr', 'ManagerEventController');

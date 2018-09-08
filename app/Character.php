@@ -14,7 +14,7 @@ class Character extends Model
     }
 
     public function teams(){
-        return $this->belongsToMany('App\Team')->withTimestamps();
+        return $this->belongsToMany('App\Team')->withTimestamps()->withPivot('part','user_id');
     }
 
     public function signups(){

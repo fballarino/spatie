@@ -23,17 +23,18 @@ class TeamSignupController extends Controller
     public function index()
     {
         $teams = Team::all();
-        $characters = Character::with('teams','user')
+        $characters = Character::with('teams')
             ->where('user_id', Auth::user()->id)
             ->get();
         $characters2 = $characters;
         //dd($characters);
         /*foreach($characters as $character){
-            foreach($character->teams as $element){
-                echo($element->id .'<br>');
-            };
-        };*/
+            foreach ($character->teams as $character)
+                var_dump($character);
+            }*/
+
         $parts = Part::all();
+        //dd($characters);
         return view('teamsignups.index', compact('teams', 'characters', 'parts', 'characters2'));
     }
 
@@ -140,8 +141,25 @@ class TeamSignupController extends Controller
      * @param  \App\TeamSignup  $teamSignup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TeamSignup $teamSignup)
+    public function destroy($id)
     {
-        //
+        try {
+            $signup = DB::table('character_team')
+                ->where('team_id', $id)
+                ->where('user_id', Auth::user()->id)
+                ->delete();
+
+            return redirect()->route('teamsignups.index')
+                ->with('flash_message', 'Successfully canceled the signup');
+        }
+        catch(\Exception $e){
+            return redirect()->route('teamsignups.index')
+                ->with('flash_message', 'Something went wrong, cannot cancel the signup');
+        }
+    }
+
+    public function cancelSignup($id)
+    {
+        return $this->destroy($id);
     }
 }
