@@ -109,6 +109,7 @@
                         <form action="{{route('bookings.destroy', $booking->id)}}" method="post">
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
+                            <input type="hidden" name="event_id" value="{{$booking->event_id}}">
                             <button type="submit" class="btn btn-outline-danger">
                                 <i class="fas fa-minus-circle fa-lg"></i> Delete</button>
                         </form>

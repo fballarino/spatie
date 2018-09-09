@@ -205,14 +205,14 @@ class BookingController extends Controller
     public function destroy($id)
     {
         $currentBooking = Booking::findOrFail($id);
+        //dd(request()->input('event_id'));
         Booking::destroy($id);
         Goldtrack::where('booking_id',$id)->delete();
         $currentEvent = Event::findOrFail(request()->input('event_id'));
         $currentEvent->pot -= $currentBooking->price;
         $currentEvent->buyers_booked -= 1;
         $currentEvent->save();
-        //Display a successful message upon deletion
-        return redirect()->back()->with('flash_message', 'Booking of:
+        return redirect()->route('events.index')->with('flash_message', 'Booking of:
                                         '.$currentBooking->buyer_name.'-'.$currentBooking->buyer_realm.
                                         ' successfully deleted');
     }
