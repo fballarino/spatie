@@ -70,7 +70,18 @@
                         <h6><b>{{ Form::label('fee', 'Fee') }}</b></h6>
                         {{ Form::text('fee', null, array('class' => 'form-control')) }}
                     </div>
+                    <div class="col-2">
+                        <h6><b>{{ Form::label('realm_id', 'Payment on') }}</b></h6>
+                        {{ Form::select('realm_id', $realms, null, array('class' => 'form-control')) }}
+                    </div>
                     {{ Form::hidden('event_id', $booking->event_id) }}
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                        <h6><b>{{ Form::label('events', 'Rebook to') }}</b></h6>
+                        {{ Form::select('event_id', $events, null, array('class' => 'form-control')) }}
+                    </div>
                 </div>
                 <br>
                 <div class="row">

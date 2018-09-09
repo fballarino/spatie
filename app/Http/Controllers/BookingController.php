@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Goldtrack;
+use App\Realm;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -29,8 +31,10 @@ class BookingController extends Controller
     {
         $requestArray['id'] = $request->query('id');
         $requestArray['ref'] = $request->query('ref');
+        $realms = Realm::all();
+        $realms2 = Realm::all();
         $classSpec = $this->classSpec;
-        return view('bookings/create',compact('requestArray','classSpec'));
+        return view('bookings/create',compact('requestArray','classSpec', 'realms', 'realms2'));
     }
 
     public function store(Request $request)
@@ -48,6 +52,7 @@ class BookingController extends Controller
             'buyer_realm' => 'required|string|max:30',
             'price'       => 'required|integer',
             'fpaid'       => 'required|integer',
+            'realm_id'    => 'required|integer',
             ];
         $this->validate($request, $validateRequest);
 
@@ -64,6 +69,7 @@ class BookingController extends Controller
         $newBooking->price = $request->input('price');
         $newBooking->fee = $request->input('fee');
         $newBooking->fpaid = (int)$request->input('fpaid');
+        $newBooking->realm_id = $request->input('realm_id');
         if((int)$request->input('fpaid')){
             $newBooking->collector_id =  Auth::user()->id;
 
@@ -109,7 +115,12 @@ class BookingController extends Controller
     {
         $classSpec = $this->classSpec;
         $booking = Booking::findOrFail($id);
-        return view('bookings.edit', compact('booking','classSpec'));
+        $event = Event::find($booking->event_id);
+        $realms = Realm::pluck('realm', 'id');
+        $events = Event::where('run_at', '>=', Carbon::now())
+            ->where('faction_id', '=', $event->faction_id)
+            ->pluck('reference', 'id');
+        return view('bookings.edit', compact('booking','classSpec', 'realms', 'events'));
     }
 
     public function update(Request $request, $id)
@@ -122,10 +133,11 @@ class BookingController extends Controller
             $validateRequest['fee'] = 'integer';
         }
         $validateRequest = [
-            'buyer_name'  => 'required|string|max:20',
+            'buyer_name'  => 'required|string|min:3|max:20',
             'buyer_realm' => 'required|string|max:30',
             'price'       => 'required|integer',
             'fpaid'       => 'required|integer',
+            'realm_id'    => 'required|integer',
         ];
         $this->validate($request, $validateRequest);
 
@@ -142,6 +154,8 @@ class BookingController extends Controller
         $booking->buyer_boosters = $request->input('buyer_boosters');
         $booking->price = $request->input('price');
         $booking->fee = $request->input('fee');
+        $booking->realm_id = $request->input('realm_id');
+
 
         if(($booking->fpaid == 0) && ($request->input('fpaid') == 1)) {
             $booking->fpaid = $request->input('fpaid');
@@ -160,12 +174,27 @@ class BookingController extends Controller
 
         $booking->note = $request->input('note');
         ($booking->fpaid)? $booking->collector_id = Auth::user()->id : $booking->collector_id = null;
+
+
+
+        if($request->input('event_id') != $booking->event_id){
+            $currentEvent = Event::find($booking->event_id);
+            $currentEvent->pot = $currentEvent->pot - $oldPrice;
+            $currentEvent->buyers_booked -= 1;
+            $currentEvent->save();
+            $nextEvent = Event::findOrFail($request->input('event_id'));
+            $nextEvent->pot += ($request->input('price'));
+            $nextEvent->buyers_booked += 1;
+            $nextEvent->save();
+        }
+        else {
+            $currentEvent = Event::find($booking->event_id);
+            $currentEvent->pot = $currentEvent->pot - $oldPrice + $request->input('price');
+            $currentEvent->save();
+        }
+
+        $booking->event_id = $request->input('event_id');
         $booking->save();
-
-
-        $currentEvent = Event::find($booking->event_id);
-        $currentEvent->pot = $currentEvent->pot - $oldPrice + $request->input('price');
-        $currentEvent->save();
 
         return redirect()->to(route('bookings.show', $booking->event_id));
 

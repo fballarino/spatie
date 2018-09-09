@@ -21,8 +21,13 @@
                         <input name="buyer_name" value="{{old('buyer_name')}}" id="" class="form-control" />
                     </div>
                     <div class="col-3">
-                        <label for="buyer_realm"><h6>Realm *</h6></label>
-                        <input name="buyer_realm" value="{{old('buyer_realm')}}" id="" class="form-control" />
+                        <label for="buyer_realm"><h6>Realm</h6></label>
+                        <select name="buyer_realm" class="form-control">
+                            <option value="" selected>Select Realm...</option>
+                            @foreach($realms2 as $realm2)
+                                <option value="{{$realm2->realm}}">{{$realm2->realm}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-3">
                         <label for="buyer_btag"><h6>Battle Net Tag</h6></label>
@@ -63,6 +68,15 @@
                     <div class="col-2">
                         <label for="fee"><h6>Fee</h6></label>
                         <input name="fee" value="{{ (old('fee'))? old('fee') : ""}}" id="" value="0" class="form-control" />
+                    </div>
+                    <div class="col-3 form-group">
+                        <label for="realm_id"><h6>Payment on</h6></label>
+                        <select name="realm_id" class="form-control">
+                            <option value="" selected>Select Realm...</option>
+                            @foreach($realms as $realm)
+                                <option value="{{$realm->id}}">{{$realm->realm}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <br>

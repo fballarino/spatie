@@ -18,6 +18,10 @@
         {{ Form::model($event, array('route' => array('events.update', $event->id), 'method' => 'PUT')) }}
         {{ csrf_field() }}
         <div class="row">
+            <div class="col-2 form-group">
+                <label for="article_id"><h6><b>Product</b></h6></label>
+                    {{ Form::select('faction_id', [1 => 'Horde', 2 =>'Alliance'], null, array('class' => 'form-control')) }}
+            </div>
             <div class="col-5 form-group">
                 <label for="article_id"><h6><b>Product</b></h6></label>
                     {{ Form::select('article_id', $articles, null, array('class' => 'form-control')) }}
