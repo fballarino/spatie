@@ -22,7 +22,7 @@ Route::resource('products', 'ProductController');
 
 Route::resource('events', 'EventController');
 
-Route::post('bookings/status/{booking}', 'BookingController@changeStatus')->name('bookings.status');
+Route::post('bookings/status', 'BookingController@changeStatus')->name('bookings.status');
 
 Route::resource('bookings', 'BookingController');
 

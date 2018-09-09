@@ -21,22 +21,22 @@
 
                 <div class="row">
                     <div class="col-2">
-                        <h6><b>{{ Form::label('buyer_name', 'Name *') }}</b></h6>
+                        <h6>{{ Form::label('buyer_name', 'Name *') }}</h6>
                         {{ Form::text('buyer_name', null, array('class' => 'form-control')) }}
                     </div>
                     <div class="col-3">
-                        <h6><b>{{ Form::label('buyer_realm', 'Realm *') }}</b></h6>
+                        <h6>{{ Form::label('buyer_realm', 'Realm *') }}</h6>
                         {{ Form::text('buyer_realm', null, array('class' => 'form-control')) }}
                     </div>
                     <div class="col-3">
-                        <h6><b>{{ Form::label('buyer_btag', 'Battle Net Tag') }}</b></h6>
+                        <h6>{{ Form::label('buyer_btag', 'Battle Net Tag') }}</h6>
                         {{ Form::text('buyer_btag', null, array('class' => 'form-control')) }}
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-2 form-group">
-                        <label for="class"><h6><b>Class</b></h6></label>
+                        <label for="class"><h6>Class</h6></label>
                         <select name="class" id="A" class="form-control">
                             <option value="{{$booking->class}}">{{$booking->class}}</option>
                             @foreach($classSpec as $key => $value)
@@ -47,13 +47,13 @@
                         </select>
                     </div>
                     <div class="col-3 form-group">
-                        <label for="buyer_spec"><h6><b>Spec</b></h6></label>
+                        <label for="buyer_spec"><h6>Spec</h6></label>
                         <select name="buyer_spec" id="B" class="form-control">
                             <option value="{{$booking->buyer_spec}}">{{$booking->buyer_spec}}</option>
                         </select>
                     </div>
                     <div class="col-2 form-group">
-                        <label for="buyer_boosters"><h6><b># Boosters</b></h6></label>
+                        <label for="buyer_boosters"><h6># Boosters</h6></label>
                         {{Form::select('buyer_boosters', [ 0 => 0, 1 => 1, 2 => 2,
                                                            3 => 3, 4 => 4, 5 => 5,
                                                            6 => 6, 7 => 7, 8 => 8,
@@ -63,15 +63,17 @@
                 </div>
                 <div class="row">
                     <div class="col-2">
-                        <h6><b>{{ Form::label('price', 'Price') }}</b></h6>
+                        <h6>{{ Form::label('price', 'Price') }}</h6>
                         {{ Form::text('price', null, array('class' => 'form-control')) }}
+                        <small>Full price (1250750)</small>
                     </div>
                     <div class="col-2">
-                        <h6><b>{{ Form::label('fee', 'Fee') }}</b></h6>
+                        <h6>{{ Form::label('fee', 'Fee') }}</h6>
                         {{ Form::text('fee', null, array('class' => 'form-control')) }}
+                        <small>Full fee (125075)</small>
                     </div>
                     <div class="col-2">
-                        <h6><b>{{ Form::label('realm_id', 'Payment on') }}</b></h6>
+                        <h6>{{ Form::label('realm_id', 'Payment on') }}</h6>
                         {{ Form::select('realm_id', $realms, null, array('class' => 'form-control')) }}
                     </div>
                     {{ Form::hidden('event_id', $booking->event_id) }}
@@ -79,23 +81,29 @@
                 <br>
                 <div class="row">
                     <div class="col-4">
-                        <h6><b>{{ Form::label('events', 'Rebook to') }}</b></h6>
+                        <h6>{{ Form::label('events', 'Rebook to') }}</h6>
                         {{ Form::select('event_id', $events, null, array('class' => 'form-control')) }}
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-3">
-                        <h6><b>{{ Form::label('note', 'Note') }}</b></h6>
+                        <h6>{{ Form::label('note', 'Note') }}</h6>
                         {{ Form::textarea('note', null, array('class' => 'form-control',  'rows' => 5, 'cols' => 80)) }}
                     </div>
                     <div class="col-2">
-                        <h6><b>{{ Form::label('fpaid', 'Fully Paid') }}</b></h6>
+                        <h6>{{ Form::label('fpaid', 'Fully Paid') }}</h6>
                         {{ Form::select('fpaid', [0 => 'No', 1 => 'Yes'], null, array('class' => 'form-control')) }}
+                        <small>Selecting yes to this field enters a line in the goldtrack, this can't be reversed</small>
+                    </div>
+                    <div class="col-2">
+                        <h6>{{ Form::label('status', 'Status') }}</h6>
+                        {{ Form::select('status', ['Booked' => 'Booked', 'Grouped' => 'Grouped', 'Missing' => 'Missing'],
+                            null, array('class' => 'form-control')) }}
                     </div>
                     <div class="col-2 form-inline">
                         <button type="submit" class="btn btn-outline-primary">
-                            <i class="fas fa-paperclip"> Update</i></button>
+                            <i class="far fa-edit"></i> Update</button>
                         {{ Form::close() }}
 
                         <form action="{{route('bookings.destroy', $booking->id)}}" method="post">
@@ -105,20 +113,8 @@
                                 <i class="fas fa-minus-circle fa-lg"></i> Delete</button>
                         </form>
                     </div>
-                    <div class="col-4">
-                        <div class="card bg-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">Instructions</div>
-                            <div class="card-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">Fields with * are mandatory</li>
-                                    <li class="list-group-item">Price and fee must be entered in the full format</li>
-                                    <li class="list-group-item">If you select fully paid that line goes straight
-                                        in the Goldtrack, use it carefully as you are responsible for that</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                <br>
                 <button onclick="goBack()" class="btn btn-outline-primary">Back</button>
             </div>
             <div class="card-footer text-muted">

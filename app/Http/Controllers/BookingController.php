@@ -77,6 +77,7 @@ class BookingController extends Controller
 
         $newBooking->note = $request->input('note');
         $newBooking->event_id = $request->input('event_id');
+        $newBooking->status = "Booked";
         $newBooking->save();
 
         if((int)$request->input('fpaid')){
@@ -155,6 +156,7 @@ class BookingController extends Controller
         $booking->price = $request->input('price');
         $booking->fee = $request->input('fee');
         $booking->realm_id = $request->input('realm_id');
+        $booking->status = $request->input('status');
 
 
         if(($booking->fpaid == 0) && ($request->input('fpaid') == 1)) {
@@ -215,15 +217,23 @@ class BookingController extends Controller
                                         ' successfully deleted');
     }
 
-    public function changeStatus($booking)
+    public function changeStatus()
     {
-        $bookingStatus = Booking::findOrFail($booking);
+        $data = request()->input('status');
+        foreach($data as $key => $value){
+            $ids[] = $key;
+            $values[] = $value;
+        }
+        dd($ids);
+        //dd(request()->input('status'));
+
+        $bookingStatus = Booking::findOrFail(1);
         if($bookingStatus){
             $bookingStatus->status = request()->input('status');
             $bookingStatus->save();
             $event = $bookingStatus->event_id;
         }
-        return redirect(route('bookings.show', $event));
+        //return redirect(route('bookings.show', $event));
     }
 
     private function populateClassSpec(){

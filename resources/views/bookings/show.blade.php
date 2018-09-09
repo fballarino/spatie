@@ -16,34 +16,26 @@
                 <div class="table-responsive">
                     <table class="display nowrap" id="bookingsTableData">
                         <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>Status</th>
-                            <th>Buyer</th>
-                            <th>Booked on</th>
-                            <th>Advertiser</th>
-                            <th>Amount</th>
-                            <th>Paid</th>
-                            <th>Collector</th>
-                            <th>Spec/Class</th>
-                            <th># Boosters Req.(Raid)</th>
-                            <th>BNet Tag</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Status</th>
+                                <th>Buyer</th>
+                                <th>Booked on</th>
+                                <th>Advertiser</th>
+                                <th>Amount</th>
+                                <th>Paid</th>
+                                <th>Collector</th>
+                                <th>Spec/Class</th>
+                                <th># Boosters Req.(Raid)</th>
+                                <th>BNet Tag</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach ($bookingsEventId as $booking)
                             <tr>
                                 <td>{{ $booking->id }}</td>
-                                <td>
-                                    {!! Form::open(['method' => 'POST', 'class' =>'form-inline', 'route' => ['bookings.status', $booking->id] ]) !!}
-                                    {{ Form::select('status', ['Booked' => 'Booked', 'Backup' => 'Backup',
-                                                               'Noshow' => 'Noshow', 'Grouped' => 'Grouped',
-                                                               'Rebooked' => 'Rebooked'], $booking->status , array('class' => 'form-control-sm')) }}
-                                    <div class="input-bar-item">
-                                        <button class="btn btn-light"><i class="fab fa-accusoft"></i></i></button>
-                                    </div>
-                                    {!! Form::close() !!}
+                                <td>{{ $booking->status }}
                                 </td>
                                 <td>{{ $booking->buyer_name }}-{{ $booking->buyer_realm }}</td>
                                 <?php $dateTemp = DateTime::createFromFormat('Y-m-d H:i:s', $booking->created_at);
@@ -70,6 +62,20 @@
                             </tr>
                         @endforeach
                         </tbody>
+                            <tfoot>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            </tfoot>
                     </table>
                 </div>
             </div>
