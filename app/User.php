@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,6 +11,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'faction_id',
     ];
 
     /**
@@ -59,6 +61,10 @@ class User extends Authenticatable
 
     public function teamsignups(){
         return $this->hasMany('App\TeamSignup')->withTimestamps();
+    }
+
+    public function faction(){
+        return $this->belongsTo('App\Faction');
     }
 
 

@@ -21,6 +21,10 @@ class Event extends Model
         return $this->belongsTo('App\Article');
     }
 
+    public function faction(){
+        return $this->belongsTo('App\Faction');
+    }
+
     public function bookings(){
         return $this->hasMany('App\Booking');
     }

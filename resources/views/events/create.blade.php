@@ -16,6 +16,14 @@
             <form action="{{ route('events.store') }}" class="form-group" method="post">
                 {{ csrf_field() }}
                 <div class="row">
+                    <div class="col-2 form-group">
+                        <label for="article_id"><h6>Faction</h6></label>
+                        <select id="" name="faction_id" class="form-control">
+                            <option value="">Select...</option>
+                            <option value="1">Horde</option>
+                            <option value="2">Alliance</option>
+                        </select>
+                    </div>
                     <div class="col-4 form-group">
                         <label for="article_id"><h6>Product</h6></label>
                         <select id="" name="article_id" class="form-control">

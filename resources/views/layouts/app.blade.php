@@ -87,7 +87,7 @@
                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
-                <button type="button" class="btn btn-primary">{{ Auth::user()->name }}</button>
+                <button type="button" class="btn btn-primary">({{ Auth::user()->faction->faction }}) {{ Auth::user()->name }}</button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{{ route('dashboard.index') }}">Dashboard</a>
                     <div class="dropdown-divider"></div>

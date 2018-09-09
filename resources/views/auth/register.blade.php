@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Registration')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -23,6 +23,25 @@
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="faction" class="col-md-4 col-form-label text-md-right">{{ __('Faction') }}</label>
+
+
+                            <div class="col-md-6">
+                                <select id="faction" class="form-control{{ $errors->has('faction') ? ' is-invalid' : '' }}"
+                                       name="faction" value="{{ old('faction') }}" required>
+                                    <option value="" selected>Select...</option>
+                                    <option value="1">Horde</option>
+                                    <option value="2">Alliance</option>
+                                </select>
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
                             </div>

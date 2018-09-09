@@ -17,9 +17,9 @@
                         <thead>
                         <tr>
                             <th>Event ID</th>
+                            <th>Faction</th>
                             <th>Reference</th>
                             <th>Event</th>
-                            <th>Difficulty</th>
                             <th>Scheduled</th>
                             <th>Planner</th>
                             <th>Bookings / Total</th>
@@ -35,9 +35,9 @@
                             @foreach($events_all as $event)
                                 <tr>
                                     <td>{{$event->id}}</td>
+                                    <td>({{$event->faction->faction}})</td>
                                     <td><a href="{{ route('events.show', $event->id) }}">{{$event->reference}}</a></td>
-                                    <td>{{$event->product_name}}</td>
-                                    <td>{{$event->difficulty}}</td>
+                                    <td>{{$event->article->description}}</td>
                                     <td>{{\Carbon\Carbon::parse($event->run_at)->format('d M Y H:i')}}</td>
                                     <td>{{$event->user->name}}</td>
                                     <td>{{$event->buyers_booked}}/{{$event->buyers}}</td>

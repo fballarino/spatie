@@ -37,6 +37,7 @@ class EventController extends Controller
         $events_all = Event::with('user', 'article')
             ->where('visible_at','<=', Carbon::now())
             ->where('run_at', '>=', Carbon::now()->subHours(4))
+            ->where('faction_id', '=', Auth::user()->faction_id)
             ->get();
         return view('events.index', compact('events_all'));
     }
@@ -50,7 +51,8 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'article_id' => 'required|integer',
+            'faction_id'   => 'required|integer',
+            'article_id'   => 'required|integer',
             'buyers'       => 'required|integer',
             'boosters'     => 'required|integer',
             'overbooking'  => 'required|integer',
@@ -62,6 +64,7 @@ class EventController extends Controller
 
         try {
             $newEvent = new Event;
+            $newEvent->faction_id = request()->input('faction_id');
             $newEvent->article_id = request()->input('article_id');
             $newEvent->buyers = request()->input('buyers');
             $newEvent->boosters = request()->input('boosters');
@@ -114,6 +117,7 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+            'faction_id'   => 'required|integer',
             'article_id'   => 'required|integer',
             'buyers'       => 'required|integer',
             'boosters'     => 'required|integer',
@@ -125,6 +129,7 @@ class EventController extends Controller
 
         try {
             $event = Event::findOrFail($id);
+            $event->faction_id = request()->input('faction_id');
             $event->article_id = $request->input('article_id');
             $event->buyers = $request->input('buyers');
             $event->boosters = $request->input('boosters');
