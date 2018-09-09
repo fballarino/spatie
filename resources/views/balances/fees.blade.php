@@ -32,7 +32,7 @@
                             @foreach($fees_advertiser as $fee_booking)
                                 <tr>
                                     <td>{{$fee_booking->id}}</td>
-                                    <td>{{$fee_booking->event->reference}} on
+                                    <td>{{$fee_booking->event->article->description}} on
                                         {{ \Carbon\Carbon::parse($fee_booking->event->run_at)->format('d M Y H:i') }}</td>
                                     <td>{{$fee_booking->buyer_name}}-{{$fee_booking->buyer_realm}}</td>
                                     <td>{{$fee_booking->buyer_btag}}</td>
