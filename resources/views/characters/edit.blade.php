@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-3">
                     <label for="realm"><h6>Realm</h6></label>
-                    {{ Form::text('realm', null, array('class' => 'form-control')) }}
+                    {{ Form::select('realm', $realms, null, array('class' => 'form-control')) }}
                 </div>
                 <div class="col-2">
                     <label for="main"><h6>Main Character</h6></label>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '| Create New Character')
+@section('title', 'Create New Character')
 
 @section('content')
 <div class="container">
@@ -14,9 +14,6 @@
     <div class="card-body">
         <h5 class="card-title"></h5>
         <p class="card-text"></p>
-
-
-
         <form action="{{ route('characters.store') }}" class="form-group" method="post">
             {{ csrf_field() }}
             <div class="row">
@@ -26,7 +23,12 @@
                 </div>
                 <div class="col-3">
                     <label for="realm"><h6>Realm</h6></label>
-                    <input name="realm" value="{{old('realm')}}" id="" class="form-control" />
+                    <select name="realm" id="realm" class="form-control">
+                        <option value="" selected>Select...</option>
+                        @foreach($realms as $realm)
+                            <option value="{{$realm->realm}}">{{$realm->realm}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-2">
                     <label for="main"><h6>Main Character</h6></label>

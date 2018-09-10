@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Character;
 use App\User;
+use App\Realm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class CharacterController extends Controller
     public function create()
     {
         $classSpec = $this->classSpec;
-        return view('characters.create', compact('classSpec'));
+        $realms = Realm::all();
+        return view('characters.create', compact('classSpec', 'realms'));
     }
 
     public function store(Request $request)
@@ -70,7 +72,8 @@ class CharacterController extends Controller
     {
         $character = Character::findOrFail($id);
         $classSpec = $this->classSpec;
-        return view('characters.edit', compact('character', 'classSpec'));
+        $realms = Realm::pluck('realm','realm');
+        return view('characters.edit', compact('character', 'classSpec', 'realms'));
     }
 
     public function update(Request $request, $id)
