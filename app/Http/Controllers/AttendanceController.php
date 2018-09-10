@@ -114,4 +114,11 @@ class AttendanceController extends Controller
         //dd($attendances_user);
         return view('attendances.member', compact('attendances_user'));
     }
+
+    public function attendanceDisplay($id){
+
+        $attendances_user = Attendance::attendanceById($id);
+        //dd($attendances_user);
+        return view('attendances.member', compact('attendances_user'));
+    }
 }

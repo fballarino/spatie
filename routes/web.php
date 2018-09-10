@@ -73,3 +73,7 @@ Route::resource('teamsignups', 'TeamSignupController');
 Route::resource('tools/evntmngr', 'ManagerEventController');
 
 Route::resource('articles', 'ArticleController');
+
+Route::get('tools/blncmngr', 'BalanceController@getBalanceUsers')->name('balances.all');
+
+Route::get('tools/blncmngr/attendance/{id}', 'AttendanceController@attendanceDisplay')->name('balances.tools.attendance');

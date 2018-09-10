@@ -26,7 +26,7 @@ class BalanceController extends Controller
             ->get();
 
         ($fee_amount = $data->bookings->sum('fee'));
-        ($attendance_amount = $data->attendances->sum('cut'));
+        ($attendance_amount = $data->attendances->sum('cut')+$data->attendances->sum('leader_cut'));
         ($goldtrack_amount = $data->goldtracks->sum('amount'));
         ($deposited_amount = $deposited->sum('amount'));
         ($payroll_amount = abs($data->transactions->sum('amount')));
@@ -74,5 +74,13 @@ class BalanceController extends Controller
 
         return view('balances.fees', compact('fees_advertiser', 'fees_total'));
 
+    }
+
+    public function getBalanceUsers(){
+        $users = User::with('transactions', 'attendances')
+            ->where('id','<>',13)
+            ->get();
+
+        return view('tools.balances.index', compact('users'));
     }
 }
