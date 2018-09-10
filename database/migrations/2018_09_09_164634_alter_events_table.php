@@ -15,6 +15,7 @@ class AlterEventsTable extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             $table->unsignedInteger('faction_id');
+            $table->string('attendance_img', 255)->nullable();
             $table->foreign('faction_id')
                 ->references('id')
                 ->on('factions')

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -99,6 +100,7 @@ class BookingController extends Controller
 
     public function show($id)
     {
+        Storage::disk('local')->put('file.txt', 'Contents bla');
         $eventName = Event::findOrfail($id)->reference;
         $bookingsEventId = Booking::where('event_id', $id)->orderBy('created_at', 'ASC')->get();
         //dd($bookingsEventId);

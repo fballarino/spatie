@@ -125,6 +125,7 @@ class EventController extends Controller
             'run_at'       => 'required|date',
             'visible_at'   => 'required|date',
             'note'         => 'max:100',
+            'screenshot'   => 'nullable',
         ]);
 
         try {
@@ -140,6 +141,14 @@ class EventController extends Controller
             $event->status = $request->input('status');
             $event->reference = $this->setEventReference($request->input('article_id'),
                 request()->input('run_at'));
+
+            if ($request->hasFile('screenshot')) {
+                $extension = $request->file('screenshot')->getClientOriginalExtension();
+                $file= substr($event->reference,0,13).'_'.Carbon::parse($event->run_at)->format('d-m-Y_Hi').'.'.$extension;
+                $request->file('screenshot')->storeAs(
+                    'events', $file);
+                $event->attendance_img = env('APP_URL').'/storage/app/events/'.$file;
+            }
             $event->save();
 
             return redirect()->route('events.index')

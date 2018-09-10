@@ -15,46 +15,45 @@
             <p class="card-text"></p>
 
         {{-- Using the Laravel HTML Form Collective to create our form --}}
-        {{ Form::model($event, array('route' => array('events.update', $event->id), 'method' => 'PUT')) }}
-        {{ csrf_field() }}
+        {{ Form::model($event, array('route' => array('events.update', $event->id), 'method' => 'PUT', 'files' => true)) }}
         <div class="row">
             <div class="col-2 form-group">
-                <label for="article_id"><h6><b>Product</b></h6></label>
+                <label for="article_id"><h6>Faction</h6></label>
                     {{ Form::select('faction_id', [1 => 'Horde', 2 =>'Alliance'], null, array('class' => 'form-control')) }}
             </div>
             <div class="col-5 form-group">
-                <label for="article_id"><h6><b>Product</b></h6></label>
+                <label for="article_id"><h6>Product</h6></label>
                     {{ Form::select('article_id', $articles, null, array('class' => 'form-control')) }}
             </div>
             <div class="col-2 form-group">
-                <h6><b>{{ Form::label('buyers', 'Buyers Slots') }}</b></h6>
+                <h6>{{ Form::label('buyers', 'Buyers Slots') }}</h6>
                 {{ Form::text('buyers', null, array('class' => 'form-control')) }}
             </div>
             <div class="col-2 form-group">
-                <h6><b>{{ Form::label('boosters', 'Boosters Slots') }}</b></h6>
+                <h6>{{ Form::label('boosters', 'Boosters Slots') }}</h6>
                 {{ Form::text('boosters', null, array('class' => 'form-control')) }}
             </div>
         </div>
         <div class="row">
             <div class="col-3 form-group">
-                <h6><b>{{ Form::label('run_at', 'Event Date') }}</b></h6>
+                <h6>{{ Form::label('run_at', 'Event Date') }}</h6>
                 <?php $dateTempOne = DateTime::createFromFormat('Y-m-d H:i:s', $event->run_at);
                 $dateTempOne = $dateTempOne->format('H:i m/d/Y'); ?>
                 <input type="text" id="input" class="form-control" name="run_at" value="{{$dateTempOne}}">
             </div>
             <div class="col-3 form-group">
-                <h6><b>{{ Form::label('visible_at', 'Show Event on') }}</b></h6>
+                <h6>{{ Form::label('visible_at', 'Show Event on') }}</h6>
                 <?php $dateTempOne = DateTime::createFromFormat('Y-m-d H:i:s', $event->visible_at);
                 $dateTempOne = $dateTempOne->format('H:i m/d/Y'); ?>
                 <input type="text" id="input2" class="form-control" name="visible_at" value="{{$dateTempOne}}">
             </div>
             <div class="col-2 form-group">
-                <label for="overbooking"><h6><b>Overbooking</b></h6></label>
+                <label for="overbooking"><h6>Overbooking</h6></label>
                 {{Form::select('overbooking', [ 0 => 'No', 1 => 'Yes'], $event->overbooking,
                                               ['class' => 'form-control'])}}
             </div>
             <div class="col-2 form-group">
-                <h6><b>{{ Form::label('status', 'Event Status') }}</b></h6>
+                <h6>{{ Form::label('status', 'Event Status') }}</h6>
                 <select name="status" id="" class="form-control">
                     @foreach($eventProgress as $key => $value)
                         @if($event->status == $value)
@@ -68,9 +67,19 @@
         </div>
         <div class="row">
             <div class="col-3 form-group">
-                <h6><b>{{ Form::label('note', 'Note') }}</b></h6>
+                <h6>{{ Form::label('note', 'Note') }}</h6>
                 {{ Form::textarea('note', null, array('class' => 'form-control',  'rows' => 6, 'cols' => 80)) }}
             </div>
+            @hasrole(config('globals.attendances'))
+            <div class="col-3 form-group">
+                <h6>{{ Form::label('note', 'Screenshot') }}</h6>
+                {{ Form::file('screenshot', null, array('class' => 'form-control')) }}
+                @if($event->attendance_img)
+                    <hr>
+                    <a href="{{$event->attendance_img}}" target="_blank">{{$event->reference}}</a>
+                @endif
+            </div>
+            @endhasrole
             <div class="col-2 form-inline">
                 {{ Form::button('Update',  ['type' => 'submit', 'class' => 'btn btn-outline-primary']) }}
                 {{ Form::close() }}
