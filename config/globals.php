@@ -82,7 +82,7 @@ return [
         1 => 'In Progress',
         2 => 'Attendance Ready',
         3 => 'Closed',
-        4 => 'Placeholder',
+        4 => 'Attendance Done',
         5 => 'Placeholder',
     ],
 

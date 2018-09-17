@@ -29,7 +29,7 @@
 <body>
 <!-- Top Navbar starts here -->
 <nav class="navbar navbar-expand-md navbar navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Oblivion Boosting Community</a>
+    <a class="navbar-brand" href="#">XYZ Community</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
                         <a class="dropdown-item" href="{{route('characters.index')}}">Characters</a>
                         <a class="dropdown-item" href="{{route('events.index')}}">Events</a>
                         <a class="dropdown-item" href="{{route('balances.index')}}">Balance</a>
-                        @if (env('TEAMSIGNUPS'))
+                        @if(env('TEAMSIGNUPS'))
                             <a class="dropdown-item" href="{{route('teamsignups.index')}}">Teams Signups</a>
                         @endif
                     </div>
