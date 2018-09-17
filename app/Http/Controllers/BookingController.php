@@ -100,7 +100,6 @@ class BookingController extends Controller
 
     public function show($id)
     {
-        Storage::disk('local')->put('file.txt', 'Contents bla');
         $eventName = Event::findOrfail($id)->reference;
         $bookingsEventId = Booking::where('event_id', $id)->orderBy('created_at', 'ASC')->get();
         //dd($bookingsEventId);

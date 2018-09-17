@@ -17,31 +17,31 @@
                     <table class="display nowrap" id="bookingsTableData">
                         <thead>
                             <tr>
-                                <th>Booking ID</th>
                                 <th>Status</th>
                                 <th>Buyer</th>
+                                <th>BNet Tag</th>
+                                <th>Spec/Class</th>
+                                <th># Boosters</th>
                                 <th>Booked on</th>
+                                <th>Notes</th>
                                 <th>Advertiser</th>
                                 <th>Amount</th>
                                 <th>Paid</th>
                                 <th>Collector</th>
-                                <th>Spec/Class</th>
-                                <th># Boosters Req.(Raid)</th>
-                                <th>BNet Tag</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach ($bookingsEventId as $booking)
                             <tr>
-                                <td>{{ $booking->id }}</td>
                                 <td>{{ $booking->status }}
                                 </td>
                                 <td>{{ $booking->buyer_name }}-{{ $booking->buyer_realm }}</td>
-                                <?php $dateTemp = DateTime::createFromFormat('Y-m-d H:i:s', $booking->created_at);
-                                $dateTemp = $dateTemp->format('d M Y H:i');
-                                ?>
-                                <td>{{ $dateTemp }}</td>
+                                <td>{{ $booking->buyer_btag }}</td>
+                                <td>{{ $booking->buyer_spec }} {{$booking->class}}</td>
+                                <td>{{ ($booking->buyer_boosters)? $booking->buyer_boosters : 0 }}</td>
+                                <td>{{ \Carbon\Carbon::parse($booking->created_at)->format('d M Y H:i') }}</td>
+                                <td>{{ str_limit($booking->note, 30, $end = '...') }}</td>
                                 <td>{{$booking->advertiser}}</td>
                                 <td>@money(($booking->price - $booking->fee),"WOW")</td>
                                 <td>
@@ -52,9 +52,6 @@
                                     @endif
                                 </td>
                                 <td>{{ ($booking->collector)? $booking->collector : "" }}</td>
-                                <td>{{ $booking->buyer_spec }} {{$booking->class}}</td>
-                                <td>{{ ($booking->buyer_boosters)? $booking->buyer_boosters : 0 }}</td>
-                                <td>{{ $booking->buyer_btag }}</td>
                                 <td>
                                     <a href="{{ route('bookings.edit', $booking->id) }}" >
                                         <i class="fas fa-edit fa-lg fa-lg"></i></a>
