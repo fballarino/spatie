@@ -23,7 +23,7 @@
                             <table class="" id="goldtracksDataTable">
                                 <thead class="">
                                 <th>Booking ID</th>
-                                <th>Event ID</th>
+                                <th>Event</th>
                                 <th>Buyer</th>
                                 <th>Code</th>
                                 <th>Amount</th>
@@ -60,6 +60,8 @@
                                                 <i class="far fa-eye fa-lg"></i></a>
                                             <a href="{{ route('goldtracks.edit', $goldtrack->id) }}">
                                                 <i class="far fa-edit fa-lg"></i></a>
+                                            <a href="{{ route('refund.create_refund', $goldtrack->id) }}">
+                                                <i class="far fa-money-bill-alt fa-lg"></i></a>
                                             @endhasrole
                                         </td>
                                     </tr>

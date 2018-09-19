@@ -61,6 +61,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{route('goldtracks.index')}}">Goldtrack</a>
+                        <a class="dropdown-item" href="{{route('refunds.index')}}">Refunds</a>
                 @endhasrole
                        @hasrole(config('globals.executives'))
                            <a class="dropdown-item" href="{{route('pricelists.index')}}">Pricing</a>

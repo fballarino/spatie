@@ -74,6 +74,10 @@ Route::resource('tools/evntmngr', 'ManagerEventController');
 
 Route::resource('articles', 'ArticleController');
 
+Route::get('refunds/{goldtrack}', 'RefundController@createRefund')->name('refund.create_refund');
+
+Route::resource('refunds', 'RefundController');
+
 Route::get('tools/blncmngr', 'BalanceController@getBalanceUsers')->name('balances.all');
 
 Route::get('tools/blncmngr/attendance/{id}', 'AttendanceController@attendanceDisplay')->name('balances.tools.attendance');

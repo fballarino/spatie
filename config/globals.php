@@ -161,6 +161,20 @@ return [
         7 => '(007) Guild Bank Transfer',
     ],
 
+    'refund_reasons' => [
+        0 => 'Event Cancelled',
+        1 => 'Server Issues',
+        2 => 'Event Not Successful',
+        3 => 'Placeholder 1',
+        4 => 'Placeholder 2',
+        5 => 'Placeholder 3',
+    ],
+
+    'refund_cases' => [
+        0 => 'Partial Refund',
+        1 => 'Full Refund',
+    ],
+
     'managers' => 'Manager',
 
     'executives' => 'Manager|Admin',
