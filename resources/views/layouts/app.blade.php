@@ -71,6 +71,7 @@
                        @hasrole(config('globals.executives'))
                             <a class="dropdown-item" href="{{route('evntmngr.index')}}">Manage Events</a>
                             <a class="dropdown-item" href="{{route('balances.all')}}">Manage Balances</a>
+                            <a class="dropdown-item" href="{{route('articles.index')}}">Products</a>
                             <a class="dropdown-item" href="{{route('teams.index')}}">Teams</a>
                             <a class="dropdown-item" href="{{route('users.index')}}">Users</a>
                             <a class="dropdown-item" href="{{route('roles.index')}}">Roles</a>
