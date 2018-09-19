@@ -18,8 +18,9 @@ class CreateRefundsTable extends Migration
             $table->unsignedInteger('booking_id');
             $table->unsignedInteger('goldtrack_id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('reason_id');
             $table->unsignedInteger('amount');
+            $table->unsignedInteger('reason_id');
+            $table->string('note', 255);
             $table->timestamps();
             $table->softDeletes();
 

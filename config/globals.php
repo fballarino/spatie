@@ -164,8 +164,8 @@ return [
     'refund_reasons' => [
         0 => 'Event Cancelled',
         1 => 'Server Issues',
-        2 => 'Event Not Successful',
-        3 => 'Placeholder 1',
+        2 => 'Event Unfinished',
+        3 => 'Bad Service',
         4 => 'Placeholder 2',
         5 => 'Placeholder 3',
     ],

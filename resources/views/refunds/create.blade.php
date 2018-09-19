@@ -60,7 +60,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-7">
+                            <textarea name="note" id="" cols="80" rows="8" placeholder="Optional info..."></textarea>
+                        </div>
+                        <div class="col-2 form-inline">
                             <button type="submit" class="btn btn-outline-primary">Create</button>
                         </div>
                     </div>
