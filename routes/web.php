@@ -78,6 +78,8 @@ Route::get('refunds/{goldtrack}', 'RefundController@createRefund')->name('refund
 
 Route::resource('refunds', 'RefundController');
 
+Route::resource('tickets', 'TicketController');
+
 Route::get('tools/blncmngr', 'BalanceController@getBalanceUsers')->name('balances.all');
 
 Route::get('tools/blncmngr/attendance/{id}', 'AttendanceController@attendanceDisplay')->name('balances.tools.attendance');

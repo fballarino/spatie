@@ -68,6 +68,7 @@
                        @endhasrole
                        @hasrole(config('globals.attendances'))
                             <a class="dropdown-item" href="{{route('attendances.index')}}">Attendances</a>
+                        <a class="dropdown-item" href="{{route('tickets.index')}}">Tickets</a>
                        @endhasrole
                        @hasrole(config('globals.executives'))
                             <a class="dropdown-item" href="{{route('evntmngr.index')}}">Manage Events</a>

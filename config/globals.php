@@ -175,6 +175,13 @@ return [
         1 => 'Full Refund',
     ],
 
+    'ticket_statuses' => [
+        0 => 'Open',
+        1 => 'Answered',
+        2 => 'Resolved',
+        3 => 'Closed',
+    ],
+
     'managers' => 'Manager',
 
     'executives' => 'Manager|Admin',
